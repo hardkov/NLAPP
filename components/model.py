@@ -1,5 +1,5 @@
 import streamlit as st
 
-def model_page():
+def write():
     st.title("This is model page")
 

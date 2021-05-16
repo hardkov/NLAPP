@@ -1,4 +1,4 @@
 import streamlit as st
 
-def dataset_page():
+def write():
     st.title("This is dataset page")
