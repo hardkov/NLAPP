@@ -1,6 +1,4 @@
 import streamlit as st
 
-def write(pages):
-  page_name = st.sidebar.radio("Choose page", list(pages.keys()))
-
-  return page_name
+def write():
+  st.sidebar.title("This is side bar which shows some info")
