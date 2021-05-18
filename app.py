@@ -7,7 +7,7 @@ import components.evaluation as evaluation
 import components.choose_task as choose_task
 
 apptitle = 'NLAPP'
-st.set_page_config(page_title=apptitle, page_icon=":cat")
+st.set_page_config(page_title=apptitle, page_icon=":cat", layout="wide")
 
 def main():
   sidebar.write()
