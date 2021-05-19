@@ -10,6 +10,7 @@ apptitle = 'NLAPP'
 st.set_page_config(page_title=apptitle, page_icon=":cat", layout="wide")
 
 def main():
+  st.title("Evaluation")
   sidebar.write()
 
   task = choose_task.write()

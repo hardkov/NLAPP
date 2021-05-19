@@ -1,4 +1,5 @@
 import streamlit as st
 
 def write():
-  st.sidebar.title("This is side bar which shows some info")
+  st.sidebar.title("Pages")
+  st.sidebar.selectbox("", ["Evaluation", "Statistics", "Train model", "About"])
