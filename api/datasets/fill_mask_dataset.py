@@ -1,6 +1,9 @@
+import os
+
 from datasets import load_dataset, list_datasets
 from dataset import Dataset
 from task_type import TaskType
+from dataset_dir import DatasetDir
 
 
 class FillMaskDatasets:
@@ -35,4 +38,12 @@ class FillMaskDatasets:
         if self._datasets[name] is None:
             raise Exception("Dataset name is incorrect.")
 
-        return load_dataset(name)
+        self.create_dir()
+        self._datasets[name].cached = True
+
+        return load_dataset(name, cache_dir=DatasetDir.FILL_MASK.value)
+
+    @staticmethod
+    def create_dir():
+        if not os.path.exists(DatasetDir.FILL_MASK.value):
+            os.makedirs(DatasetDir.FILL_MASK.value)
