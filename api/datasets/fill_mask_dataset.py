@@ -41,6 +41,7 @@ class FillMaskDatasets:
         self.create_dir()
         self._datasets[name].cached = True
 
+        # TODO : czasami jeden zbiór może być do kilku zadań, to wtedy pasowałoby go sciągnąć tylko raz
         return load_dataset(name, cache_dir=DatasetDir.FILL_MASK.value)
 
     @staticmethod
