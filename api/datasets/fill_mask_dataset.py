@@ -1,9 +1,9 @@
 import os
 
 from datasets import load_dataset, list_datasets
-from dataset import Dataset
-from task_type import TaskType
-from dataset_dir import DatasetDir
+from .dataset import Dataset
+from .task_type import TaskType
+from .dataset_dir import DatasetDir
 
 
 class FillMaskDatasets:
