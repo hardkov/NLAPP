@@ -1,23 +1,26 @@
 import streamlit as st
 
-import components.choose_model as choose_model
-import components.choose_dataset as choose_dataset
 import components.sidebar as sidebar
-import components.evaluation as evaluation
-import components.choose_task as choose_task
+import pages.evaluation_page as evaluation_page
+import pages.statistics_page as statistics_page
+import pages.train_model_page as train_model_page 
+import pages.about_page as about_page 
 
 apptitle = 'NLAPP'
 st.set_page_config(page_title=apptitle, page_icon=":cat", layout="wide")
 
+PAGES = {
+  "Evaluation": evaluation_page,
+  "Statistics": statistics_page,
+  "Train model": train_model_page,
+  "About": about_page
+}
+
 def main():
-  st.title("Evaluation")
-  sidebar.write()
+  page = sidebar.write(list(PAGES.keys()))
 
-  task = choose_task.write()
-  model = choose_model.write(task)
-  dataset = choose_dataset.write(task)
-
-  evaluation.write(task, model, dataset)
+  print(page)
+  PAGES[page].write()
 
 if __name__ == "__main__":
   main()
