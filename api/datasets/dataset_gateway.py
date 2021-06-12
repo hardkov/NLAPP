@@ -1,5 +1,5 @@
 from .fill_mask_dataset import FillMaskDatasets
-from .task_type import TaskType
+from api.task_type import TaskType
 
 DATASETS_LOADER = {
     TaskType.FILL_MASK: FillMaskDatasets()

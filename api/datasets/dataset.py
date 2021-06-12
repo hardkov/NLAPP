@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from .task_type import TaskType
+from api.task_type import TaskType
 
 
 @dataclass
