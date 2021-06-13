@@ -1,5 +1,5 @@
 import streamlit as st
-from api.datasets.task_type import TaskType
+from api.task_type import TaskType
 
 def write():
   st.header("Select task")

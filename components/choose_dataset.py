@@ -1,7 +1,7 @@
 import streamlit as st
 
 from api.datasets.dataset_gateway import get_datasets_by_task_type
-from api.datasets.task_type import TaskType
+from api.task_type import TaskType
 
 def dataset_print(dataset):
     name = dataset.name
