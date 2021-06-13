@@ -1,0 +1,32 @@
+[
+  {
+    "sequence": "[CLS] paris is the capital of france. [SEP]",
+    "score": 0.9815466403961182,
+    "token": 3007,
+    "token_str": "capital"
+  },
+  {
+    "sequence": "[CLS] paris is the birthplace of france. [SEP]",
+    "score": 0.0033424370922148228,
+    "token": 14508,
+    "token_str": "birthplace"
+  },
+  {
+    "sequence": "[CLS] paris is the northernmost of france. [SEP]",
+    "score": 0.0010447058593854308,
+    "token": 22037,
+    "token_str": "northernmost"
+  },
+  {
+    "sequence": "[CLS] paris is the centre of france. [SEP]",
+    "score": 0.0010043149814009666,
+    "token": 2803,
+    "token_str": "centre"
+  },
+  {
+    "sequence": "[CLS] paris is the southernmost of france. [SEP]",
+    "score": 0.0007803150801919401,
+    "token": 21787,
+    "token_str": "southernmost"
+  }
+]
