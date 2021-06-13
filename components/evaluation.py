@@ -1,6 +1,6 @@
 import streamlit as st
 
-from api.datasets.task_type import TaskType
+from api.task_type import TaskType
 from components.helpers import html_creator
 
 
