@@ -1,4 +1,5 @@
 import requests
+import csv
 
 from bs4 import BeautifulSoup
 from api.task_type import TaskType
@@ -10,6 +11,8 @@ def prepare_datasets_csv():
     for task_type in TaskType:
         datasets[task_type] = find_datasets_by_task(task_type)
 
+    save_data_to_file(datasets)
+
 
 def find_datasets_by_task(task_type: TaskType):
     datasets = list()
@@ -20,12 +23,15 @@ def find_datasets_by_task(task_type: TaskType):
     soup = BeautifulSoup(page.content, 'html.parser')
 
     for header in soup.findAll('h4', {"class": header_class}):
-        print(header.getText())
         datasets.append(header.getText())
 
     return datasets
 
 
+def save_data_to_file(datasets: dict):
+    csv_file = "csv/datasets.csv"
 
-
-
+    with open(csv_file, 'w+') as f:
+        writer = csv.writer(f)
+        for key, value in datasets.items():
+            writer.writerow([key, value])
