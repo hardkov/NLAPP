@@ -29,9 +29,9 @@ def find_datasets_by_task(task_type: TaskType):
 
 
 def save_data_to_file(datasets: dict):
-    csv_file = "csv/datasets.csv"
+    csv_file = "../data/datasets.csv"
 
     with open(csv_file, 'w+') as f:
         writer = csv.writer(f)
         for key, value in datasets.items():
-            writer.writerow([key, value])
+            writer.writerow([key.name, value])
