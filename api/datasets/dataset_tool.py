@@ -1,14 +1,15 @@
 import os
+import sys
 import csv
 
 from datasets import load_dataset, list_datasets
 from .dataset import Dataset
 from api.task_type import TaskType
-from .dataset_dir import DatasetDir
 
 
-class FillMaskDatasets:
-    def __init__(self):
+class DatasetTool:
+    def __init__(self, task_type: TaskType):
+        self.task_type = task_type
         self.csv_file = os.getcwd() + '/api/data/datasets.csv'
         self._datasets = self.__init_datasets()
 
@@ -22,7 +23,7 @@ class FillMaskDatasets:
 
         for dataset in all_datasets:
             if dataset.id in datasets_name:
-                fill_mask_datasets[dataset.id] = Dataset(dataset.id, dataset.description, TaskType.FILL_MASK)
+                fill_mask_datasets[dataset.id] = Dataset(dataset.id, dataset.description, self.task_type)
 
         return fill_mask_datasets
 
@@ -33,17 +34,17 @@ class FillMaskDatasets:
         self.create_dir()
         self._datasets[name].cached = True
 
-        # TODO : czasami jeden zbiór może być do kilku zadań, to wtedy pasowałoby go sciągnąć tylko raz
-        return load_dataset(name, cache_dir=DatasetDir.FILL_MASK.value)
+        return load_dataset(name, cache_dir=self.task_type.value)
 
     @staticmethod
     def create_dir():
-        if not os.path.exists(DatasetDir.FILL_MASK.value):
-            os.makedirs(DatasetDir.FILL_MASK.value)
+        datasets_dir = sys.path[1] + '/data'
+        if not os.path.exists(datasets_dir):
+            os.makedirs(datasets_dir)
 
     def read_datasets_name(self):
         with open(self.csv_file, 'r+') as file:
             reader = csv.reader(file)
             for row in reader:
-                if row[0] == TaskType.FILL_MASK.name:
+                if row[0] == self.task_type.name:
                     return row[1]
