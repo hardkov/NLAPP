@@ -1,8 +1,7 @@
-import requests
 import logging
 import requests
-import asyncio
 
+from transformers import AutoModel
 from api.models.model import Model
 from api.models.model_dir import ModelDir
 from api.task_type import TaskType
@@ -37,6 +36,7 @@ class ApiModels:
                         description = ""
                         models[name] = Model(name, description, task_type)
                     except NotImplementedError:
+                        logger.info("This type of task is not supported.")
                         continue
 
         return models
@@ -45,9 +45,11 @@ class ApiModels:
     def fetch_description(self, name: str):
         if self._models[name] is None:
             raise Exception("Models name is incorrect.")
+
         main_url = "https://huggingface.co"
         description_url = f"{main_url}/{name}/resolve/main/README.md"
         response = requests.get(description_url)
+
         if response.status_code != 200:
             logger.error(
                 "Status code of website %s for is %s" % (description_url, response.status_code)
@@ -63,18 +65,11 @@ class ApiModels:
     def download_model(self, task_type: TaskType, name: str):
         if self._models[name] is None:
             raise Exception("Models name is incorrect.")
+
         if self._models[name].task_type != task_type:
             raise Exception("Models name is incorrect.")
-        model = self._models[name]
-        self.cache_model(model)
 
-    # TODO : make generic function, working not only for one example
-    def cache_model(self, model: Model):
+        model_info = self._models[name]
+        return AutoModel.from_pretrained(pretrained_model_name_or_path=name, cache_dir=ModelDir.cache_dir(model_info))
 
-        from transformers import AlbertTokenizer, AlbertForMaskedLM
-        tokenizer = AlbertTokenizer.from_pretrained(model.name, cache_dir=ModelDir.cache_dir(model))
-        model = AlbertForMaskedLM.from_pretrained(model.name, cache_dir=ModelDir.cache_dir(model))
-        inputs = tokenizer("The capital of France is [MASK].", return_tensors="pt")
-        outputs = model(**inputs)
-        loss = outputs.loss
-        logits = outputs.logits
+

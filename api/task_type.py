@@ -35,3 +35,15 @@ class TaskType(Enum):
         }
 
         return filters[self]
+
+    def get_model_filter(self):
+        filters = {
+            TaskType.FILL_MASK: 'fill-mask',
+            TaskType.QUESTION_ANSWERING: 'question-answering',
+            TaskType.SUMMARIZATION: 'summarization',
+            TaskType.TEXT_CLASSIFICATION: 'text-classification',
+            TaskType.TOKEN_CLASSIFICATION: 'token-classification',
+            TaskType.TRANSLATION: 'translation'
+        }
+
+        return filters[self]

@@ -3,7 +3,6 @@ from api.models.model import Model
 from api.task_type import TaskType
 
 
-
 def get_models_by_task_type(task_type: TaskType):
     """
     Return list of information about models for specific task.
@@ -23,4 +22,4 @@ def download_model(task_type: TaskType, name: str = "albert-base-v2"):
     """
     Download model from huggingface and return all data.
     """
-    ApiModels().download_model(task_type, name)
+    return ApiModels().download_model(task_type, name)

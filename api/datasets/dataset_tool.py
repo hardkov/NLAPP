@@ -34,12 +34,12 @@ class DatasetTool:
         self.create_dir()
         self._datasets[name].cached = True
 
-        cached_dir = sys.path[1] + '/data'
+        cached_dir = sys.path[1] + '/data/datasets'
         return load_dataset(name, cache_dir=cached_dir)
 
     @staticmethod
     def create_dir():
-        datasets_dir = sys.path[1] + '/data'
+        datasets_dir = sys.path[1] + '/data/datasets'
         if not os.path.exists(datasets_dir):
             os.makedirs(datasets_dir)
 
