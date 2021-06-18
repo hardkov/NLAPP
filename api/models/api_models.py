@@ -9,6 +9,7 @@ from api.task_type import TaskType
 
 logger = logging.getLogger(__name__)
 
+
 class ApiModels:
     def __init__(self):
         self._models = self.__init_models()
@@ -16,11 +17,10 @@ class ApiModels:
     def get_models(self):
         return self._models
 
-
     @staticmethod
     def __init_models():
         models = dict()
-        url =  "https://huggingface.co/api/models"
+        url = "https://huggingface.co/api/models"
         response = requests.get(url)
         if response.status_code != 200:
             logger.error(
@@ -32,14 +32,16 @@ class ApiModels:
             for model in json:
                 if "pipeline_tag" in model:
                     name = model['modelId']
-                    task_type = TaskType.from_str(model["pipeline_tag"])
-                    description = ""
-                    models[name] = Model(name, description, task_type)
+                    try:
+                        task_type = TaskType.from_str(model["pipeline_tag"])
+                        description = ""
+                        models[name] = Model(name, description, task_type)
+                    except NotImplementedError:
+                        continue
 
         return models
 
-
-    #TODO fix function
+    # TODO fix function
     def fetch_description(self, name: str):
         if self._models[name] is None:
             raise Exception("Models name is incorrect.")
@@ -58,14 +60,13 @@ class ApiModels:
     def by_task_type_models(self, task_type: TaskType):
         return dict(filter(lambda m: m[1].task_type == task_type, self._models.items()))
 
-    def download_model(self,task_type: TaskType, name:str):
+    def download_model(self, task_type: TaskType, name: str):
         if self._models[name] is None:
             raise Exception("Models name is incorrect.")
         if self._models[name].task_type != task_type:
             raise Exception("Models name is incorrect.")
         model = self._models[name]
         self.cache_model(model)
-
 
     # TODO : make generic function, working not only for one example
     def cache_model(self, model: Model):
@@ -77,5 +78,3 @@ class ApiModels:
         outputs = model(**inputs)
         loss = outputs.loss
         logits = outputs.logits
-
-
