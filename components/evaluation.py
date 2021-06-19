@@ -1,13 +1,24 @@
 import streamlit as st
 
+import json
+from api.evaluation.fill_mask_evaluation import evaluate_sentence
 from api.task_type import TaskType
 from components.helpers import html_creator
 
 
+def parse_result_to_json(result):
+  token_score_list = list()
+  for token_score in result.tokens_score:
+    json_dict = dict()
+    json_dict['token_str'] = token_score.token
+    json_dict['score'] = token_score.score
+    token_score_list.append(json_dict)
+  return json.dumps(token_score_list)
+
+
 def evaluate(model, dataset, value):
-  print(value)
-  with open('./components/helpers/example_result.json', 'r') as file:
-    return file.read()
+  result = evaluate_sentence(sentence=value, model=model.name, task_type=TaskType.FILL_MASK)
+  return parse_result_to_json(result)
 
 
 def write(task, model, dataset):
