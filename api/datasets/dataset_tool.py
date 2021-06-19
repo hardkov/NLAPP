@@ -1,5 +1,4 @@
 import os
-import sys
 import csv
 
 from datasets import load_dataset, list_datasets
@@ -10,6 +9,7 @@ from api.task_type import TaskType
 class DatasetTool:
     def __init__(self, task_type: TaskType):
         self.task_type = task_type
+        self.cached_dir = os.getcwd() + '/data/datasets'
         self.csv_file = os.getcwd() + '/api/data/datasets.csv'
         self._datasets = self.__init_datasets()
 
@@ -34,14 +34,11 @@ class DatasetTool:
         self.create_dir()
         self._datasets[name].cached = True
 
-        cached_dir = sys.path[1] + '/data/datasets'
-        return load_dataset(name, cache_dir=cached_dir)
+        return load_dataset(name, cache_dir=self.cached_dir)
 
-    @staticmethod
-    def create_dir():
-        datasets_dir = sys.path[1] + '/data/datasets'
-        if not os.path.exists(datasets_dir):
-            os.makedirs(datasets_dir)
+    def create_dir(self):
+        if not os.path.exists(self.cached_dir):
+            os.makedirs(self.cached_dir)
 
     def read_datasets_name(self):
         with open(self.csv_file, 'r+') as file:

@@ -1,4 +1,5 @@
 import torch
+import timeit
 
 from api.models.model_gateway import download_model
 from api.datasets.dataset_gateway import download_dataset
@@ -18,7 +19,7 @@ class FillMaskResult:
     tokens_score: list[TokenScore]
 
 
-def evaluate(sentence: str, model: str, task_type: TaskType, top=5):
+def evaluate_sentence(sentence: str, model: str, task_type: TaskType, top=5):
     model, tokenizer = download_model(task_type, model)
 
     sentence = sentence.replace('[MASK]', tokenizer.mask_token)
@@ -38,16 +39,18 @@ def evaluate(sentence: str, model: str, task_type: TaskType, top=5):
     return FillMaskResult(sentence, decoded_tokens)
 
 
-def evaluate_dataset(dataset: str, model: str, task_type: TaskType):
+# TODO: asynchronous evaluation and monitoring actual state of evaluation
+def evaluate_dataset(dataset: str, model: str, task_type: TaskType, timeout_seconds=60):
     dataset = download_dataset(task_type, dataset)
     data = dataset.data.get('test_core')
     sentences = data.table.columns[0]
 
     results = list()
+    start = timeit.default_timer()
 
     for sentence in sentences:
-        print(sentence)
-        results.append(evaluate(sentence.as_py(), model, task_type, top=1))
+        results.append(evaluate_sentence(sentence.as_py(), model, task_type, top=1))
+        if timeit.default_timer() - start > timeout_seconds:
+            break
 
-    print(results)
     return results
