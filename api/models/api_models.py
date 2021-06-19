@@ -1,7 +1,7 @@
 import logging
 import requests
 
-from transformers import AutoModel
+from transformers import AutoModelForMaskedLM, AutoTokenizer
 from api.models.model import Model
 from api.models.model_dir import ModelDir
 from api.task_type import TaskType
@@ -36,7 +36,7 @@ class ApiModels:
                         description = ""
                         models[name] = Model(name, description, task_type)
                     except NotImplementedError:
-                        logger.info("This type of task is not supported.")
+                        # logger.info("This type of task is not supported.")
                         continue
 
         return models
@@ -70,6 +70,16 @@ class ApiModels:
             raise Exception("Models name is incorrect.")
 
         model_info = self._models[name]
-        return AutoModel.from_pretrained(pretrained_model_name_or_path=name, cache_dir=ModelDir.cache_dir(model_info))
 
+        # TODO:create generic solution for each type of task
+        model = AutoModelForMaskedLM.from_pretrained(
+            pretrained_model_name_or_path=name,
+            cache_dir=ModelDir.cache_dir(model_info)
+        )
 
+        tokenizer = AutoTokenizer.from_pretrained(
+            pretrained_model_name_or_path=name,
+            cache_dir=ModelDir.cache_dir(model_info)
+        )
+
+        return model, tokenizer
