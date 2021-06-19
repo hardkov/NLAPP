@@ -5,6 +5,7 @@ from api.models.model_gateway import download_model
 from api.datasets.dataset_gateway import download_dataset
 from dataclasses import dataclass
 from api.task_type import TaskType
+from typing import List
 
 
 @dataclass
@@ -16,7 +17,7 @@ class TokenScore:
 @dataclass
 class FillMaskResult:
     sentence: str
-    tokens_score: list[TokenScore]
+    tokens_score: List[TokenScore]
 
 
 def evaluate_sentence(sentence: str, model: str, task_type: TaskType, top=5):
