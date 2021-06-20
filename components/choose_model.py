@@ -1,5 +1,4 @@
 from api.models.model_gateway import get_models_by_task_type
-from api.task_type import TaskType
 import streamlit as st
 
 def model_print(model):
@@ -15,7 +14,7 @@ def write(task):
 
     with models:
         cached = st.checkbox("Cached only", key="modelCached")
-        model_dict = get_models_by_task_type(TaskType[task])
+        model_dict = get_models_by_task_type(task)
         model_list = list(model_dict.values())
         model_list_filtered = list(filter(lambda model: not cached or model.cached, model_list))
         model = st.selectbox("Models", model_list_filtered, 

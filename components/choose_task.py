@@ -1,8 +1,11 @@
 import streamlit as st
 from api.task_type import TaskType
 
+def task_print(task):
+  return task.name
+
 def write():
   st.header("Select task")
-  task = st.radio("Task", [task_type.name for task_type in TaskType])
+  task = st.radio("Task", list(TaskType), format_func=task_print)
 
   return task

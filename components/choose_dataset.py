@@ -1,7 +1,6 @@
 import streamlit as st
 
 from api.datasets.dataset_gateway import get_datasets_by_task_type
-from api.task_type import TaskType
 
 def dataset_print(dataset):
     name = dataset.name
@@ -16,7 +15,7 @@ def write(task):
 
     with datasets:
         cached = st.checkbox("Cached only", key="datasetCached")
-        dataset_dict = get_datasets_by_task_type(TaskType[task])
+        dataset_dict = get_datasets_by_task_type(task)
         dataset_list = list(dataset_dict.values()) 
         dataset_list_filtered = list(filter(lambda dataset: not cached or dataset.cached, dataset_list))
 
