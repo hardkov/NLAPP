@@ -55,7 +55,6 @@ class ApiModels:
                 "Status code of website %s for is %s" % (description_url, response.status_code)
             )
         else:
-            print(response.content)
             description = response.content
             self._models[name].description = description
 
