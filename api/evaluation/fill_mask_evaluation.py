@@ -4,7 +4,6 @@ import timeit
 from api.models.model_gateway import download_model
 from api.datasets.dataset_gateway import download_dataset
 from dataclasses import dataclass
-from api.task_type import TaskType
 from typing import List
 
 
@@ -19,10 +18,7 @@ class FillMaskResult:
     sentence: str
     tokens_score: List[TokenScore]
 
-
-def evaluate_sentence(sentence: str, model: str, task_type: TaskType, top=5):
-    model, tokenizer = download_model(task_type, model)
-
+def evaluate_sentence(sentence: str, model, tokenizer, top=5):
     sentence = sentence.replace('[MASK]', tokenizer.mask_token)
     sentence = sentence.replace('<mask>', tokenizer.mask_token)
 
@@ -39,10 +35,8 @@ def evaluate_sentence(sentence: str, model: str, task_type: TaskType, top=5):
     decoded_tokens = [TokenScore(tokenizer.decode(top_5_tokens[i]), scores[i]) for i in range(0, top)]
     return FillMaskResult(sentence, decoded_tokens)
 
-
-# TODO: asynchronous evaluation and monitoring actual state of evaluation
-def evaluate_dataset(dataset: str, model: str, task_type: TaskType, timeout_seconds=60):
-    dataset = download_dataset(task_type, dataset)
+# # TODO: asynchronous evaluation and monitoring actual state of evaluation
+def evaluate_dataset(dataset, model, tokenizer, timeout_seconds=60):
     data = dataset.data.get('test_core')
     sentences = data.table.columns[0]
 
@@ -50,7 +44,7 @@ def evaluate_dataset(dataset: str, model: str, task_type: TaskType, timeout_seco
     start = timeit.default_timer()
 
     for sentence in sentences:
-        results.append(evaluate_sentence(sentence.as_py(), model, task_type, top=1))
+        results.append(evaluate_sentence(sentence.as_py(), model, tokenizer, top=1))
         if timeit.default_timer() - start > timeout_seconds:
             break
 
