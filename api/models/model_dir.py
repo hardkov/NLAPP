@@ -1,10 +1,10 @@
-import sys
+import os
 from enum import Enum
 
 from api.models.model import Model
 from api.task_type import TaskType
 
-MODEL_DIR = sys.path[1] + '/data/models'
+MODEL_DIR = os.getcwd() + '/data/models'
 
 
 class ModelDir(Enum):

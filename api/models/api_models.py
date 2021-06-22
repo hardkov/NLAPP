@@ -55,7 +55,6 @@ class ApiModels:
                 "Status code of website %s for is %s" % (description_url, response.status_code)
             )
         else:
-            print(response.content)
             description = response.content
             self._models[name].description = description
 
@@ -81,5 +80,6 @@ class ApiModels:
             pretrained_model_name_or_path=name,
             cache_dir=ModelDir.cache_dir(model_info)
         )
+
 
         return model, tokenizer

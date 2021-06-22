@@ -1,9 +1,11 @@
 import streamlit as st
 
 import json
-from api.evaluation.fill_mask_evaluation import evaluate_sentence
+from api.evaluation.fill_mask_evaluation import evaluate_sentence, evaluate_dataset
 from api.task_type import TaskType
 from components.helpers import html_creator
+from api.models.model_gateway import download_model
+from api.datasets.dataset_gateway import download_dataset
 
 
 def parse_result_to_json(result):
@@ -16,21 +18,46 @@ def parse_result_to_json(result):
   return json.dumps(token_score_list)
 
 
-def evaluate(model, dataset, value):
-  result = evaluate_sentence(sentence=value, model=model.name, task_type=TaskType.FILL_MASK)
+def evaluate(model, tokenizer, value):
+  result = evaluate_sentence(value, model, tokenizer)
   return parse_result_to_json(result)
 
 
-def write(task, model, dataset):
-  if task == TaskType.FILL_MASK.name:
-    st.title(f"Evaluating of task {task.lower().replace('_',' ')}")
-    form = st.form(key='my-form')
-    value = form.text_input(task, value="Warsaw is the [MASK] of Poland.")
-    submit = form.form_submit_button('Evaluate')
+@st.cache(hash_funcs={"tokenizers.Tokenizer": id, "tokenizers.AddedToken": id}, max_entries=1)
+def download_model_with_cache(task, model_name):
+  return download_model(task, model_name)
 
-    if not submit:
-      st.write('Press evaluate to get results')
-    else:
-      result_json = evaluate(model, dataset, value)
-      html_code, height = html_creator.get_html_from_result_json(result_json)
-      st.components.v1.html(html_code, height=height)
+@st.cache(hash_funcs={"pyarrow.lib.Buffer": id}, allow_output_mutation=True, max_entries=1)
+def download_dataset_with_cache(task, dataset):
+    return download_dataset(task, dataset.name)
+
+@st.cache(hash_funcs={"pyarrow.lib.Buffer": id, "tokenizers.Tokenizer": id, "tokenizers.AddedToken": id})
+def evaluate_dataset_with_cache(dataset, model, tokenizer, timeout_seconds):
+  return evaluate_dataset(dataset, model, tokenizer, timeout_seconds)
+
+def write(task, model, dataset):
+  st.header("Results")
+
+  should_download_model = st.checkbox("Toggle model fetching")
+
+  if should_download_model:
+    st.subheader("Manual input")
+
+    model, tokenizer = download_model_with_cache(task, model.name)
+
+    form = st.form(key='my-form')
+    value = form.text_input(task.name, value="Warsaw is the [MASK] of Poland.")
+    form.form_submit_button('Evaluate')
+
+    result_json = evaluate(model, tokenizer, value)
+    html_code, height = html_creator.get_html_from_result_json(result_json)
+    st.components.v1.html(html_code, height=height)
+
+    st.subheader("Dataset input")
+    dataset_input_enabled = st.button("Download & Compute", key="dataset_input_enabled")
+
+    if dataset_input_enabled:
+      dataset = download_dataset_with_cache(task, dataset)
+      results = evaluate_dataset_with_cache(dataset, model, tokenizer, timeout_seconds=10)
+      st.write(results)
+

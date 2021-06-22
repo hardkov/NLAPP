@@ -19,7 +19,6 @@ PAGES = {
 def main():
   page = sidebar.write(list(PAGES.keys()))
 
-  print(page)
   PAGES[page].write()
 
 if __name__ == "__main__":
