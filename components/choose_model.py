@@ -1,4 +1,4 @@
-from api.models.model_gateway import get_models_by_task_type
+from api.models.model_gateway import get_models_by_task_type, fetch_description
 import streamlit as st
 
 def model_print(model):
@@ -24,6 +24,8 @@ def write(task):
     with description:
         st.subheader("Model description")
         if model is not None:
+            if description != "":
+                fetch_description(model.name)
             st.markdown(model.description)
 
             if model.cached:

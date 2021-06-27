@@ -6,8 +6,9 @@ from api.models.model import Model
 from api.models.model_dir import ModelDir
 from api.task_type import TaskType
 
-logger = logging.getLogger(__name__)
+from .string_utils.extract_part import find_between
 
+logger = logging.getLogger(__name__)
 
 class ApiModels:
     def __init__(self):
@@ -41,7 +42,6 @@ class ApiModels:
 
         return models
 
-    # TODO fix function
     def fetch_description(self, name: str):
         if self._models[name] is None:
             raise Exception("Models name is incorrect.")
@@ -56,6 +56,8 @@ class ApiModels:
             )
         else:
             description = response.content
+            description = str(description, 'utf-8')
+            description = find_between(description, "#", "##")
             self._models[name].description = description
 
     def by_task_type_models(self, task_type: TaskType):
@@ -67,6 +69,7 @@ class ApiModels:
 
         if self._models[name].task_type != task_type:
             raise Exception("Models name is incorrect.")
+
 
         model_info = self._models[name]
 
