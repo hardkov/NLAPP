@@ -59,5 +59,10 @@ def write(task, model, dataset):
     if dataset_input_enabled:
       dataset = download_dataset_with_cache(task, dataset)
       results = evaluate_dataset_with_cache(dataset, model, tokenizer, timeout_seconds=10)
-      st.write(results)
 
+      st.header('Results')
+      st.markdown(f'__Number of evaluations:__ {results.all_evaluation_number}')
+      st.markdown(f'__Number of wrong evaluations:__ {results.wrong_evaluation_number}')
+      st.markdown(f'__Percent of wrong evaluations:__ {results.wrong_evaluation_percent}')
+      st.subheader('Wrong predicts')
+      st.table([{'Sentence': we.sentence, 'Predict token': we.token_score.token, 'Target': we.target} for we in results.wrong_evaluations])
