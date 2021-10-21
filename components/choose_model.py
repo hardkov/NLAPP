@@ -10,7 +10,7 @@ def model_print(model):
 def write(task):
     st.header("Select model")
 
-    models, _, description = st.beta_columns([6, 1, 5])
+    models, _, description = st.columns([6, 1, 5])
 
     with models:
         cached = st.checkbox("Cached only", key="modelCached")

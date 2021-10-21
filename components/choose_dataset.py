@@ -11,7 +11,7 @@ def dataset_print(dataset):
 def write(task):
     st.header("Select dataset")
 
-    datasets, _, description = st.beta_columns([6, 1, 5])
+    datasets, _, description = st.columns([6, 1, 5])
 
     with datasets:
         cached = st.checkbox("Cached only", key="datasetCached")
