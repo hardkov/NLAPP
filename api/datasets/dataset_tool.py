@@ -9,8 +9,8 @@ from api.task_type import TaskType
 class DatasetTool:
     def __init__(self, task_type: TaskType):
         self.task_type = task_type
-        self.cached_dir = os.getcwd() + '/data/datasets'
-        self.csv_file = os.getcwd() + '/api/data/datasets.csv'
+        self.cached_dir = os.path.join(os.getcwd(), "data", "datasets")
+        self.csv_file = os.path.join(os.getcwd(), "api", "data", "datasets.csv")
         self._datasets = self.__init_datasets()
 
     def get_datasets(self):
