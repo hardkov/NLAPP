@@ -63,16 +63,16 @@ def evaluate_dataset(dataset, model, tokenizer, timeout_seconds=60):
         all_evaluation_number += 1
         evaluate_result = evaluate_sentence(sentence.as_py(), model, tokenizer, top=1)
         token_score_top = evaluate_result.tokens_score[0]
-        if token_score_top.token != str(target): 
+        if token_score_top.token != target.as_py():
             wrong_evaluation_number += 1
-            wrong_evaluation = FillMaskDatasetSentenceEvaluation(sentence, token_score_top, target)
+            wrong_evaluation = FillMaskDatasetSentenceEvaluation(evaluate_result.sentence, token_score_top, target.as_py())
             wrong_evaluations.append(wrong_evaluation)
 
         if timeit.default_timer() - start > timeout_seconds:
             break
     
     percent = wrong_evaluation_number / all_evaluation_number
-    result = FillMaskDatasetEvaluationResult(all_evaluation_number=all_evaluation_number, wrong_evaluation_number=wrong_evaluation_number, 
+    result = FillMaskDatasetEvaluationResult(all_evaluation_number=all_evaluation_number, wrong_evaluation_number=wrong_evaluation_number,
                                                 wrong_evaluation_percent=percent, wrong_evaluations=wrong_evaluations)
 
     return result
