@@ -17,13 +17,17 @@ class DatasetTool:
         return self._datasets
 
     def __init_datasets(self):
-        all_datasets = list_datasets(with_community_datasets=True, with_details=True)
+        all_datasets = list_datasets(
+            with_community_datasets=True, with_details=True
+        )
         datasets_name = self.read_datasets_name()
         fill_mask_datasets = dict()
 
         for dataset in all_datasets:
             if dataset.id in datasets_name:
-                fill_mask_datasets[dataset.id] = Dataset(dataset.id, dataset.description, self.task_type)
+                fill_mask_datasets[dataset.id] = Dataset(
+                    dataset.id, dataset.description, self.task_type
+                )
 
         return fill_mask_datasets
 
@@ -41,7 +45,7 @@ class DatasetTool:
             os.makedirs(self.cached_dir)
 
     def read_datasets_name(self):
-        with open(self.csv_file, 'r+') as file:
+        with open(self.csv_file, "r+") as file:
             reader = csv.reader(file)
             for row in reader:
                 if row[0] == self.task_type.name:

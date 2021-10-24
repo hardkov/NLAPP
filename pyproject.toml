@@ -1,0 +1,15 @@
+[tool.black]
+line-length = 80
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.sh
+  | \.ini
+  | \.idea
+  | \.pytest_cache
+  | \.venv
+  | nlapp/data
+  | venv
+)/
+'''

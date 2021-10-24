@@ -2,11 +2,13 @@ import streamlit as st
 
 from api.datasets.dataset_gateway import get_datasets_by_task_type
 
+
 def dataset_print(dataset):
     name = dataset.name
-    cached_info = "\u2713" if dataset.cached else "" 
+    cached_info = "\u2713" if dataset.cached else ""
 
     return f"{name} {cached_info}"
+
 
 def write(task):
     st.header("Select dataset")
@@ -16,11 +18,17 @@ def write(task):
     with datasets:
         cached = st.checkbox("Cached only", key="datasetCached")
         dataset_dict = get_datasets_by_task_type(task)
-        dataset_list = list(dataset_dict.values()) 
-        dataset_list_filtered = list(filter(lambda dataset: not cached or dataset.cached, dataset_list))
+        dataset_list = list(dataset_dict.values())
+        dataset_list_filtered = list(
+            filter(lambda dataset: not cached or dataset.cached, dataset_list)
+        )
 
-        dataset = st.selectbox("Datasets", dataset_list_filtered, 
-                format_func=dataset_print, help="In order to search just type while selecting") 
+        dataset = st.selectbox(
+            "Datasets",
+            dataset_list_filtered,
+            format_func=dataset_print,
+            help="In order to search just type while selecting",
+        )
 
     # description in markdown with links
     with description:
@@ -34,4 +42,3 @@ def write(task):
                 st.warning("Dataset needs to be downloaded")
 
     return dataset
-

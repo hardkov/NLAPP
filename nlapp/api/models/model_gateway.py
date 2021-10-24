@@ -25,6 +25,7 @@ def download_model(task_type: TaskType, name: str = "albert-base-v2"):
     """
     return api_models.download_model(task_type, name)
 
+
 def fetch_description(name: str):
     """
     Download description model from huggingface

@@ -10,6 +10,7 @@ from .string_utils.extract_part import find_between
 
 logger = logging.getLogger(__name__)
 
+
 class ApiModels:
     def __init__(self):
         self._models = self.__init_models()
@@ -24,14 +25,15 @@ class ApiModels:
         response = requests.get(url)
         if response.status_code != 200:
             logger.error(
-                "Status code of website %s for is %s" % (url, response.status_code)
+                "Status code of website %s for is %s"
+                % (url, response.status_code)
             )
         else:
             json = response.json()
             logger.info("All models loaded")
             for model in json:
                 if "pipeline_tag" in model:
-                    name = model['modelId']
+                    name = model["modelId"]
                     try:
                         task_type = TaskType.from_str(model["pipeline_tag"])
                         description = ""
@@ -52,16 +54,19 @@ class ApiModels:
 
         if response.status_code != 200:
             logger.error(
-                "Status code of website %s for is %s" % (description_url, response.status_code)
+                "Status code of website %s for is %s"
+                % (description_url, response.status_code)
             )
         else:
             description = response.content
-            description = str(description, 'utf-8')
+            description = str(description, "utf-8")
             description = find_between(description, "#", "##")
             self._models[name].description = description
 
     def by_task_type_models(self, task_type: TaskType):
-        return dict(filter(lambda m: m[1].task_type == task_type, self._models.items()))
+        return dict(
+            filter(lambda m: m[1].task_type == task_type, self._models.items())
+        )
 
     def download_model(self, task_type: TaskType, name: str):
         if self._models[name] is None:
@@ -70,19 +75,17 @@ class ApiModels:
         if self._models[name].task_type != task_type:
             raise Exception("Models name is incorrect.")
 
-
         model_info = self._models[name]
 
         # TODO:create generic solution for each type of task
         model = AutoModelForMaskedLM.from_pretrained(
             pretrained_model_name_or_path=name,
-            cache_dir=ModelDir.cache_dir(model_info)
+            cache_dir=ModelDir.cache_dir(model_info),
         )
 
         tokenizer = AutoTokenizer.from_pretrained(
             pretrained_model_name_or_path=name,
-            cache_dir=ModelDir.cache_dir(model_info)
+            cache_dir=ModelDir.cache_dir(model_info),
         )
-
 
         return model, tokenizer

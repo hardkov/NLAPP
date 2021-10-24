@@ -7,7 +7,7 @@ DATASETS_LOADER = {
     TaskType.SUMMARIZATION: DatasetTool(TaskType.SUMMARIZATION),
     TaskType.TEXT_CLASSIFICATION: DatasetTool(TaskType.TEXT_CLASSIFICATION),
     TaskType.TOKEN_CLASSIFICATION: DatasetTool(TaskType.TOKEN_CLASSIFICATION),
-    TaskType.QUESTION_ANSWERING: DatasetTool(TaskType.QUESTION_ANSWERING)
+    TaskType.QUESTION_ANSWERING: DatasetTool(TaskType.QUESTION_ANSWERING),
 }
 
 
@@ -30,6 +30,3 @@ def download_dataset(task_type: TaskType, dataset_name: str):
     Download dataset from huggingface and return all data.
     """
     return DATASETS_LOADER.get(task_type).download_dataset(dataset_name)
-
-
-

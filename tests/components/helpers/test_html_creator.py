@@ -41,24 +41,33 @@ def expected_html(value):
 def test_get_token_div():
     test_score_value = 0.5653
     test_token_str_value = "test_word"
-    test_dict = {'score': test_score_value, 'token_str': test_token_str_value}
+    test_dict = {"score": test_score_value, "token_str": test_token_str_value}
 
     expected_width = 57
     expected_percent = 0.566
-    expected = expected_token_div(expected_width, test_token_str_value, expected_percent)
+    expected = expected_token_div(
+        expected_width, test_token_str_value, expected_percent
+    )
 
     assert get_token_div(test_dict) == expected
 
 
-@pytest.mark.parametrize("expected_score_value,expected_width,expected_token_str,expected_percent", [
-    (0.12223123, 13, "test1", 0.123),
-    (0.23624662, 24, "test", 0.237),
-    (0.96960034, 97, "test", 0.97)
-])
-def test_parametrized_get_token_div(expected_score_value, expected_width, expected_token_str, expected_percent):
-    test_dict = {'score': expected_score_value, 'token_str': expected_token_str}
+@pytest.mark.parametrize(
+    "expected_score_value,expected_width,expected_token_str,expected_percent",
+    [
+        (0.12223123, 13, "test1", 0.123),
+        (0.23624662, 24, "test", 0.237),
+        (0.96960034, 97, "test", 0.97),
+    ],
+)
+def test_parametrized_get_token_div(
+    expected_score_value, expected_width, expected_token_str, expected_percent
+):
+    test_dict = {"score": expected_score_value, "token_str": expected_token_str}
 
-    expected = expected_token_div(expected_width, expected_token_str, expected_percent)
+    expected = expected_token_div(
+        expected_width, expected_token_str, expected_percent
+    )
 
     assert get_token_div(test_dict) == expected
 
@@ -66,7 +75,7 @@ def test_parametrized_get_token_div(expected_score_value, expected_width, expect
 def test_get_token_div_should_raise_error_when_wrong_score():
     test_score_value = 1.11223123
     test_token_str_value = "test_word"
-    test_dict = {'score': test_score_value, 'token_str': test_token_str_value}
+    test_dict = {"score": test_score_value, "token_str": test_token_str_value}
 
     with pytest.raises(ValueError) as e:
         get_token_div(test_dict)

@@ -23,12 +23,12 @@ def get_result_html(result_divs):
 
 
 def get_token_div(result):
-    value = result['score']
+    value = result["score"]
     if value > 1 or value < 0:
         raise ValueError("score has to be between 0 and 1")
     width = ceil(value * 100)
     percent = ceil(value * 1000) / 1000
-    token = result['token_str']
+    token = result["token_str"]
     return f"""
     <div class="d-flex flex-row my-2 align-items-center">
         <div class="col-10">
