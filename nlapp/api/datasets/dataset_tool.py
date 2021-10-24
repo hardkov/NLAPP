@@ -25,11 +25,11 @@ class DatasetTool:
         all_datasets = list_datasets(
             with_community_datasets=True, with_details=True
         )
-        datasets_name = self.read_datasets_name()
+        task_category = self.task_type.get_dataset_filter()
         fill_mask_datasets = dict()
 
         for dataset in all_datasets:
-            if dataset.id in datasets_name:
+            if task_category in dataset.tags:
                 fill_mask_datasets[dataset.id] = Dataset(
                     dataset.id, dataset.description, self.task_type
                 )
