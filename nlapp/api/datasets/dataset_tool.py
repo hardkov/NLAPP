@@ -8,7 +8,7 @@ from nlapp.api.task_type import TaskType
 class DatasetTool:
     def __init__(self, task_type: TaskType):
         self.task_type = task_type
-        self.cached_dir = os.getcwd() + '/data/datasets'
+        self.cached_dir = os.getcwd() + "/data/datasets"
         self._datasets = self.__init_datasets()
 
     def get_datasets(self):
@@ -41,4 +41,3 @@ class DatasetTool:
     def create_dir(self):
         if not os.path.exists(self.cached_dir):
             os.makedirs(self.cached_dir)
-
