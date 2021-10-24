@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from api import task_type
+from nlapp.api import task_type
 
 
 @dataclass

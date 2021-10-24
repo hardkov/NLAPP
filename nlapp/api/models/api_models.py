@@ -2,9 +2,9 @@ import logging
 import requests
 
 from transformers import AutoModelForMaskedLM, AutoTokenizer
-from api.models.model import Model
-from api.models.model_dir import ModelDir
-from api.task_type import TaskType
+from nlapp.api.models.model import Model
+from nlapp.api.models.model_dir import ModelDir
+from nlapp.api.task_type import TaskType
 
 from .string_utils.extract_part import find_between
 

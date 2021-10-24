@@ -1,6 +1,6 @@
 import streamlit as st
 
-from api.datasets.dataset_gateway import get_datasets_by_task_type
+from nlapp.api.datasets.dataset_gateway import get_datasets_by_task_type
 
 
 def dataset_print(dataset):

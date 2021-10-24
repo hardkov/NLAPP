@@ -1,14 +1,13 @@
 import streamlit as st
 
 import json
-from api.evaluation.fill_mask_evaluation import (
+from nlapp.api.evaluation.fill_mask_evaluation import (
     evaluate_sentence,
     evaluate_dataset,
 )
-from api.task_type import TaskType
-from components.helpers import html_creator
-from api.models.model_gateway import download_model
-from api.datasets.dataset_gateway import download_dataset
+from nlapp.components.helpers import html_creator
+from nlapp.api.models.model_gateway import download_model
+from nlapp.api.datasets.dataset_gateway import download_dataset
 
 
 def parse_result_to_json(result):

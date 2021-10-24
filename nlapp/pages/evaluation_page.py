@@ -1,9 +1,9 @@
 import streamlit as st
 
-import components.choose_model as choose_model
-import components.choose_dataset as choose_dataset
-import components.evaluation as evaluation
-import components.choose_task as choose_task
+import nlapp.components.choose_model as choose_model
+import nlapp.components.choose_dataset as choose_dataset
+import nlapp.components.evaluation as evaluation
+import nlapp.components.choose_task as choose_task
 
 
 def write():

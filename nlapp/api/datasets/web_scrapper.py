@@ -2,7 +2,7 @@ import requests
 import csv
 
 from bs4 import BeautifulSoup
-from api.task_type import TaskType
+from nlapp.api.task_type import TaskType
 
 
 def prepare_datasets_csv():

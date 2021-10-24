@@ -1,8 +1,8 @@
 import os
 from enum import Enum
 
-from api.models.model import Model
-from api.task_type import TaskType
+from nlapp.api.models.model import Model
+from nlapp.api.task_type import TaskType
 
 MODEL_DIR = os.getcwd() + "/data/models"
 

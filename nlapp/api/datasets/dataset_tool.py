@@ -3,7 +3,7 @@ import csv
 
 from datasets import load_dataset, list_datasets
 from .dataset import Dataset
-from api.task_type import TaskType
+from nlapp.api.task_type import TaskType
 
 
 class DatasetTool:
