@@ -1,10 +1,13 @@
 import os
+from pathlib import Path
 from enum import Enum
 
 from nlapp.api.models.model import Model
 from nlapp.api.task_type import TaskType
 
-MODEL_DIR = os.getcwd() + "/data/models"
+MODEL_DIR = os.path.join(
+    Path(__file__).parent.parent.parent.absolute(), "data", "models"
+)
 
 
 class ModelDir(Enum):

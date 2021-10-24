@@ -1,4 +1,7 @@
-from nlapp.api.models.model_gateway import get_models_by_task_type, fetch_description
+from nlapp.api.models.model_gateway import (
+    get_models_by_task_type,
+    fetch_description,
+)
 import streamlit as st
 
 
