@@ -1,5 +1,5 @@
 from .dataset_tool import DatasetTool
-from nlapp.service.task_type import TaskType
+from nlapp.data_model.task_type import TaskType
 
 DATASETS_LOADER = {
     TaskType.FILL_MASK: DatasetTool(TaskType.FILL_MASK),

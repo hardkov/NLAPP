@@ -1,5 +1,5 @@
 import streamlit as st
-from nlapp.service.task_type import TaskType
+from nlapp.data_model.task_type import TaskType
 
 
 def task_print(task):

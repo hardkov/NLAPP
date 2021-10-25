@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from nlapp.service import task_type
+from nlapp.data_model import task_type
 
 
 @dataclass

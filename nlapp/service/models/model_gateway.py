@@ -1,5 +1,5 @@
 from nlapp.service.models.api_models import ApiModels
-from nlapp.service.task_type import TaskType
+from nlapp.data_model.task_type import TaskType
 
 api_models = ApiModels()
 
