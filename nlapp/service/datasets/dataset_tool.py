@@ -2,7 +2,7 @@ import os
 
 from datasets import load_dataset, list_datasets
 from .dataset import Dataset
-from nlapp.api.task_type import TaskType
+from nlapp.service.task_type import TaskType
 
 
 class DatasetTool:

@@ -1,4 +1,4 @@
-from nlapp.api.models.model_gateway import (
+from nlapp.service.models.model_gateway import (
     get_models_by_task_type,
     fetch_description,
 )

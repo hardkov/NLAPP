@@ -2,8 +2,8 @@ import os
 from pathlib import Path
 from enum import Enum
 
-from nlapp.api.models.model import Model
-from nlapp.api.task_type import TaskType
+from nlapp.service.models.model import Model
+from nlapp.service.task_type import TaskType
 
 MODEL_DIR = os.path.join(
     Path(__file__).parent.parent.parent.absolute(), "data", "models"
