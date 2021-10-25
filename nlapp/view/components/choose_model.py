@@ -1,8 +1,5 @@
-from nlapp.service.models.model_gateway import (
-    get_models_by_task_type,
-    fetch_description,
-)
 import streamlit as st
+from nlapp.controller.AppController import get_models_by_task_type, fetch_description
 
 
 def model_print(model):

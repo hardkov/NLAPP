@@ -1,13 +1,7 @@
 import streamlit as st
-
 import json
-from nlapp.service.evaluation.fill_mask_evaluation import (
-    evaluate_sentence,
-    evaluate_dataset,
-)
 from nlapp.view.helpers import html_creator
-from nlapp.service.models.model_gateway import download_model
-from nlapp.service.datasets.dataset_gateway import download_dataset
+from nlapp.controller.AppController import evaluate_sentence, evaluate_dataset, download_model, download_dataset
 
 
 def parse_result_to_json(result):
