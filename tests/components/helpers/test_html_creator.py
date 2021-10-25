@@ -1,5 +1,5 @@
 import pytest
-from nlapp.components.helpers.html_creator import *
+from nlapp.view.helpers.html_creator import *
 
 
 def expected_token_div(expected_width, expected_token_str, expected_percent):

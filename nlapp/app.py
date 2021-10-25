@@ -1,10 +1,10 @@
 import streamlit as st
 
-import components.sidebar as sidebar
-import pages.evaluation_page as evaluation_page
-import pages.statistics_page as statistics_page
-import pages.train_model_page as train_model_page
-import pages.about_page as about_page
+import nlapp.view.components.sidebar as sidebar
+import nlapp.view.pages.evaluation_page as evaluation_page
+import nlapp.view.pages.statistics_page as statistics_page
+import nlapp.view.pages.train_model_page as train_model_page
+import nlapp.view.pages.about_page as about_page
 
 apptitle = "NLAPP"
 st.set_page_config(page_title=apptitle, page_icon=":cat", layout="wide")
