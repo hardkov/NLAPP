@@ -24,6 +24,7 @@ def write():
         model_list_filtered = list(
             filter(lambda model: not cached or model.cached, model_list)
         )
+        print("123123123123")
 
         model = st.selectbox(
             "Models",
@@ -37,9 +38,9 @@ def write():
     with description:
         st.subheader("Model description")
         if model is not None:
-            if description != "":
-                fetch_description(model.name)
-            st.markdown(model.description)
+            # ugly, maybe use or syntax
+            model_description = model.description if model.description != "" else fetch_description(model.name, task)
+            st.markdown(model_description)
 
             if model.cached:
                 st.success("Model is stored on the disk")

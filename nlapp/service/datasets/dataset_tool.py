@@ -9,10 +9,9 @@ class DatasetTool:
     def __init__(self, task_type: TaskType):
         self.task_type = task_type
         self.cached_dir = os.getcwd() + "/data/datasets"
-        self._datasets = self.__init_datasets()
 
     def get_datasets(self):
-        return self._datasets
+        return self.__init_datasets()
 
     def __init_datasets(self):
         all_datasets = list_datasets(
@@ -30,11 +29,7 @@ class DatasetTool:
         return fill_mask_datasets
 
     def download_dataset(self, name):
-        if self._datasets[name] is None:
-            raise Exception("Dataset name is incorrect.")
-
         self.create_dir()
-        self._datasets[name].cached = True
 
         return load_dataset(name, cache_dir=self.cached_dir)
 

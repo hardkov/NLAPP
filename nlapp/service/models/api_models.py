@@ -1,4 +1,5 @@
 import logging
+
 import requests
 
 from transformers import AutoModelForMaskedLM, AutoTokenizer
@@ -12,11 +13,8 @@ logger = logging.getLogger(__name__)
 
 
 class ApiModels:
-    def __init__(self):
-        self._models = self.__init_models()
-
     def get_models(self):
-        return self._models
+        return self.__init_models()
 
     @staticmethod
     def __init_models():
@@ -33,7 +31,7 @@ class ApiModels:
             logger.info("All models loaded")
             for model in json:
                 if "pipeline_tag" in model:
-                    name = model["modelId"]
+                    name = str(model["modelId"])
                     try:
                         task_type = TaskType.from_str(model["pipeline_tag"])
                         description = ""
@@ -44,9 +42,9 @@ class ApiModels:
 
         return models
 
-    def fetch_description(self, name: str):
-        if self._models[name] is None:
-            raise Exception("Models name is incorrect.")
+    @staticmethod
+    def fetch_description(model: Model) -> str:
+        name = model.name
 
         main_url = "https://huggingface.co"
         description_url = f"{main_url}/{name}/resolve/main/README.md"
@@ -61,24 +59,14 @@ class ApiModels:
             description = response.content
             description = str(description, "utf-8")
             description = find_between(description, "#", "##")
-            self._models[name].description = description
+            return description
 
-    def by_task_type_models(self, task_type: TaskType):
-        return dict(
-            filter(lambda m: m[1].task_type == task_type, self._models.items())
-        )
-
-    def download_model(self, task_type: TaskType, name: str):
-        if self._models[name] is None:
-            raise Exception("Models name is incorrect.")
-
-        if self._models[name].task_type != task_type:
-            raise Exception("Models name is incorrect.")
-
-        model_info = self._models[name]
+    @staticmethod
+    def download_model(model_info: Model):
+        name = model_info.name
 
         # TODO:create generic solution for each type of task
-        model = AutoModelForMaskedLM.from_pretrained(
+        model_object = AutoModelForMaskedLM.from_pretrained(
             pretrained_model_name_or_path=name,
             cache_dir=ModelDir.cache_dir(model_info),
         )
@@ -88,4 +76,4 @@ class ApiModels:
             cache_dir=ModelDir.cache_dir(model_info),
         )
 
-        return model, tokenizer
+        return model_object, tokenizer

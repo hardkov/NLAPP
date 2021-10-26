@@ -1,33 +1,26 @@
+from nlapp.data_model.model import Model
 from nlapp.service.models.api_models import ApiModels
-from nlapp.data_model.task_type import TaskType
 
 api_models = ApiModels()
 
 
-def get_models_by_task_type(task_type: TaskType):
+def get_models():
     """
     Return list of information about models for specific task.
     """
-    return api_models.by_task_type_models(task_type)
-
-
-def get_model(task_type: TaskType, models_name: str):
-    """
-    Return information about specific model.
-    """
-    return get_models_by_task_type(task_type).get(models_name)
+    return api_models.get_models()
 
 
 # TODO : make function for more that only one model
-def download_model(task_type: TaskType, name: str = "albert-base-v2"):
+def download_model(model: Model):
     """
     Download model from huggingface and return all data.
     """
-    return api_models.download_model(task_type, name)
+    return api_models.download_model(model)
 
 
-def fetch_description(name: str):
+def fetch_description(model: Model):
     """
     Download description model from huggingface
     """
-    api_models.fetch_description(name)
+    return api_models.fetch_description(model)
