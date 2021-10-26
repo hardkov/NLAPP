@@ -9,8 +9,8 @@ import nlapp.view.components.choose_task as choose_task
 def write():
     st.title("Evaluation")
 
-    task = choose_task.write()
-    model = choose_model.write(task)
-    dataset = choose_dataset.write(task)
+    choose_task.write()
+    choose_model.write()
+    choose_dataset.write()
 
-    evaluation.write(task, model, dataset)
+    evaluation.write()

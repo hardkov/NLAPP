@@ -1,5 +1,7 @@
 import streamlit as st
 import json
+
+from nlapp.data_model.state import KEYS
 from nlapp.view.helpers import html_creator
 from nlapp.controller.AppController import evaluate_sentence, evaluate_dataset, download_model, download_dataset
 
@@ -19,35 +21,11 @@ def evaluate(model, tokenizer, value):
     return parse_result_to_json(result)
 
 
-@st.cache(
-    hash_funcs={"tokenizers.Tokenizer": id, "tokenizers.AddedToken": id},
-    max_entries=1,
-)
-def download_model_with_cache(task, model_name):
-    return download_model(task, model_name)
+def write():
+    task = st.session_state[KEYS.SELECTED_TASK]
+    model = st.session_state[KEYS.SELECTED_MODEL]
+    dataset = st.session_state[KEYS.SELECTED_DATASET]
 
-
-@st.cache(
-    hash_funcs={"pyarrow.lib.Buffer": id},
-    allow_output_mutation=True,
-    max_entries=1,
-)
-def download_dataset_with_cache(task, dataset):
-    return download_dataset(task, dataset.name)
-
-
-@st.cache(
-    hash_funcs={
-        "pyarrow.lib.Buffer": id,
-        "tokenizers.Tokenizer": id,
-        "tokenizers.AddedToken": id,
-    }
-)
-def evaluate_dataset_with_cache(dataset, model, tokenizer, timeout_seconds):
-    return evaluate_dataset(dataset, model, tokenizer, timeout_seconds)
-
-
-def write(task, model, dataset):
     st.header("Results")
 
     should_download_model = st.checkbox("Toggle model fetching")
@@ -55,7 +33,7 @@ def write(task, model, dataset):
     if should_download_model:
         st.subheader("Manual input")
 
-        model, tokenizer = download_model_with_cache(task, model.name)
+        model, tokenizer = download_model(task, model.name)
 
         form = st.form(key="my-form")
         value = form.text_input(
@@ -73,8 +51,8 @@ def write(task, model, dataset):
         )
 
         if dataset_input_enabled:
-            dataset = download_dataset_with_cache(task, dataset)
-            results = evaluate_dataset_with_cache(
+            dataset = download_dataset(task, dataset.name)
+            results = evaluate_dataset(
                 dataset, model, tokenizer, timeout_seconds=10
             )
 
