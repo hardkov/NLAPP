@@ -24,7 +24,6 @@ def write():
         model_list_filtered = list(
             filter(lambda model: not cached or model.cached, model_list)
         )
-        print("123123123123")
 
         model = st.selectbox(
             "Models",
