@@ -2,11 +2,11 @@ import os
 from pathlib import Path
 from enum import Enum
 
-from nlapp.api.models.model import Model
-from nlapp.api.task_type import TaskType
+from nlapp.data_model.model_dto import ModelDTO
+from nlapp.data_model.task_type import TaskType
 
 MODEL_DIR = os.path.join(
-    Path(__file__).parent.parent.parent.absolute(), "data", "models"
+    Path(__file__).parent.parent.parent.parent.absolute(), "data", "models"
 )
 
 
@@ -34,6 +34,6 @@ class ModelDir(Enum):
             raise NotImplementedError
 
     @staticmethod
-    def cache_dir(model: Model):
+    def cache_dir(model: ModelDTO):
         model.cached = True
         return f"{ModelDir.from_task_type(model.task_type)}/{model.name}"

@@ -1,6 +1,6 @@
 import streamlit as st
-
-from nlapp.api.datasets.dataset_gateway import get_datasets_by_task_type
+from nlapp.controller.AppController import get_datasets_by_task_type
+from nlapp.data_model.state import KEYS
 
 
 def dataset_print(dataset):
@@ -10,13 +10,15 @@ def dataset_print(dataset):
     return f"{name} {cached_info}"
 
 
-def write(task):
+def write():
+    task = st.session_state[KEYS.SELECTED_TASK]
+
     st.header("Select dataset")
 
     datasets, _, description = st.columns([6, 1, 5])
 
     with datasets:
-        cached = st.checkbox("Cached only", key="datasetCached")
+        cached = st.checkbox("Cached only", key=KEYS.IS_DATASET_CACHED)
         dataset_dict = get_datasets_by_task_type(task)
         dataset_list = list(dataset_dict.values())
         dataset_list_filtered = list(
@@ -26,6 +28,7 @@ def write(task):
         dataset = st.selectbox(
             "Datasets",
             dataset_list_filtered,
+            key=KEYS.SELECTED_DATASET,
             format_func=dataset_print,
             help="In order to search just type while selecting",
         )
