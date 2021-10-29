@@ -1,7 +1,7 @@
 import os
 
 from datasets import load_dataset, list_datasets
-from nlapp.data_model.dataset import Dataset
+from nlapp.data_model.dataset_dto import DatasetDTO
 from nlapp.data_model.task_type import TaskType
 
 
@@ -22,7 +22,7 @@ class DatasetTool:
 
         for dataset in all_datasets:
             if task_category in dataset.tags:
-                fill_mask_datasets[dataset.id] = Dataset(
+                fill_mask_datasets[dataset.id] = DatasetDTO(
                     dataset.id, dataset.description, self.task_type
                 )
 

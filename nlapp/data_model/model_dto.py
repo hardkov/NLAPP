@@ -4,7 +4,7 @@ from nlapp.data_model import task_type
 
 
 @dataclass
-class Model:
+class ModelDTO:
     name: str
     description: any
     task_type: task_type

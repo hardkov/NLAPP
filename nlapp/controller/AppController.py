@@ -3,16 +3,16 @@ from typing import Dict
 import streamlit as st
 import nlapp.service.datasets.dataset_gateway as datasets_service
 import nlapp.service.models.model_gateway as models_service
-from nlapp.data_model.dataset import Dataset
-from nlapp.data_model.model import Model
+from nlapp.data_model.dataset_dto import DatasetDTO
+from nlapp.data_model.model_dto import ModelDTO
 from nlapp.data_model.state import KEYS
 from nlapp.data_model.task_type import TaskType
 import nlapp.service.evaluation.fill_mask_evaluation as fill_mask_evaluation_service
 
 
 # to be refactored by initializator
-def get_datasets_by_task_type(task_type: TaskType) -> Dict[str, Dataset]:
-    datasets: Dict[str, Dict[str, Dataset]] = st.session_state.get(KEYS.DATASET_LIST)
+def get_datasets_by_task_type(task_type: TaskType) -> Dict[str, DatasetDTO]:
+    datasets: Dict[str, Dict[str, DatasetDTO]] = st.session_state.get(KEYS.DATASET_LIST)
 
     if datasets is None:
         st.session_state[KEYS.DATASET_LIST] = dict()
@@ -25,7 +25,7 @@ def get_datasets_by_task_type(task_type: TaskType) -> Dict[str, Dataset]:
 
 
 # to be refactored by initializator, types do not match for some reason
-def get_models_by_task_type(task_type: TaskType) -> Dict[str, Model]:
+def get_models_by_task_type(task_type: TaskType) -> Dict[str, ModelDTO]:
     models = st.session_state.get(KEYS.MODEL_LIST)
     if models is None:
         st.session_state[KEYS.MODEL_LIST] = models_service.get_models()
@@ -43,7 +43,7 @@ def fetch_description(model_name: str, task_type: TaskType):
         raise Exception("Models name is incorrect.")
 
     # we will do mulitple requests if there is no description on the remote service
-    if model.description is not "" and model.description is not None:
+    if model.description != "" and model.description is not None:
         return model.description
 
     model.description = models_service.fetch_description(model)

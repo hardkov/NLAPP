@@ -3,7 +3,7 @@ import logging
 import requests
 
 from transformers import AutoModelForMaskedLM, AutoTokenizer
-from nlapp.data_model.model import Model
+from nlapp.data_model.model_dto import ModelDTO
 from nlapp.service.models.model_dir import ModelDir
 from nlapp.data_model.task_type import TaskType
 
@@ -35,7 +35,7 @@ class ApiModels:
                     try:
                         task_type = TaskType.from_str(model["pipeline_tag"])
                         description = ""
-                        models[name] = Model(name, description, task_type)
+                        models[name] = ModelDTO(name, description, task_type)
                     except NotImplementedError:
                         # logger.info("This type of task is not supported.")
                         continue
@@ -43,7 +43,7 @@ class ApiModels:
         return models
 
     @staticmethod
-    def fetch_description(model: Model) -> str:
+    def fetch_description(model: ModelDTO) -> str:
         name = model.name
 
         main_url = "https://huggingface.co"
@@ -62,7 +62,7 @@ class ApiModels:
             return description
 
     @staticmethod
-    def download_model(model_info: Model):
+    def download_model(model_info: ModelDTO):
         name = model_info.name
 
         # TODO:create generic solution for each type of task

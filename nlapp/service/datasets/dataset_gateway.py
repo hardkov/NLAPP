@@ -2,7 +2,7 @@ from typing import Dict
 
 from nlapp.service.datasets.dataset_tool import DatasetTool
 from nlapp.data_model.task_type import TaskType
-from nlapp.data_model.dataset import Dataset
+from nlapp.data_model.dataset_dto import DatasetDTO
 
 DATASETS_LOADER = {
     TaskType.FILL_MASK: DatasetTool(TaskType.FILL_MASK),
@@ -14,14 +14,14 @@ DATASETS_LOADER = {
 }
 
 
-def get_datasets_by_task_type(task_type: TaskType) -> Dict[str, Dataset]:
+def get_datasets_by_task_type(task_type: TaskType) -> Dict[str, DatasetDTO]:
     """
     Return dictionary of information about datasets for specific task.
     """
     return DATASETS_LOADER.get(task_type).get_datasets()
 
 
-def get_dataset(task_type: TaskType, dataset_name: str) -> Dataset:
+def get_dataset(task_type: TaskType, dataset_name: str) -> DatasetDTO:
     """
     Return information about specific dataset.
     """
