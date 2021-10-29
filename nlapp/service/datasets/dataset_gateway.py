@@ -1,8 +1,8 @@
-from typing import Dict
-
-from nlapp.service.datasets.dataset_tool import DatasetTool
-from nlapp.data_model.task_type import TaskType
 from nlapp.data_model.dataset_dto import DatasetDTO
+from nlapp.data_model.dataset_format import DatasetFormat
+from nlapp.data_model.task_type import TaskType
+from nlapp.service.datasets.dataset_tool import DatasetTool
+from nlapp.service.datasets.mappers.user.fill_mask_mapper import *
 
 DATASETS_LOADER = {
     TaskType.FILL_MASK: DatasetTool(TaskType.FILL_MASK),
@@ -12,6 +12,12 @@ DATASETS_LOADER = {
     TaskType.TOKEN_CLASSIFICATION: DatasetTool(TaskType.TOKEN_CLASSIFICATION),
     TaskType.QUESTION_ANSWERING: DatasetTool(TaskType.QUESTION_ANSWERING),
 }
+
+
+def __user_dataset_mapper_factory(
+    task_type: TaskType, column_mapping: Dict[str, str]
+) -> UserDatasetMapper:
+    return {TaskType.FILL_MASK: FillMaskMapper(column_mapping)}.get(task_type)
 
 
 def get_datasets_by_task_type(task_type: TaskType) -> Dict[str, DatasetDTO]:
@@ -28,8 +34,29 @@ def get_dataset(task_type: TaskType, dataset_name: str) -> DatasetDTO:
     return get_datasets_by_task_type(task_type).get(dataset_name)
 
 
-def download_dataset(task_type: TaskType, dataset_name: str):
+def download_dataset(task_type: TaskType, dataset_name: str) -> Dict:
     """
-    Download dataset from huggingface and return all data.
+    1. Download dataset from huggingface.
+    2. Mapped dataset to correct format.
+    3. Return python dict.
     """
     return DATASETS_LOADER.get(task_type).download_dataset(dataset_name)
+
+
+def map_user_dataset(
+    task_type: TaskType,
+    column_mapping: Dict[str, str],
+    file_type: DatasetFormat,
+    dataset: Dict,
+):
+    """
+    Return dataset mapped to correct format
+
+    Args :
+        - dataset is python dict, when you receive 'fill_mask_1.json' from user You can use json.load('fill_mask_1.json') to convert
+        json file to python dict ; I not sure about CCL and CONLL -> they seem to be exotic and I need to check it.
+        But for now we can use json file.
+    """
+    return __user_dataset_mapper_factory(task_type, column_mapping).map(
+        dataset, file_type
+    )
