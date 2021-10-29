@@ -22,3 +22,21 @@ class FillMaskMapper:
             if sentence.__contains__("[MASK]") is False:
                 return False
         return True
+
+    def __map_json(self, data: dict) -> dict[str, list[str]]:
+        mapped_data = dict()
+        for column in self.columns:
+            mapped_column = self.column_mapping.get(column)
+            mapped_data[column] = self.__find_data_inside_json(
+                mapped_column, data
+            )
+        return mapped_data
+
+    @staticmethod
+    def __find_data_inside_json(mapped_column: str, json: dict):
+        if mapped_column.__contains__("."):
+            split_column = mapped_column.split(".")
+            object_name = split_column[0]
+            field_name = split_column[1]
+            return [x[field_name] for x in json.get(object_name)]
+        return json.get(mapped_column)
