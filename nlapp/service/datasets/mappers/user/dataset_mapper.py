@@ -25,4 +25,8 @@ class UserDatasetMapper(ABC):
     def map_json(self, data):
         pass
 
+    @abstractmethod
+    def validate_dataset(self, mapped_data: Dict[str, list[str]]):
+        pass
+
     # TODO: add another format in future, now just prepare json format + dataset from huggingFace

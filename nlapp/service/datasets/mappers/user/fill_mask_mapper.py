@@ -16,13 +16,13 @@ class FillMaskMapper(UserDatasetMapper):
             mapped_data[column] = self.__find_data_inside_json(
                 mapped_column, data
             )
-        if self.__validate_dataset(mapped_data) is False:
+        if self.validate_dataset(mapped_data) is False:
             raise Exception(
                 "Incorrect data format. Each sentence must contains [MASK] marker."
             )
         return mapped_data
 
-    def __validate_dataset(self, mapped_data: Dict[str, list[str]]) -> bool:
+    def validate_dataset(self, mapped_data: Dict[str, list[str]]) -> bool:
         for sentence in mapped_data[self.columns[0]]:
             if sentence.__contains__("[MASK]") is False:
                 return False

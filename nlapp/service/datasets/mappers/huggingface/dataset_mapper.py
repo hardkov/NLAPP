@@ -11,5 +11,5 @@ class DatasetMapper(ABC):
         pass
 
     @abstractmethod
-    def is_correct(self, dataset: DatasetDict, dataset_name: str) -> bool:
+    def is_correct(self, dataset: Dict, dataset_name: str) -> bool:
         pass
