@@ -3,7 +3,12 @@ import json
 
 from nlapp.data_model.state import KEYS
 from nlapp.view.helpers import html_creator
-from nlapp.controller.AppController import evaluate_sentence, evaluate_dataset, download_model, download_dataset
+from nlapp.controller.AppController import (
+    evaluate_sentence,
+    evaluate_dataset,
+    download_model,
+    download_dataset,
+)
 
 
 def parse_result_to_json(result):

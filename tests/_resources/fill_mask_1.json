@@ -1,0 +1,14 @@
+{"fillmask":[
+   {
+      "phrase":"Vistula is the biggest [MASK] in Poland.",
+      "expected":"river"
+   },
+   {
+      "phrase":"Coal is using to produce [MASK] energy.",
+      "expected":"electric"
+   },
+   {
+      "phrase":"Cracovia is [MASK] club.",
+      "expected":"football"
+   }
+]}
