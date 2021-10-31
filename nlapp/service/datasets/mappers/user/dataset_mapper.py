@@ -1,12 +1,12 @@
 from abc import ABC
 from abc import abstractmethod
-from typing import Dict
+from typing import Dict, List
 
 from nlapp.data_model.dataset_format import DatasetFormat
 
 
 class UserDatasetMapper(ABC):
-    def __init__(self, columns: list[str], column_mapping: Dict[str, str]):
+    def __init__(self, columns: List[str], column_mapping: Dict[str, str]):
         self.columns = columns
         self.column_mapping = column_mapping
         if self.validate_mapping() is False:
@@ -18,7 +18,7 @@ class UserDatasetMapper(ABC):
                 return False
         return True
 
-    def map(self, data: dict, file_type: DatasetFormat) -> Dict[str, list[str]]:
+    def map(self, data: dict, file_type: DatasetFormat) -> Dict[str, List[str]]:
         return {DatasetFormat.JSON: self.map_json(data)}.get(file_type)
 
     @abstractmethod
@@ -26,7 +26,7 @@ class UserDatasetMapper(ABC):
         pass
 
     @abstractmethod
-    def validate_dataset(self, mapped_data: Dict[str, list[str]]):
+    def validate_dataset(self, mapped_data: Dict[str, List[str]]):
         pass
 
     # TODO: add another format in future, now just prepare json format + dataset from huggingFace

@@ -2,7 +2,7 @@ import torch
 import timeit
 
 from dataclasses import dataclass
-from typing import List
+from typing import List, Dict
 
 
 @dataclass
@@ -62,7 +62,7 @@ def evaluate_sentence(sentence: str, model, tokenizer, top=5) -> FillMaskResult:
 
 # TODO: asynchronous evaluation and monitoring actual state of evaluation
 def evaluate_dataset(
-    dataset: dict[str, list[str]], model, tokenizer, timeout_seconds=60
+    dataset: Dict[str, List[str]], model, tokenizer, timeout_seconds=60
 ):
     sentences = dataset.get("sentence")
     targets = dataset.get("target")

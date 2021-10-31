@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, List
 
 from datasets.dataset_dict import DatasetDict
 from nlapp.service.datasets.mappers.huggingface.dataset_mapper import (
@@ -14,7 +14,7 @@ class FillMaskMapper(DatasetMapper):
         super().__init__()
         self.subset_names = dict()
 
-    def map(self, dataset: DatasetDict) -> Dict[str, list[str]]:
+    def map(self, dataset: DatasetDict) -> Dict[str, List[str]]:
         mapped_data = dict()
         data = dataset.data.get(self.split_type)
         data_columns = data.columns
