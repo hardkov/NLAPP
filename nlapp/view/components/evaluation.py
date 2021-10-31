@@ -7,7 +7,7 @@ from nlapp.controller.AppController import (
     evaluate_sentence,
     evaluate_dataset,
     download_model,
-    download_dataset,
+    download_dataset, get_current_model, get_current_dataset,
 )
 
 
@@ -28,8 +28,8 @@ def evaluate(model, tokenizer, value):
 
 def write():
     task = st.session_state[KEYS.SELECTED_TASK]
-    model = st.session_state[KEYS.SELECTED_MODEL]
-    dataset = st.session_state[KEYS.SELECTED_DATASET]
+    model = get_current_model()
+    dataset = get_current_dataset()
 
     st.header("Results")
 

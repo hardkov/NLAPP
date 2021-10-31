@@ -11,3 +11,4 @@ class KEYS:
     DATASET_LIST: Final = "datasetList"
     SELECTED_TASK: Final = "selectedTask"
     MODEL_FETCHING_TOGGLED: Final = "modelFetchingToggled"
+    INITIALIZATION_DONE: Final = "initializationDone"
