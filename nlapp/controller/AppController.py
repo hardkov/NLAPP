@@ -6,6 +6,7 @@ import nlapp.service.datasets.dataset_gateway as datasets_service
 import nlapp.service.evaluation.fill_mask_evaluation as fill_mask_evaluation_service
 import nlapp.service.models.model_gateway as models_service
 from nlapp.data_model.dataset_dto import DatasetDTO
+from nlapp.data_model.dataset_format import DatasetFormat
 from nlapp.data_model.model_dto import ModelDTO
 from nlapp.data_model.state import KEYS
 from nlapp.data_model.task_type import TaskType
@@ -155,3 +156,14 @@ def download_dataset(task_type: TaskType, dataset_name: str):
         raise Exception("Dataset name is incorrect.")
 
     return datasets_service.download_dataset(task_type, dataset_name)
+
+
+def load_user_dataset(
+        task_type: TaskType,
+        column_mapping: Dict[str, str],
+        file_type: DatasetFormat,
+        dataset: Dict,
+) -> Dict[str, List[str]]:
+    return datasets_service.map_user_dataset(
+        task_type, column_mapping, file_type, dataset
+    )
