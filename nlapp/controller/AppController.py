@@ -58,8 +58,14 @@ def initialize_state():
         models_raw = models_service.get_models()
 
         for task_type in TaskType:
-            datasets[task_type.name] = datasets_service.get_datasets_by_task_type(task_type)
-            models[task_type.name] = dict(filter(lambda m: m[1].task_type == task_type, models_raw.items()))
+            datasets[
+                task_type.name
+            ] = datasets_service.get_datasets_by_task_type(task_type)
+            models[task_type.name] = dict(
+                filter(
+                    lambda m: m[1].task_type == task_type, models_raw.items()
+                )
+            )
 
         st.session_state[KEYS.MODEL_LIST] = models
         st.session_state[KEYS.DATASET_LIST] = datasets
@@ -102,8 +108,12 @@ def get_dataset_dto(task_type: TaskType, dataset_name: str) -> DatasetDTO:
     return datasets[dataset_name]
 
 
-def evaluate_sentence(sentence: str, model, tokenizer) -> fill_mask_evaluation_service.FillMaskResult:
-    return fill_mask_evaluation_service.evaluate_sentence(sentence, model, tokenizer)
+def evaluate_sentence(
+    sentence: str, model, tokenizer
+) -> fill_mask_evaluation_service.FillMaskResult:
+    return fill_mask_evaluation_service.evaluate_sentence(
+        sentence, model, tokenizer
+    )
 
 
 @st.cache(
@@ -114,7 +124,9 @@ def evaluate_sentence(sentence: str, model, tokenizer) -> fill_mask_evaluation_s
     }
 )
 def evaluate_dataset(dataset, model, tokenizer, timeout_seconds):
-    return fill_mask_evaluation_service.evaluate_dataset(dataset, model, tokenizer, timeout_seconds)
+    return fill_mask_evaluation_service.evaluate_dataset(
+        dataset, model, tokenizer, timeout_seconds
+    )
 
 
 @st.cache(

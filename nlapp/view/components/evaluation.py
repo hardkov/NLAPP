@@ -7,7 +7,9 @@ from nlapp.controller.AppController import (
     evaluate_sentence,
     evaluate_dataset,
     download_model,
-    download_dataset, get_current_model, get_current_dataset,
+    download_dataset,
+    get_current_model,
+    get_current_dataset,
 )
 
 
