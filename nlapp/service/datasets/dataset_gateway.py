@@ -18,10 +18,10 @@ DATASETS_LOADER = {
 def __user_dataset_mapper_factory(
     task_type: TaskType, column_mapping: Dict[str, str]
 ) -> UserDatasetMapper:
-    return {
-        TaskType.FILL_MASK: FillMaskMapper(column_mapping),
-        TaskType.TRANSLATION: QuestionAnsweringMapper(column_mapping),
-    }.get(task_type)
+    if task_type == TaskType.FILL_MASK:
+        return FillMaskMapper(column_mapping)
+    if task_type == TaskType.QUESTION_ANSWERING:
+        return QuestionAnsweringMapper(column_mapping)
 
 
 def get_datasets_by_task_type(task_type: TaskType) -> Dict[str, DatasetDTO]:

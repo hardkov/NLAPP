@@ -57,3 +57,32 @@ class TestDatasetGateway(unittest.TestCase):
 
         # then
         self.assertTrue(len(contexts) == len(questions) == len(answers))
+
+    def test_map_user_dataset_when_use_question_answering_and_json(self):
+        # given
+        mapping_columns = {
+            "context": "questionAnswer.text",
+            "question": "questionAnswer.question",
+            "answers": "questionAnswer.answer",
+        }
+        test_dir = dirname(dirname(dirname(abspath(__file__))))
+        path = test_dir + "/_resources/question_answer_1.json"
+
+        with open(path, "r") as f:
+            dataset = json.load(f)
+
+        # when
+        mapped_dataset = map_user_dataset(
+            TaskType.QUESTION_ANSWERING,
+            mapping_columns,
+            DatasetFormat.JSON,
+            dataset,
+        )
+        contexts = mapped_dataset.get("context")
+        questions = mapped_dataset.get("question")
+        answers = mapped_dataset.get("answers")
+
+        # then
+        self.assertTrue(len(contexts) == 2)
+        self.assertTrue(len(questions) == 2)
+        self.assertTrue(len(answers) == 2)

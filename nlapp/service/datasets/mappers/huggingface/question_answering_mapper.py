@@ -61,4 +61,4 @@ class QuestionAnsweringMapper(DatasetMapper):
             if sub_features is None:
                 return False
             return sub_features.get(sub_feature) is not None
-        return Fals
+        return False

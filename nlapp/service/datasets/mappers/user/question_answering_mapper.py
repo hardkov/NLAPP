@@ -13,10 +13,13 @@ class QuestionAnsweringMapper(UserDatasetMapper):
         mapped_data = dict()
         for column in self.columns:
             mapped_column = self.column_mapping.get(column)
-            mapped_data[column] = self.__find_data_inside_json(
+            mapped_data[column] = self.find_data_inside_json(
                 mapped_column, data
             )
         return mapped_data
 
     def validate_dataset(self, mapped_data: Dict[str, List[str]]) -> bool:
         return True
+
+    def find_data_inside_json(self, mapped_column: str, json: Dict):
+        return super().find_data_inside_json(mapped_column, json)

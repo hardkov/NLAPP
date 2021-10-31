@@ -21,8 +21,7 @@ class UserDatasetMapper(ABC):
     def map(self, data: dict, file_type: DatasetFormat) -> Dict[str, List[str]]:
         return {DatasetFormat.JSON: self.map_json(data)}.get(file_type)
 
-    @staticmethod
-    def __find_data_inside_json(mapped_column: str, json: Dict):
+    def find_data_inside_json(self, mapped_column: str, json: Dict):
         if mapped_column.__contains__("."):
             split_column = mapped_column.split(".")
             object_name = split_column[0]
