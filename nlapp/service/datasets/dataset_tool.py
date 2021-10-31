@@ -8,12 +8,16 @@ from datasets.hf_api import ObjectInfo
 from nlapp.data_model.dataset_dto import DatasetDTO
 from nlapp.data_model.task_type import TaskType
 from nlapp.service.datasets.mappers.huggingface.fill_mask_mapper import *
+from nlapp.service.datasets.mappers.huggingface.question_answering_mapper import *
 
-hugging_face_dataset_mappers = {TaskType.FILL_MASK: FillMaskMapper()}
+hugging_face_dataset_mappers = {
+    TaskType.FILL_MASK: FillMaskMapper(),
+    TaskType.QUESTION_ANSWERING: QuestionAnsweringMapper(),
+}
 
 
 class DatasetTool:
-    available_mappers_flag = [TaskType.FILL_MASK]
+    available_mappers_flag = [TaskType.FILL_MASK, TaskType.QUESTION_ANSWERING]
 
     def __init__(self, task_type: TaskType):
         self.task_type = task_type

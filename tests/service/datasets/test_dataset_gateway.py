@@ -43,3 +43,17 @@ class TestDatasetGateway(unittest.TestCase):
         # then
         self.assertTrue(len(sentences) == 3)
         self.assertTrue(len(targets) == 3)
+
+    def test_download_dataset_when_use_question_answering(self):
+        # given
+        dataset_name = "squad"
+        task_type = TaskType.QUESTION_ANSWERING
+
+        # when
+        dataset = download_dataset(task_type, dataset_name)
+        contexts = dataset.get("context")
+        questions = dataset.get("question")
+        answers = dataset.get("answers")
+
+        # then
+        self.assertTrue(len(contexts) == len(questions) == len(answers))
