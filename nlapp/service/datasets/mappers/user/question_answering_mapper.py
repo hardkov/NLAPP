@@ -3,8 +3,8 @@ from typing import Dict, List
 from nlapp.service.datasets.mappers.user.dataset_mapper import UserDatasetMapper
 
 
-class FillMaskMapper(UserDatasetMapper):
-    columns = ["sentence", "target"]
+class QuestionAnsweringMapper(UserDatasetMapper):
+    columns = ["context", "question", "answers"]
 
     def __init__(self, column_mapping: Dict[str, str]):
         super().__init__(self.columns, column_mapping)
@@ -16,14 +16,7 @@ class FillMaskMapper(UserDatasetMapper):
             mapped_data[column] = self.__find_data_inside_json(
                 mapped_column, data
             )
-        if self.validate_dataset(mapped_data) is False:
-            raise Exception(
-                "Incorrect data format. Each sentence must contains [MASK] marker."
-            )
         return mapped_data
 
     def validate_dataset(self, mapped_data: Dict[str, List[str]]) -> bool:
-        for sentence in mapped_data[self.columns[0]]:
-            if sentence.__contains__("[MASK]") is False:
-                return False
         return True

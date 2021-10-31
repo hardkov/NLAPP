@@ -3,6 +3,7 @@ from nlapp.data_model.dataset_format import DatasetFormat
 from nlapp.data_model.task_type import TaskType
 from nlapp.service.datasets.dataset_tool import DatasetTool
 from nlapp.service.datasets.mappers.user.fill_mask_mapper import *
+from nlapp.service.datasets.mappers.user.question_answering_mapper import *
 
 DATASETS_LOADER = {
     TaskType.FILL_MASK: DatasetTool(TaskType.FILL_MASK),
@@ -17,7 +18,10 @@ DATASETS_LOADER = {
 def __user_dataset_mapper_factory(
     task_type: TaskType, column_mapping: Dict[str, str]
 ) -> UserDatasetMapper:
-    return {TaskType.FILL_MASK: FillMaskMapper(column_mapping)}.get(task_type)
+    return {
+        TaskType.FILL_MASK: FillMaskMapper(column_mapping),
+        TaskType.TRANSLATION: QuestionAnsweringMapper(column_mapping),
+    }.get(task_type)
 
 
 def get_datasets_by_task_type(task_type: TaskType) -> Dict[str, DatasetDTO]:
