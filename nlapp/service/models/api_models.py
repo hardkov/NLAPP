@@ -1,12 +1,11 @@
 import logging
 
 import requests
-
 from transformers import AutoModelForMaskedLM, AutoTokenizer
-from nlapp.data_model.model_dto import ModelDTO
-from nlapp.service.models.model_dir import ModelDir
-from nlapp.data_model.task_type import TaskType
 
+from nlapp.data_model.model_dto import ModelDTO
+from nlapp.data_model.task_type import TaskType
+from nlapp.service.models.model_dir import ModelDir
 from .string_utils.extract_part import find_between
 
 logger = logging.getLogger(__name__)

@@ -1,5 +1,5 @@
 import json
-from math import floor, ceil
+from math import ceil
 
 
 def get_result_html(result_divs):
