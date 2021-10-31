@@ -1,5 +1,5 @@
 import os
-from typing import Tuple, Dict
+from typing import Tuple
 
 import requests
 from datasets import load_dataset, list_datasets
@@ -8,8 +8,14 @@ from datasets.hf_api import ObjectInfo
 from nlapp.data_model.dataset_dto import DatasetDTO
 from nlapp.data_model.task_type import TaskType
 from nlapp.service.datasets.mappers.huggingface.fill_mask_mapper import *
+from pathlib import Path
 
 hugging_face_dataset_mappers = {TaskType.FILL_MASK: FillMaskMapper()}
+
+
+DATASET_DIR = os.path.join(
+    Path(__file__).parent.parent.parent.parent.absolute(), "data", "datasets"
+)
 
 
 class DatasetTool:
@@ -18,7 +24,7 @@ class DatasetTool:
     def __init__(self, task_type: TaskType):
         self.task_type = task_type
         self.hugging_face_mapper = hugging_face_dataset_mappers.get(task_type)
-        self.cached_dir = os.getcwd() + "/data/datasets"
+        self.cached_dir = DATASET_DIR
         self.github_repo = "https://raw.githubusercontent.com/huggingface/datasets/master/datasets/"
         self.info_file_name = "/dataset_infos.json"
 

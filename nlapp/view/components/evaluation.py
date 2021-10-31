@@ -1,14 +1,17 @@
-import streamlit as st
 import json
 
-from nlapp.data_model.state import KEYS
-from nlapp.view.helpers import html_creator
+import streamlit as st
+
 from nlapp.controller.AppController import (
     evaluate_sentence,
     evaluate_dataset,
     download_model,
     download_dataset,
+    get_current_model,
+    get_current_dataset,
 )
+from nlapp.data_model.state import KEYS
+from nlapp.view.helpers import html_creator
 
 
 def parse_result_to_json(result):
@@ -28,8 +31,8 @@ def evaluate(model, tokenizer, value):
 
 def write():
     task = st.session_state[KEYS.SELECTED_TASK]
-    model = st.session_state[KEYS.SELECTED_MODEL]
-    dataset = st.session_state[KEYS.SELECTED_DATASET]
+    model = get_current_model()
+    dataset = get_current_dataset()
 
     st.header("Results")
 

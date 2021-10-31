@@ -1,8 +1,8 @@
-import torch
 import timeit
-
 from dataclasses import dataclass
 from typing import List, Dict
+
+import torch
 
 
 @dataclass

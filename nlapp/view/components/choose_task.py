@@ -10,5 +10,6 @@ def task_print(task):
 
 def write():
     st.header("Select task")
-    st.radio("Task", list(TaskType), key=KEYS.SELECTED_TASK, format_func=task_print)
-
+    st.radio(
+        "Task", list(TaskType), key=KEYS.SELECTED_TASK, format_func=task_print
+    )

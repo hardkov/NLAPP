@@ -1,58 +1,120 @@
-from typing import Dict
+from typing import Dict, List
 
 import streamlit as st
+
 import nlapp.service.datasets.dataset_gateway as datasets_service
+import nlapp.service.evaluation.fill_mask_evaluation as fill_mask_evaluation_service
 import nlapp.service.models.model_gateway as models_service
 from nlapp.data_model.dataset_dto import DatasetDTO
 from nlapp.data_model.model_dto import ModelDTO
 from nlapp.data_model.state import KEYS
 from nlapp.data_model.task_type import TaskType
-import nlapp.service.evaluation.fill_mask_evaluation as fill_mask_evaluation_service
 
 
-# to be refactored by initializator
+@st.cache(
+    allow_output_mutation=True,
+    max_entries=1,
+)
+def get_models_names(task_type: TaskType, cached: bool) -> List[str]:
+    model_dict = get_models_by_task_type(task_type)
+    model_list = list(model_dict.values())
+    model_list_filtered = list(
+        filter(lambda model: not cached or model.cached, model_list)
+    )
+
+    return list(map(lambda model: model.name, model_list_filtered))
+
+
+@st.cache(
+    allow_output_mutation=True,
+    max_entries=1,
+)
+def get_datasets_names(task_type: TaskType, cached: bool) -> List[str]:
+    dataset_dict = get_datasets_by_task_type(task_type)
+    dataset_list = list(dataset_dict.values())
+    dataset_list_filtered = list(
+        filter(lambda dataset: not cached or dataset.cached, dataset_list)
+    )
+
+    return list(map(lambda dataset: dataset.name, dataset_list_filtered))
+
+
+def get_current_model():
+    model_name = st.session_state[KEYS.SELECTED_MODEL]
+    task_type = st.session_state[KEYS.SELECTED_TASK]
+    return get_models_by_task_type(task_type).get(model_name)
+
+
+def get_current_dataset():
+    dataset_name = st.session_state[KEYS.SELECTED_DATASET]
+    task_type = st.session_state[KEYS.SELECTED_TASK]
+    return get_datasets_by_task_type(task_type).get(dataset_name)
+
+
+def initialize_state():
+    if st.session_state.get(KEYS.INITIALIZATION_DONE) is None:
+        datasets = dict()
+        models = dict()
+
+        models_raw = models_service.get_models()
+
+        for task_type in TaskType:
+            datasets[
+                task_type.name
+            ] = datasets_service.get_datasets_by_task_type(task_type)
+            models[task_type.name] = dict(
+                filter(
+                    lambda m: m[1].task_type == task_type, models_raw.items()
+                )
+            )
+
+        st.session_state[KEYS.MODEL_LIST] = models
+        st.session_state[KEYS.DATASET_LIST] = datasets
+        st.session_state[KEYS.INITIALIZATION_DONE] = True
+
+
 def get_datasets_by_task_type(task_type: TaskType) -> Dict[str, DatasetDTO]:
-    datasets: Dict[str, Dict[str, DatasetDTO]] = st.session_state.get(KEYS.DATASET_LIST)
-
-    if datasets is None:
-        st.session_state[KEYS.DATASET_LIST] = dict()
-        datasets = st.session_state[KEYS.DATASET_LIST]
-
-    if datasets.get(task_type.name) is None:
-        datasets[task_type.name] = datasets_service.get_datasets_by_task_type(task_type)
-
+    datasets = st.session_state.get(KEYS.DATASET_LIST)
     return datasets[task_type.name]
 
 
-# to be refactored by initializator, types do not match for some reason
 def get_models_by_task_type(task_type: TaskType) -> Dict[str, ModelDTO]:
     models = st.session_state.get(KEYS.MODEL_LIST)
-    if models is None:
-        st.session_state[KEYS.MODEL_LIST] = models_service.get_models()
-        models = st.session_state.get(KEYS.MODEL_LIST)
-
-    return dict(filter(lambda m: m[1].task_type == task_type, models.items()))
+    return models[task_type.name]
 
 
-# to be refactored - no need to filter by task type
-def fetch_description(model_name: str, task_type: TaskType):
+@st.cache(
+    allow_output_mutation=True,
+    max_entries=1,
+)
+def get_model_dto(task_type: TaskType, model_name: str) -> ModelDTO:
     models = get_models_by_task_type(task_type)
     model = models[model_name]
 
     if model is None:
         raise Exception("Models name is incorrect.")
 
-    # we will do mulitple requests if there is no description on the remote service
-    if model.description != "" and model.description is not None:
-        return model.description
+    if model.description == "":
+        model.description = models_service.fetch_description(model)
 
-    model.description = models_service.fetch_description(model)
-
-    return model.description
+    return model
 
 
-def evaluate_sentence(sentence: str, model, tokenizer):
-    return fill_mask_evaluation_service.evaluate_sentence(sentence, model, tokenizer)
+@st.cache(
+    allow_output_mutation=True,
+    max_entries=1,
+)
+def get_dataset_dto(task_type: TaskType, dataset_name: str) -> DatasetDTO:
+    datasets = get_datasets_by_task_type(task_type)
+    return datasets[dataset_name]
+
+
+def evaluate_sentence(
+    sentence: str, model, tokenizer
+) -> fill_mask_evaluation_service.FillMaskResult:
+    return fill_mask_evaluation_service.evaluate_sentence(
+        sentence, model, tokenizer
+    )
 
 
 @st.cache(
@@ -63,7 +125,9 @@ def evaluate_sentence(sentence: str, model, tokenizer):
     }
 )
 def evaluate_dataset(dataset, model, tokenizer, timeout_seconds):
-    return fill_mask_evaluation_service.evaluate_dataset(dataset, model, tokenizer, timeout_seconds)
+    return fill_mask_evaluation_service.evaluate_dataset(
+        dataset, model, tokenizer, timeout_seconds
+    )
 
 
 @st.cache(
@@ -91,4 +155,3 @@ def download_dataset(task_type: TaskType, dataset_name: str):
         raise Exception("Dataset name is incorrect.")
 
     return datasets_service.download_dataset(task_type, dataset_name)
-

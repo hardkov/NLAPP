@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+
 from nlapp.data_model.task_type import TaskType
 
 
