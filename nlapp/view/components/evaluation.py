@@ -1,8 +1,7 @@
-import streamlit as st
 import json
 
-from nlapp.data_model.state import KEYS
-from nlapp.view.helpers import html_creator
+import streamlit as st
+
 from nlapp.controller.AppController import (
     evaluate_sentence,
     evaluate_dataset,
@@ -11,6 +10,8 @@ from nlapp.controller.AppController import (
     get_current_model,
     get_current_dataset,
 )
+from nlapp.data_model.state import KEYS
+from nlapp.view.helpers import html_creator
 
 
 def parse_result_to_json(result):

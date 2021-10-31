@@ -1,4 +1,5 @@
 import streamlit as st
+
 import nlapp.view.pages.main_page as main_page
 
 st.set_page_config(page_title="NLAPP", page_icon=":cat", layout="wide")

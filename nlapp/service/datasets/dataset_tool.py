@@ -1,5 +1,5 @@
 import os
-from typing import Tuple, Dict
+from typing import Tuple
 
 import requests
 from datasets import load_dataset, list_datasets

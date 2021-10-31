@@ -1,13 +1,14 @@
 from typing import Dict, List
 
 import streamlit as st
+
 import nlapp.service.datasets.dataset_gateway as datasets_service
+import nlapp.service.evaluation.fill_mask_evaluation as fill_mask_evaluation_service
 import nlapp.service.models.model_gateway as models_service
 from nlapp.data_model.dataset_dto import DatasetDTO
 from nlapp.data_model.model_dto import ModelDTO
 from nlapp.data_model.state import KEYS
 from nlapp.data_model.task_type import TaskType
-import nlapp.service.evaluation.fill_mask_evaluation as fill_mask_evaluation_service
 
 
 @st.cache(
