@@ -1,7 +1,7 @@
 import logging
 
 import requests
-from transformers import AutoModelForMaskedLM, AutoTokenizer
+from transformers import AutoTokenizer
 
 from nlapp.data_model.model_dto import ModelDTO
 from nlapp.data_model.task_type import TaskType
@@ -63,9 +63,9 @@ class ApiModels:
     @staticmethod
     def download_model(model_info: ModelDTO):
         name = model_info.name
+        model_generator = model_info.task_type.get_model_generator()
 
-        # TODO:create generic solution for each type of task
-        model_object = AutoModelForMaskedLM.from_pretrained(
+        model_object = model_generator.from_pretrained(
             pretrained_model_name_or_path=name,
             cache_dir=ModelDir.cache_dir(model_info),
         )
