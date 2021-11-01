@@ -34,7 +34,7 @@ def evaluate_dataset(
 ) -> List[QuestionAnsweringResult]:
     result = list()
     contexts = dataset.get("context")
-    questions = dataset.get("context")
+    questions = dataset.get("question")
     answers = dataset.get("answers")
 
     for i in range(0, len(contexts)):
