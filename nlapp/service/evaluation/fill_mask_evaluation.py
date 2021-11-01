@@ -1,35 +1,12 @@
 import timeit
-from dataclasses import dataclass
 from typing import List, Dict
 
 import torch
 
-
-@dataclass
-class TokenScore:
-    token: str
-    score: float
-
-
-@dataclass
-class FillMaskResult:
-    sentence: str
-    tokens_score: List[TokenScore]
-
-
-@dataclass
-class FillMaskDatasetSentenceEvaluation:
-    sentence: str
-    token_score: TokenScore
-    target: str
-
-
-@dataclass
-class FillMaskDatasetEvaluationResult:
-    all_evaluation_number: int
-    wrong_evaluation_number: int
-    wrong_evaluation_percent: float
-    wrong_evaluations: List[FillMaskDatasetSentenceEvaluation]
+from nlapp.data_model.fill_mask.fill_mask_dataset_evaluation_result import FillMaskDatasetEvaluationResult
+from nlapp.data_model.fill_mask.fill_mask_dataset_sentence_evaluation import FillMaskDatasetSentenceEvaluation
+from nlapp.data_model.fill_mask.fill_mask_result import FillMaskResult
+from nlapp.data_model.fill_mask.token_score import TokenScore
 
 
 def check_mask(sentence: str, tokenizer) -> str:
@@ -63,7 +40,7 @@ def evaluate_sentence(sentence: str, model, tokenizer, top=5) -> FillMaskResult:
 # TODO: asynchronous evaluation and monitoring actual state of evaluation
 def evaluate_dataset(
     dataset: Dict[str, List[str]], model, tokenizer, timeout_seconds=60
-):
+) -> FillMaskDatasetEvaluationResult:
     sentences = dataset.get("sentence")
     targets = dataset.get("target")
 

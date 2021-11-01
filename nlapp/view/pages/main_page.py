@@ -5,7 +5,7 @@ import nlapp.view.pages.about_page as about_page
 import nlapp.view.pages.evaluation_page as evaluation_page
 import nlapp.view.pages.statistics_page as statistics_page
 import nlapp.view.pages.train_model_page as train_model_page
-from nlapp.controller.AppController import (
+from nlapp.controller.app_controller import (
     initialize_state,
 )
 from nlapp.data_model.state import KEYS
