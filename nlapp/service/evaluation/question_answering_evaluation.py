@@ -1,21 +1,9 @@
-from dataclasses import dataclass
 from typing import Dict, List
 
 from transformers import pipeline
 
-
-@dataclass
-class AnswerScore:
-    answer: str
-    score: float
-
-
-@dataclass
-class QuestionAnsweringResult:
-    context: str
-    question: str
-    expected_answer: str
-    answer: AnswerScore
+from nlapp.data_model.question_answering.answer_score import AnswerScore
+from nlapp.data_model.question_answering.question_answering_result import QuestionAnsweringResult
 
 
 def evaluate(context: str, question: str, model, tokenizer) -> AnswerScore:
