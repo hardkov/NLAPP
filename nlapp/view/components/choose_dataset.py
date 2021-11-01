@@ -1,6 +1,6 @@
 import streamlit as st
 
-from nlapp.controller.AppController import (
+from nlapp.controller.app_controller import (
     get_datasets_names,
     get_dataset_dto,
 )

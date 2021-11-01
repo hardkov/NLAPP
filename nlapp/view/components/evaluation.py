@@ -2,7 +2,7 @@ import json
 
 import streamlit as st
 
-from nlapp.controller.AppController import (
+from nlapp.controller.app_controller import (
     evaluate_sentence,
     evaluate_dataset,
     download_model,

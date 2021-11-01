@@ -1,6 +1,6 @@
 import streamlit as st
 
-from nlapp.controller.AppController import get_models_names, get_model_dto
+from nlapp.controller.app_controller import get_models_names, get_model_dto
 from nlapp.data_model.state import KEYS
 
 
