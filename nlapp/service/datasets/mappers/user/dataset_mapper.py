@@ -28,8 +28,12 @@ class UserDatasetMapper(ABC):
             split_column = mapped_column.split(".")
             object_name = split_column[0]
             field_name = split_column[1]
-            return [x[field_name] for x in json.get(object_name)]
-        return json.get(mapped_column)
+            result = [x[field_name] for x in json.get(object_name)]
+        else:
+            result = json.get(mapped_column)
+        if result == None:
+            raise Exception("Incorrect mapping!")
+        return result
 
     @abstractmethod
     def map_json(self, data):
