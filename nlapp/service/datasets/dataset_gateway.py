@@ -64,3 +64,13 @@ def map_user_dataset(
     return __user_dataset_mapper_factory(task_type, column_mapping).map(
         dataset, file_type
     )
+
+def get_dataset_mapping_columns(
+    task_type: TaskType
+):
+    """
+    Return mapping columns of dataset
+    """
+    return {TaskType.FILL_MASK: FillMaskMapper.columns}.get(task_type)
+
+

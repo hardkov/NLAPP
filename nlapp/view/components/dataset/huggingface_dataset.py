@@ -2,20 +2,18 @@ import streamlit as st
 
 from nlapp.controller.app_controller import (
     get_datasets_names,
-    get_dataset_dto,
+    get_dataset_dto
 )
 from nlapp.data_model.state import KEYS
-
 
 def write():
     task = st.session_state[KEYS.SELECTED_TASK]
 
-    st.header("Select dataset")
-
     datasets, _, description = st.columns([6, 1, 5])
 
     with datasets:
-        cached = st.checkbox("Cached only", key=KEYS.IS_DATASET_CACHED)
+        _ = st.checkbox("Cached only", key=KEYS.IS_DATASET_CACHED)
+        cached = st.session_state[KEYS.IS_DATASET_CACHED]
         datasets_names = get_datasets_names(task, cached)
 
         dataset_name = st.selectbox(

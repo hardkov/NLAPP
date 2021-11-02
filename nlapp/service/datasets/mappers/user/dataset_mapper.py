@@ -6,6 +6,8 @@ from nlapp.data_model.dataset_format import DatasetFormat
 
 
 class UserDatasetMapper(ABC):
+    columns = []
+
     def __init__(self, columns: List[str], column_mapping: Dict[str, str]):
         self.columns = columns
         self.column_mapping = column_mapping

@@ -53,9 +53,12 @@ def get_current_model():
 
 
 def get_current_dataset():
-    dataset_name = st.session_state[KEYS.SELECTED_DATASET]
-    task_type = st.session_state[KEYS.SELECTED_TASK]
-    return get_datasets_by_task_type(task_type).get(dataset_name)
+    if st.session_state[KEYS.UPLOAD_USER_DATASET_TOGGLED]:
+        return st.session_state[KEYS.MAPPED_USER_DATASET]
+    else:
+        dataset_name = st.session_state[KEYS.SELECTED_DATASET]
+        task_type = st.session_state[KEYS.SELECTED_TASK]
+        return get_datasets_by_task_type(task_type).get(dataset_name)
 
 
 def initialize_state():
@@ -80,6 +83,9 @@ def initialize_state():
         st.session_state[KEYS.MODEL_LIST] = models
         st.session_state[KEYS.DATASET_LIST] = datasets
         st.session_state[KEYS.INITIALIZATION_DONE] = True
+        st.session_state[KEYS.UPLOAD_USER_DATASET_TOGGLED] = False
+        st.session_state[KEYS.MAPPED_USER_DATASET] = None
+        st.session_state[KEYS.DATASET_INPUT_ENABLED] = False
 
         init_end = time.time()
         logger.info(f'Initialization done, startup time: {init_end - init_start} seconds')
@@ -168,6 +174,9 @@ def download_dataset(task_type: TaskType, dataset_name: str):
 
     return datasets_service.download_dataset(task_type, dataset_name)
 
+
+def get_dataset_mapping_columns(task_type: TaskType):
+    return datasets_service.get_dataset_mapping_columns(task_type)
 
 def load_user_dataset(
         task_type: TaskType,
