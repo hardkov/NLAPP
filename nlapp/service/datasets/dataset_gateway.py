@@ -16,15 +16,10 @@ DATASETS_LOADER = {
 
 
 def __user_dataset_mapper_factory(
-    task_type: TaskType,
-    column_mapping: Dict[str, str],
-    number_of_sentence=None,
-    has_idx: bool = None,
+    task_type: TaskType, column_mapping: Dict[str, str]
 ) -> UserDatasetMapper:
     if task_type == TaskType.TEXT_CLASSIFICATION:
-        return TextClassificationMapper(
-            column_mapping, number_of_sentence, has_idx
-        )
+        return TextClassificationMapper(column_mapping)
 
 
 def get_datasets_by_task_type(task_type: TaskType) -> Dict[str, DatasetDTO]:
@@ -55,8 +50,6 @@ def map_user_dataset(
     column_mapping: Dict[str, str],
     file_type: DatasetFormat,
     dataset: Dict,
-    number_of_sentence: int = None,
-    has_idx=None,
 ):
     """
     Return dataset mapped to correct format
@@ -66,6 +59,6 @@ def map_user_dataset(
         json file to python dict ; I not sure about CCL and CONLL -> they seem to be exotic and I need to check it.
         But for now we can use json file.
     """
-    return __user_dataset_mapper_factory(
-        task_type, column_mapping, number_of_sentence, has_idx
-    ).map(dataset, file_type)
+    return __user_dataset_mapper_factory(task_type, column_mapping).map(
+        dataset, file_type
+    )

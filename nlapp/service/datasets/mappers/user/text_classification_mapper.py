@@ -6,18 +6,14 @@ from nlapp.service.datasets.mappers.user.dataset_mapper import UserDatasetMapper
 class TextClassificationMapper(UserDatasetMapper):
     columns = []
 
-    def __init__(
-        self, column_mapping: Dict[str, str], number_of_sentence, has_idx,
-    ):
-        self.generate_name_for_columns(number_of_sentence, has_idx)
+    def __init__(self, column_mapping: Dict[str, str]):
+        self.generate_name_for_columns(len(column_mapping) - 1)
         super().__init__(self.columns, column_mapping)
 
-    def generate_name_for_columns(self, number_of_sentence, has_idx):
+    def generate_name_for_columns(self, number_of_sentence):
         for i in range(1, number_of_sentence + 1):
             self.columns.append("sentence" + str(i))
         self.columns.append("label")
-        if has_idx:
-            self.columns.append("idx")
 
     def map_json(self, data: Dict) -> Dict[str, List[str]]:
         mapped_data = dict()
