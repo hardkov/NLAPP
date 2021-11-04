@@ -3,8 +3,12 @@ from typing import List, Dict
 
 import torch
 
-from nlapp.data_model.fill_mask.fill_mask_dataset_evaluation_result import FillMaskDatasetEvaluationResult
-from nlapp.data_model.fill_mask.fill_mask_dataset_sentence_evaluation import FillMaskDatasetSentenceEvaluation
+from nlapp.data_model.fill_mask.fill_mask_dataset_evaluation_result import (
+    FillMaskDatasetEvaluationResult,
+)
+from nlapp.data_model.fill_mask.fill_mask_dataset_sentence_evaluation import (
+    FillMaskDatasetSentenceEvaluation,
+)
 from nlapp.data_model.fill_mask.fill_mask_result import FillMaskResult
 from nlapp.data_model.fill_mask.token_score import TokenScore
 

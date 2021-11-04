@@ -65,12 +65,9 @@ def map_user_dataset(
         dataset, file_type
     )
 
-def get_dataset_mapping_columns(
-    task_type: TaskType
-):
+
+def get_dataset_mapping_columns(task_type: TaskType):
     """
     Return mapping columns of dataset
     """
     return {TaskType.FILL_MASK: FillMaskMapper.columns}.get(task_type)
-
-

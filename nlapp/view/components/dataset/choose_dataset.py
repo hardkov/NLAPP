@@ -8,7 +8,7 @@ def write():
     own_dataset = st.checkbox(
         "Upload your own dataset",
         key=KEYS.UPLOAD_USER_DATASET_TOGGLED,
-        help="You can upload your own dataset after properly mapping it."
+        help="You can upload your own dataset after properly mapping it.",
     )
     header_placeholder = st.empty()
 
@@ -21,4 +21,3 @@ def write():
         header_placeholder.header("Select dataset")
 
         huggingface_dataset.write()
-

@@ -31,9 +31,7 @@ def evaluate(model, tokenizer, value):
 
 def display_manual_input(task, model, tokenizer):
     form = st.form(key="my-form")
-    value = form.text_input(
-        task.name, value="Warsaw is the [MASK] of Poland."
-    )
+    value = form.text_input(task.name, value="Warsaw is the [MASK] of Poland.")
     form.form_submit_button("Evaluate")
 
     result_json = evaluate(model, tokenizer, value)
@@ -44,8 +42,10 @@ def display_manual_input(task, model, tokenizer):
 def should_not_evaluate_user_dataset():
     return not st.session_state[KEYS.UPLOAD_USER_DATASET_TOGGLED]
 
+
 def does_mapped_user_dataset_exist():
     return st.session_state[KEYS.MAPPED_USER_DATASET] is not None
+
 
 def display_dataset_input(task, model, tokenizer):
     dataset_input_enabled = False
@@ -92,13 +92,16 @@ def display_dataset_input(task, model, tokenizer):
                 ]
             )
 
+
 def write():
     task = st.session_state[KEYS.SELECTED_TASK]
     model = get_current_model()
 
     st.header("Results")
 
-    should_download_model = st.checkbox("Toggle model fetching", key=KEYS.MODEL_FETCHING_TOGGLED)
+    should_download_model = st.checkbox(
+        "Toggle model fetching", key=KEYS.MODEL_FETCHING_TOGGLED
+    )
     if should_download_model:
         model, tokenizer = download_model(task, model.name)
 

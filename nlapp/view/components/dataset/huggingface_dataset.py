@@ -1,10 +1,8 @@
 import streamlit as st
 
-from nlapp.controller.app_controller import (
-    get_datasets_names,
-    get_dataset_dto
-)
+from nlapp.controller.app_controller import get_datasets_names, get_dataset_dto
 from nlapp.data_model.state import KEYS
+
 
 def write():
     task = st.session_state[KEYS.SELECTED_TASK]

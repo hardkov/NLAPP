@@ -53,7 +53,7 @@ class TaskType(Enum):
     def get_model_generator(self):
         generators = {
             TaskType.FILL_MASK: AutoModelForMaskedLM,
-            TaskType.QUESTION_ANSWERING: AutoModelForQuestionAnswering
+            TaskType.QUESTION_ANSWERING: AutoModelForQuestionAnswering,
         }
 
         return generators[self]
