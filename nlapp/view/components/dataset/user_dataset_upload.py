@@ -47,11 +47,10 @@ def write():
                         dataset=json.loads(json_string)
                     )
                 except Exception as ex:
-                    print(ex)
                     st.session_state[KEYS.MAPPED_USER_DATASET] = None
                     st.warning("Wrong mapping!")
                 else:
-                    print(mapped)
                     st.session_state[KEYS.MAPPED_USER_DATASET] = mapped
+                    st.success("Mapped successfully.")
             else:
                 st.error("You have to fill all fields!")
