@@ -20,8 +20,7 @@ def get_json_string(file):
 def write():
     task = st.session_state[KEYS.SELECTED_TASK]
 
-    _ = st.file_uploader("Allowed extensions: .json", type=["json"], key=KEYS.USER_DATASET_FILE)
-    user_file = st.session_state[KEYS.USER_DATASET_FILE]
+    user_file = st.file_uploader("Allowed extensions: .json", type=["json"], key=KEYS.USER_DATASET_FILE)
     if user_file is not None:
         st.subheader("Map your dataset")
 

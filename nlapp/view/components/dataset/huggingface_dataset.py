@@ -12,8 +12,7 @@ def write():
     datasets, _, description = st.columns([6, 1, 5])
 
     with datasets:
-        _ = st.checkbox("Cached only", key=KEYS.IS_DATASET_CACHED)
-        cached = st.session_state[KEYS.IS_DATASET_CACHED]
+        cached = st.checkbox("Cached only", key=KEYS.IS_DATASET_CACHED)
         datasets_names = get_datasets_names(task, cached)
 
         dataset_name = st.selectbox(

@@ -98,8 +98,7 @@ def write():
 
     st.header("Results")
 
-    _ = st.checkbox("Toggle model fetching", key=KEYS.MODEL_FETCHING_TOGGLED)
-    should_download_model = st.session_state[KEYS.MODEL_FETCHING_TOGGLED]
+    should_download_model = st.checkbox("Toggle model fetching", key=KEYS.MODEL_FETCHING_TOGGLED)
     if should_download_model:
         model, tokenizer = download_model(task, model.name)
 
