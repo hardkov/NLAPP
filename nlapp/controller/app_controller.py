@@ -9,7 +9,9 @@ import nlapp.service.evaluation.fill_mask_evaluation as fill_mask_evaluation_ser
 import nlapp.service.models.model_gateway as models_service
 from nlapp.data_model.dataset_dto import DatasetDTO
 from nlapp.data_model.dataset_format import DatasetFormat
-from nlapp.data_model.fill_mask.fill_mask_dataset_evaluation_result import FillMaskDatasetEvaluationResult
+from nlapp.data_model.fill_mask.fill_mask_dataset_evaluation_result import (
+    FillMaskDatasetEvaluationResult,
+)
 from nlapp.data_model.fill_mask.fill_mask_result import FillMaskResult
 from nlapp.data_model.model_dto import ModelDTO
 from nlapp.data_model.state import KEYS
@@ -53,9 +55,12 @@ def get_current_model():
 
 
 def get_current_dataset():
-    dataset_name = st.session_state[KEYS.SELECTED_DATASET]
-    task_type = st.session_state[KEYS.SELECTED_TASK]
-    return get_datasets_by_task_type(task_type).get(dataset_name)
+    if st.session_state[KEYS.UPLOAD_USER_DATASET_TOGGLED]:
+        return st.session_state[KEYS.MAPPED_USER_DATASET]
+    else:
+        dataset_name = st.session_state[KEYS.SELECTED_DATASET]
+        task_type = st.session_state[KEYS.SELECTED_TASK]
+        return get_datasets_by_task_type(task_type).get(dataset_name)
 
 
 def initialize_state():
@@ -80,9 +85,14 @@ def initialize_state():
         st.session_state[KEYS.MODEL_LIST] = models
         st.session_state[KEYS.DATASET_LIST] = datasets
         st.session_state[KEYS.INITIALIZATION_DONE] = True
+        st.session_state[KEYS.UPLOAD_USER_DATASET_TOGGLED] = False
+        st.session_state[KEYS.MAPPED_USER_DATASET] = None
+        st.session_state[KEYS.DATASET_INPUT_ENABLED] = False
 
         init_end = time.time()
-        logger.info(f'Initialization done, startup time: {init_end - init_start} seconds')
+        logger.info(
+            f"Initialization done, startup time: {init_end - init_start} seconds"
+        )
 
 
 def get_datasets_by_task_type(task_type: TaskType) -> Dict[str, DatasetDTO]:
@@ -121,9 +131,7 @@ def get_dataset_dto(task_type: TaskType, dataset_name: str) -> DatasetDTO:
     return datasets[dataset_name]
 
 
-def evaluate_sentence(
-    sentence: str, model, tokenizer
-) -> FillMaskResult:
+def evaluate_sentence(sentence: str, model, tokenizer) -> FillMaskResult:
     return fill_mask_evaluation_service.evaluate_sentence(
         sentence, model, tokenizer
     )
@@ -136,7 +144,9 @@ def evaluate_sentence(
         "tokenizers.AddedToken": id,
     }
 )
-def evaluate_dataset(dataset, model, tokenizer, timeout_seconds) -> FillMaskDatasetEvaluationResult:
+def evaluate_dataset(
+    dataset, model, tokenizer, timeout_seconds
+) -> FillMaskDatasetEvaluationResult:
     return fill_mask_evaluation_service.evaluate_dataset(
         dataset, model, tokenizer, timeout_seconds
     )
@@ -169,11 +179,15 @@ def download_dataset(task_type: TaskType, dataset_name: str):
     return datasets_service.download_dataset(task_type, dataset_name)
 
 
+def get_dataset_mapping_columns(task_type: TaskType):
+    return datasets_service.get_dataset_mapping_columns(task_type)
+
+
 def load_user_dataset(
-        task_type: TaskType,
-        column_mapping: Dict[str, str],
-        file_type: DatasetFormat,
-        dataset: Dict,
+    task_type: TaskType,
+    column_mapping: Dict[str, str],
+    file_type: DatasetFormat,
+    dataset: Dict,
 ) -> Dict[str, List[str]]:
     return datasets_service.map_user_dataset(
         task_type, column_mapping, file_type, dataset

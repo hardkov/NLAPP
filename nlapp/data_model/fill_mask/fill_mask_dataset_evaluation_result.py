@@ -1,7 +1,9 @@
 from dataclasses import dataclass
 from typing import List
 
-from nlapp.data_model.fill_mask.fill_mask_dataset_sentence_evaluation import FillMaskDatasetSentenceEvaluation
+from nlapp.data_model.fill_mask.fill_mask_dataset_sentence_evaluation import (
+    FillMaskDatasetSentenceEvaluation,
+)
 
 
 @dataclass

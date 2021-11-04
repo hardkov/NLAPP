@@ -3,7 +3,9 @@ from typing import Dict, List
 from transformers import pipeline
 
 from nlapp.data_model.question_answering.answer_score import AnswerScore
-from nlapp.data_model.question_answering.question_answering_result import QuestionAnsweringResult
+from nlapp.data_model.question_answering.question_answering_result import (
+    QuestionAnsweringResult,
+)
 
 
 def evaluate(context: str, question: str, model, tokenizer) -> AnswerScore:
