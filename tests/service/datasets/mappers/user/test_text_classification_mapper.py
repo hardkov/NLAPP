@@ -12,59 +12,48 @@ class TestTextClassificationMapper(unittest.TestCase):
         data_from_user = {
             "data": [
                 {
-                    "premise": "The cat sat on the mat.",
-                    "hypothesis": "The cat did not sit on the mat.",
-                    "label": "0",
+                    "content": "My lovely Pat has one of the GREAT voices of her generation. I have listened to this CD for YEARS and I still LOVE IT. When I'm in a good mood it makes me feel better. A bad mood just evaporates like sugar in the rain. This CD just oozes LIFE. Vocals are jusat STUUNNING and lyrics just kill. One of life's hidden gems. This is a desert isle CD in my book. Why she never made it big is just beyond me. Everytime I play this, no matter black, white, young, old, male, female EVERYBODY says one thing "
+                    "Who was that singing ?"
+                    "",
+                    "class": "1",
                 },
                 {
-                    "premise": "When you've got no snow, it's really hard to learn a snow sport so we looked at all the different ways I could mimic being on snow without actually being on snow.",
-                    "hypothesis": "When you've got snow, it's really hard to learn asnow sport so we looked at all the different ways I could mimic being on snow without actually being on snow.",
-                    "label": "0",
+                    "content": "A complete waste of time. Typographical errors, poor grammar, and a totally pathetic plot add up to absolutely nothing. I'm embarrassed for this author and very disappointed I actually paid for this book.",
+                    "class": "0",
                 },
             ]
         }
         mapping_columns = {
-            "sentence1": "data.premise",
-            "sentence2": "data.hypothesis",
-            "label": "data.label",
+            "text": "data.content",
+            "label": "data.class",
         }
         mapper = TextClassificationMapper(mapping_columns)
 
         # when
         mapped_data = mapper.map(data_from_user, DatasetFormat.JSON)
 
-        for s1, s2, l in zip(
-            mapped_data.get("sentence1"),
-            mapped_data.get("sentence2"),
-            mapped_data.get("label"),
-        ):
-            print(s1)
-            print(s2)
+        for c, l in zip(mapped_data.get("text"), mapped_data.get("label"),):
+            print(c)
             print(l)
             print()
 
         # then
-        self.assertEqual(len(mapped_data.get("sentence1")), 2)
-        self.assertEqual(len(mapped_data.get("sentence2")), 2)
+        self.assertEqual(len(mapped_data.get("text")), 2)
         self.assertEqual(len(mapped_data.get("label")), 2)
 
     def test_parse_json_when_contains_array(self):
         # given
         data_from_user = {
-            "title": ["Great CD", "Coal is using to produce energy."],
-            "content": [
-                "My lovely Pat has one of the GREAT voices of her generation. I have listened to this CD for YEARS and I still LOVE IT. When I'm in a good mood it makes me feel better. A bad mood just evaporates like sugar in the rain. This CD just oozes LIFE. Vocals are jusat STUUNNING and lyrics just kill. One of life's hidden gems. This is a desert isle CD in my book. Why she never made it big is just beyond me. Everytime I play this, no matter black, white, young, old, male, female EVERYBODY says one thing "
-                "Who was that singing ?"
-                "",
-                "Check out Maha Energy's website. Their Powerex MH-C204F charger works in 100 minutes for rapid charge, with option for slower charge (better for batteries). And they have 2200 mAh batteries.",
+            "sentence": [
+                "Wall St. Bears Claw Back Into the Black  NEW YORK (Reuters) - Short-sellers, Wall Street's dwindling band of ultra-cynics, are seeing green again."
+                "Quality Gets Swept Away Quality Distribution is hammered after reporting a large loss for the second quarter.",
             ],
             "label": ["1", "2"],
         }
 
         mapping_columns = {
-            "sentence1": "title",
-            "sentence2": "content",
-            "label": "label",
+            "text": "sentence",
+            "label": "tag",
         }
         mapper = TextClassificationMapper(mapping_columns)
 
@@ -73,9 +62,7 @@ class TestTextClassificationMapper(unittest.TestCase):
 
         # then
         self.assertEqual(
-            mapped_data.get("sentence1"), data_from_user.get("title")
+            mapped_data.get("text"), data_from_user.get("sentence")
         )
-        self.assertEqual(
-            mapped_data.get("sentence2"), data_from_user.get("content")
-        )
-        self.assertEqual(mapped_data.get("label"), data_from_user.get("label"))
+
+        self.assertEqual(mapped_data.get("label"), data_from_user.get("tag"))

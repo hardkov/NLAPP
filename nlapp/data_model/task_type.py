@@ -1,5 +1,11 @@
 from enum import Enum
 
+from transformers import (
+    AutoModelForMaskedLM,
+    AutoModelForQuestionAnswering,
+    AutoModelForSequenceClassification,
+)
+
 
 class TaskType(Enum):
     FILL_MASK = 1
@@ -47,3 +53,10 @@ class TaskType(Enum):
         }
 
         return filters[self]
+
+    def get_model_generator(self):
+        generators = {
+            TaskType.FILL_MASK: AutoModelForMaskedLM,
+            TaskType.QUESTION_ANSWERING: AutoModelForQuestionAnswering,
+            TaskType.TEXT_CLASSIFICATION: AutoModelForSequenceClassification,
+        }

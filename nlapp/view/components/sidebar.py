@@ -8,6 +8,6 @@ def write(pages):
     page = st.sidebar.selectbox(
         "Select page",
         pages,
-        key = KEYS.SELECTED_PAGE,
+        key=KEYS.SELECTED_PAGE,
         help="When you change page downloaded models and datasets will remain but selections will disapear",
     )
