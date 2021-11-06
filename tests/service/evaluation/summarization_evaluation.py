@@ -16,16 +16,18 @@ class TestSummarizationEvaluation(unittest.TestCase):
             "T-Systems-onsite/mt5-small-sum-de-en-v2",
             "Description",
             TaskType.SUMMARIZATION,
-            False
+            False,
         )
         model, tokenizer = download_model(model_dto)
-        text = "London is the capital of England and the United Kingdom and one of the largest and most important " \
-               "cities in the world. The area was originally settled by early hunter gatherers around 6,000 B.C., " \
-               "and researchers have found evidence of Bronze Age bridges and Iron Age forts near the River " \
-               "Thames.Ancient Romans founded a port and trading settlement called Londinium in 43 A.D., " \
-               "and a few years later a bridge was constructed across the Thames to facilitate commerce and troop " \
-               "movements. But in 60 A.D., Celtic queen Boudicca led an army to sack the city, which was burned to " \
-               "the ground in the first of many fires to destroy London. "
+        text = (
+            "London is the capital of England and the United Kingdom and one of the largest and most important "
+            "cities in the world. The area was originally settled by early hunter gatherers around 6,000 B.C., "
+            "and researchers have found evidence of Bronze Age bridges and Iron Age forts near the River "
+            "Thames.Ancient Romans founded a port and trading settlement called Londinium in 43 A.D., "
+            "and a few years later a bridge was constructed across the Thames to facilitate commerce and troop "
+            "movements. But in 60 A.D., Celtic queen Boudicca led an army to sack the city, which was burned to "
+            "the ground in the first of many fires to destroy London. "
+        )
 
         # when
         result = evaluate(text, model, tokenizer)
@@ -41,7 +43,7 @@ class TestSummarizationEvaluation(unittest.TestCase):
             "T-Systems-onsite/mt5-small-sum-de-en-v2",
             "Description",
             task_type,
-            False
+            False,
         )
         dataset = download_dataset(task_type, dataset_name)
         dataset = self.__limit_dataset(dataset)

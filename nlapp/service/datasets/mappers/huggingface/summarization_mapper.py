@@ -2,13 +2,23 @@ from typing import Dict, List
 
 from datasets import DatasetDict
 
-from nlapp.service.datasets.mappers.huggingface.dataset_mapper import DatasetMapper
+from nlapp.service.datasets.mappers.huggingface.dataset_mapper import (
+    DatasetMapper,
+)
 
 
 class SummarizationMapper(DatasetMapper):
     split_type = "test"
     column_names = {
-        "text": ["text", "context", "abstract", "article", "document", "review", "body"]
+        "text": [
+            "text",
+            "context",
+            "abstract",
+            "article",
+            "document",
+            "review",
+            "body",
+        ]
     }
 
     def __init__(self) -> None:

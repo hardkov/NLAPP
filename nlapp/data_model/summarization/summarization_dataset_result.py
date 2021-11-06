@@ -1,7 +1,9 @@
 from dataclasses import dataclass
 from typing import List
 
-from nlapp.data_model.summarization.summarization_score import SummarizationScore
+from nlapp.data_model.summarization.summarization_score import (
+    SummarizationScore,
+)
 
 
 @dataclass
