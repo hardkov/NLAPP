@@ -1,8 +1,13 @@
+import statistics
+
 from typing import Dict, List
 
 from transformers import pipeline
 
 from nlapp.data_model.question_answering.answer_score import AnswerScore
+from nlapp.data_model.question_answering.question_answering_dataset_result import (
+    QuestionAnsweringDatasetResult,
+)
 from nlapp.data_model.question_answering.question_answering_result import (
     QuestionAnsweringResult,
 )
@@ -21,7 +26,7 @@ def evaluate(context: str, question: str, model, tokenizer) -> AnswerScore:
 
 def evaluate_dataset(
     dataset: Dict[str, List[str]], model, tokenizer
-) -> List[QuestionAnsweringResult]:
+) -> QuestionAnsweringDatasetResult:
     result = list()
     contexts = dataset.get("context")
     questions = dataset.get("question")
@@ -34,4 +39,5 @@ def evaluate_dataset(
         )
         result.append(question_answer_result)
 
-    return result
+    scores = list(map(lambda x: x.answer.score, result))
+    return QuestionAnsweringDatasetResult(statistics.mean(scores), result)
