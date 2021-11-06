@@ -1,6 +1,6 @@
 from enum import Enum
 
-from transformers import AutoModelForMaskedLM, AutoModelForQuestionAnswering
+from transformers import AutoModelForMaskedLM, AutoModelForQuestionAnswering, AutoModelForSeq2SeqLM
 
 
 class TaskType(Enum):
@@ -54,6 +54,7 @@ class TaskType(Enum):
         generators = {
             TaskType.FILL_MASK: AutoModelForMaskedLM,
             TaskType.QUESTION_ANSWERING: AutoModelForQuestionAnswering,
+            TaskType.SUMMARIZATION: AutoModelForSeq2SeqLM
         }
 
         return generators[self]
