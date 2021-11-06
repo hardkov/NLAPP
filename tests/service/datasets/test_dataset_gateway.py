@@ -86,3 +86,37 @@ class TestDatasetGateway(unittest.TestCase):
         self.assertTrue(len(contexts) == 2)
         self.assertTrue(len(questions) == 2)
         self.assertTrue(len(answers) == 2)
+
+    def test_download_dataset_when_use_summarization(self):
+        # given
+        dataset_name = "billsum"
+        task_type = TaskType.SUMMARIZATION
+
+        # when
+        dataset = download_dataset(task_type, dataset_name)
+        texts = dataset.get("text")
+
+        # then
+        self.assertTrue(len(texts) > 0)
+
+    def test_map_user_dataset_when_use_summarization_and_json(self):
+        # given
+        mapping_columns = {
+            "text": "summarization.context",
+        }
+        test_dir = dirname(dirname(dirname(abspath(__file__))))
+        path = test_dir + "/_resources/summarization_1.json"
+
+        with open(path, "r") as f:
+            dataset = json.load(f)
+
+        # when
+        mapped_dataset = map_user_dataset(
+            TaskType.SUMMARIZATION,
+            mapping_columns,
+            DatasetFormat.JSON,
+            dataset,
+        )
+        texts = mapped_dataset.get("text")
+        # then
+        self.assertTrue(len(texts) == 4)
