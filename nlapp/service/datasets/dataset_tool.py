@@ -11,9 +11,14 @@ from nlapp.service.datasets.mappers.huggingface.fill_mask_mapper import *
 from nlapp.service.datasets.mappers.huggingface.question_answering_mapper import *
 from pathlib import Path
 
+from nlapp.service.datasets.mappers.huggingface.summarization_mapper import (
+    SummarizationMapper,
+)
+
 hugging_face_dataset_mappers = {
     TaskType.FILL_MASK: FillMaskMapper(),
     TaskType.QUESTION_ANSWERING: QuestionAnsweringMapper(),
+    TaskType.SUMMARIZATION: SummarizationMapper(),
 }
 
 
@@ -23,7 +28,11 @@ DATASET_DIR = os.path.join(
 
 
 class DatasetTool:
-    available_mappers_flag = [TaskType.FILL_MASK, TaskType.QUESTION_ANSWERING]
+    available_mappers_flag = [
+        TaskType.FILL_MASK,
+        TaskType.QUESTION_ANSWERING,
+        TaskType.SUMMARIZATION,
+    ]
 
     def __init__(self, task_type: TaskType):
         self.task_type = task_type
