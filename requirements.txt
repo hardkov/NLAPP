@@ -2,9 +2,9 @@ streamlit==1.0.0
 
 datasets~=1.6.2
 requests~=2.25.1
-beautifulsoup4~=4.9.3
 transformers~=4.6.1
 torch~=1.9.0
 pytest~=6.2.5
 black~=21.9b0
 pylint~=2.11.1
+rouge~=1.0.1

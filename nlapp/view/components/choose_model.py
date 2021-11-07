@@ -1,13 +1,7 @@
 import streamlit as st
-from nlapp.controller.AppController import get_models_by_task_type, fetch_description
+
+from nlapp.controller.app_controller import get_models_names, get_model_dto
 from nlapp.data_model.state import KEYS
-
-
-def model_print(model):
-    name = model.name
-    cached_info = "\u2713" if model.cached else ""
-
-    return f"{name} {cached_info}"
 
 
 def write():
@@ -19,29 +13,22 @@ def write():
 
     with models:
         cached = st.checkbox("Cached only", key=KEYS.IS_MODEL_CACHED)
-        model_dict = get_models_by_task_type(task)
-        model_list = list(model_dict.values())
-        model_list_filtered = list(
-            filter(lambda model: not cached or model.cached, model_list)
-        )
+        model_names = get_models_names(task, cached)
 
-        model = st.selectbox(
+        model_name = st.selectbox(
             "Models",
-            model_list_filtered,
+            model_names,
             key=KEYS.SELECTED_MODEL,
-            format_func=model_print,
             help="In order to search just type while selecting",
         )
 
-    # description in markdown with links
+    model_dto = get_model_dto(task, model_name)
+
     with description:
         st.subheader("Model description")
-        if model is not None:
-            # ugly, maybe use or syntax
-            model_description = model.description if model.description != "" else fetch_description(model.name, task)
-            st.markdown(model_description)
+        st.markdown(model_dto.description)
 
-            if model.cached:
-                st.success("Model is stored on the disk")
-            else:
-                st.warning("Model needs to be downloaded")
+        if model_dto.cached:
+            st.success("Model is stored on the disk")
+        else:
+            st.warning("Model needs to be downloaded")

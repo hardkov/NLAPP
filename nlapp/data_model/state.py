@@ -11,3 +11,8 @@ class KEYS:
     DATASET_LIST: Final = "datasetList"
     SELECTED_TASK: Final = "selectedTask"
     MODEL_FETCHING_TOGGLED: Final = "modelFetchingToggled"
+    INITIALIZATION_DONE: Final = "initializationDone"
+    DATASET_INPUT_ENABLED: Final = "datasetInputEnabled"
+    UPLOAD_USER_DATASET_TOGGLED: Final = "uploadUserDatasetToggled"
+    USER_DATASET_FILE: Final = "userDatasetFile"
+    MAPPED_USER_DATASET: Final = "mappedUserDataset"

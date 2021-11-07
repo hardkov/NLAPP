@@ -4,6 +4,8 @@ from transformers import (
     AutoModelForMaskedLM,
     AutoModelForQuestionAnswering,
     AutoModelForSequenceClassification,
+    AutoModelForSeq2SeqLM,
+
 )
 
 
@@ -59,4 +61,7 @@ class TaskType(Enum):
             TaskType.FILL_MASK: AutoModelForMaskedLM,
             TaskType.QUESTION_ANSWERING: AutoModelForQuestionAnswering,
             TaskType.TEXT_CLASSIFICATION: AutoModelForSequenceClassification,
+            TaskType.SUMMARIZATION: AutoModelForSeq2SeqLM,
         }
+
+        return generators[self]

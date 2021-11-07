@@ -1,0 +1,16 @@
+{
+  "summarization": [
+    {
+      "context": "The history of Java is very interesting. Java was originally designed for interactive television, but it was too advanced technology for the digital cable television industry at the time. The history of Java starts with the Green Team. Java team members (also known as Green Team), initiated this project to develop a language for digital devices such as set-top boxes, televisions, etc. However, it was best suited for internet programming. Later, Java technology was incorporated by Netscape."
+    },
+    {
+      "context": "A communication subsystem is a complex piece of Hardware and software. Early attempts for implementing the software for such subsystems were based on a single, complex, unstructured program with many interacting components. The resultant software was very difficult to test and modify. To overcome such problem, the ISO has developed a layered approach. In a layered approach, networking concept is divided into several layers, and each layer is assigned a particular task. Therefore, we can say that networking tasks depend upon the layers."
+    },
+    {
+      "context": "Linux is an open-source operating system like other operating systems such as Microsoft Windows, Apple Mac OS, iOS, Google android, etc. An operating system is a software that enables the communication between computer hardware and software. It conveys input to get processed by the processor and brings output to the hardware to display it. This is the basic function of an operating system. Although it performs many other important tasks, let's not talk about that.Linux is around us since the mid-90s. It can be used from wristwatches to supercomputers. It is everywhere in our phones, laptops, PCs, cars and even in refrigerators. It is very much famous among developers and normal computer users."
+    },
+    {
+      "context": "London is the capital of England and the United Kingdom and one of the largest and most important cities in the world. The area was originally settled by early hunter gatherers around 6,000 B.C., and researchers have found evidence of Bronze Age bridges and Iron Age forts near the River Thames.Ancient Romans founded a port and trading settlement called Londinium in 43 A.D., and a few years later a bridge was constructed across the Thames to facilitate commerce and troop movements. But in 60 A.D., Celtic queen Boudicca led an army to sack the city, which was burned to the ground in the first of many fires to destroy London."
+    }
+  ]
+}

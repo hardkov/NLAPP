@@ -1,6 +1,6 @@
 import os
-from pathlib import Path
 from enum import Enum
+from pathlib import Path
 
 from nlapp.data_model.model_dto import ModelDTO
 from nlapp.data_model.task_type import TaskType

@@ -4,6 +4,9 @@ from nlapp.data_model.task_type import TaskType
 from nlapp.service.datasets.dataset_tool import DatasetTool
 from nlapp.service.datasets.mappers.user.fill_mask_mapper import *
 from nlapp.service.datasets.mappers.user.text_classification_mapper import *
+from nlapp.service.datasets.mappers.user.question_answering_mapper import *
+from nlapp.service.datasets.mappers.user.summarization_mapper import *
+
 
 DATASETS_LOADER = {
     TaskType.FILL_MASK: DatasetTool(TaskType.FILL_MASK),
@@ -20,6 +23,13 @@ def __user_dataset_mapper_factory(
 ) -> UserDatasetMapper:
     if task_type == TaskType.TEXT_CLASSIFICATION:
         return TextClassificationMapper(column_mapping)
+    if task_type == TaskType.FILL_MASK:
+        return FillMaskMapper(column_mapping)
+    if task_type == TaskType.QUESTION_ANSWERING:
+        return QuestionAnsweringMapper(column_mapping)
+    if task_type == TaskType.SUMMARIZATION:
+        return SummarizationMapper(column_mapping)
+
 
 
 def get_datasets_by_task_type(task_type: TaskType) -> Dict[str, DatasetDTO]:
@@ -62,3 +72,10 @@ def map_user_dataset(
     return __user_dataset_mapper_factory(task_type, column_mapping).map(
         dataset, file_type
     )
+
+
+def get_dataset_mapping_columns(task_type: TaskType):
+    """
+    Return mapping columns of dataset
+    """
+    return {TaskType.FILL_MASK: FillMaskMapper.columns}.get(task_type)
