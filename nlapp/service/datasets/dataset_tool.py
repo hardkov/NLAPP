@@ -36,8 +36,6 @@ class DatasetTool:
         TaskType.QUESTION_ANSWERING,
         TaskType.SUMMARIZATION,
         TaskType.TEXT_CLASSIFICATION]
-    ]
-
 
     def __init__(self, task_type: TaskType):
         self.task_type = task_type
