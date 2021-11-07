@@ -3,8 +3,10 @@ from nlapp.data_model.dataset_format import DatasetFormat
 from nlapp.data_model.task_type import TaskType
 from nlapp.service.datasets.dataset_tool import DatasetTool
 from nlapp.service.datasets.mappers.user.fill_mask_mapper import *
+from nlapp.service.datasets.mappers.user.text_classification_mapper import *
 from nlapp.service.datasets.mappers.user.question_answering_mapper import *
 from nlapp.service.datasets.mappers.user.summarization_mapper import *
+
 
 DATASETS_LOADER = {
     TaskType.FILL_MASK: DatasetTool(TaskType.FILL_MASK),
@@ -19,12 +21,15 @@ DATASETS_LOADER = {
 def __user_dataset_mapper_factory(
     task_type: TaskType, column_mapping: Dict[str, str]
 ) -> UserDatasetMapper:
+    if task_type == TaskType.TEXT_CLASSIFICATION:
+        return TextClassificationMapper(column_mapping)
     if task_type == TaskType.FILL_MASK:
         return FillMaskMapper(column_mapping)
     if task_type == TaskType.QUESTION_ANSWERING:
         return QuestionAnsweringMapper(column_mapping)
     if task_type == TaskType.SUMMARIZATION:
         return SummarizationMapper(column_mapping)
+
 
 
 def get_datasets_by_task_type(task_type: TaskType) -> Dict[str, DatasetDTO]:
