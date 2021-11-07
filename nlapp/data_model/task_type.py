@@ -38,7 +38,7 @@ class TaskType(Enum):
             TaskType.QUESTION_ANSWERING: "task_categories:question-answering",
             TaskType.SUMMARIZATION: "task_ids:summarization",
             TaskType.TEXT_CLASSIFICATION: "task_categories:text-classification",
-            TaskType.TOKEN_CLASSIFICATION: "task_ids:tokenization",
+            TaskType.TOKEN_CLASSIFICATION: "task_ids:named-entity-recognition",
             TaskType.TRANSLATION: "task_categories:translation",
         }
 
