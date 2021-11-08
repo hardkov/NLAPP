@@ -1,0 +1,63 @@
+import streamlit as st
+import nlapp.view.components.evaluation.fill_mask_evaluation as fill_mask_evaluation_view
+
+from nlapp.controller.app_controller import (
+    download_model,
+    download_dataset,
+    get_current_model,
+    get_current_dataset,
+)
+from nlapp.data_model.state import KEYS
+from nlapp.data_model.task_type import TaskType
+
+EVALUATION_VIEWS = {
+    TaskType.FILL_MASK: fill_mask_evaluation_view,
+}
+
+
+def should_not_evaluate_user_dataset():
+    return not st.session_state[KEYS.UPLOAD_USER_DATASET_TOGGLED]
+
+
+def does_mapped_user_dataset_exist():
+    return st.session_state[KEYS.MAPPED_USER_DATASET] is not None
+
+
+def display_manual_input(task, model, tokenizer):
+    EVALUATION_VIEWS[task].display_manual_input(model, tokenizer)
+
+
+def display_dataset_input(task, model, tokenizer):
+    dataset_input_enabled = False
+    button_placeholder = st.empty()
+    if should_not_evaluate_user_dataset():
+        dataset_input_enabled = button_placeholder.button("Download & Compute")
+    elif does_mapped_user_dataset_exist():
+        dataset_input_enabled = button_placeholder.button("Evaluate your dataset")
+    else:
+        st.warning("There is no selected or loaded dataset")
+
+    if dataset_input_enabled:
+        dataset = get_current_dataset()
+        if should_not_evaluate_user_dataset():
+            dataset = download_dataset(task, dataset.name)
+            EVALUATION_VIEWS[task].display_dataset_input(model, tokenizer, dataset)
+
+
+def write():
+    task = st.session_state[KEYS.SELECTED_TASK]
+    model = get_current_model()
+
+    st.header("Results")
+
+    should_download_model = st.checkbox(
+        "Toggle model fetching", key=KEYS.MODEL_FETCHING_TOGGLED
+    )
+    if should_download_model:
+        model, tokenizer = download_model(task, model.name)
+
+        st.subheader("Dataset input")
+        display_dataset_input(task, model, tokenizer)
+
+        st.subheader("Manual input")
+        display_manual_input(task, model, tokenizer)

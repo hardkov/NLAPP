@@ -5,14 +5,9 @@ import logging
 import streamlit as st
 
 import nlapp.service.datasets.dataset_gateway as datasets_service
-import nlapp.service.evaluation.fill_mask_evaluation as fill_mask_evaluation_service
 import nlapp.service.models.model_gateway as models_service
 from nlapp.data_model.dataset_dto import DatasetDTO
 from nlapp.data_model.dataset_format import DatasetFormat
-from nlapp.data_model.fill_mask.fill_mask_dataset_evaluation_result import (
-    FillMaskDatasetEvaluationResult,
-)
-from nlapp.data_model.fill_mask.fill_mask_result import FillMaskResult
 from nlapp.data_model.model_dto import ModelDTO
 from nlapp.data_model.state import KEYS
 from nlapp.data_model.task_type import TaskType
@@ -87,7 +82,6 @@ def initialize_state():
         st.session_state[KEYS.INITIALIZATION_DONE] = True
         st.session_state[KEYS.UPLOAD_USER_DATASET_TOGGLED] = False
         st.session_state[KEYS.MAPPED_USER_DATASET] = None
-        st.session_state[KEYS.DATASET_INPUT_ENABLED] = False
 
         init_end = time.time()
         logger.info(
@@ -129,27 +123,6 @@ def get_model_dto(task_type: TaskType, model_name: str) -> ModelDTO:
 def get_dataset_dto(task_type: TaskType, dataset_name: str) -> DatasetDTO:
     datasets = get_datasets_by_task_type(task_type)
     return datasets[dataset_name]
-
-
-def evaluate_sentence(sentence: str, model, tokenizer) -> FillMaskResult:
-    return fill_mask_evaluation_service.evaluate_sentence(
-        sentence, model, tokenizer
-    )
-
-
-@st.cache(
-    hash_funcs={
-        "pyarrow.lib.Buffer": id,
-        "tokenizers.Tokenizer": id,
-        "tokenizers.AddedToken": id,
-    }
-)
-def evaluate_dataset(
-    dataset, model, tokenizer, timeout_seconds
-) -> FillMaskDatasetEvaluationResult:
-    return fill_mask_evaluation_service.evaluate_dataset(
-        dataset, model, tokenizer, timeout_seconds
-    )
 
 
 @st.cache(
