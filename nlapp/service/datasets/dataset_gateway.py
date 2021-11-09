@@ -31,7 +31,6 @@ def __user_dataset_mapper_factory(
         return SummarizationMapper(column_mapping)
 
 
-
 def get_datasets_by_task_type(task_type: TaskType) -> Dict[str, DatasetDTO]:
     """
     Return dictionary of information about datasets for specific task.

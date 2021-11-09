@@ -11,7 +11,7 @@ from nlapp.data_model.state import KEYS
 from nlapp.data_model.task_type import TaskType
 
 EVALUATION_VIEWS = {
-    TaskType.FILL_MASK: fill_mask_evaluation_view,
+    TaskType.FILL_MASK: fill_mask_evaluation_view.FillMaskEvaluation(),
 }
 
 
@@ -33,7 +33,9 @@ def display_dataset_input(task, model, tokenizer):
     if should_not_evaluate_user_dataset():
         dataset_input_enabled = button_placeholder.button("Download & Compute")
     elif does_mapped_user_dataset_exist():
-        dataset_input_enabled = button_placeholder.button("Evaluate your dataset")
+        dataset_input_enabled = button_placeholder.button(
+            "Evaluate your dataset"
+        )
     else:
         st.warning("There is no selected or loaded dataset")
 
@@ -41,7 +43,7 @@ def display_dataset_input(task, model, tokenizer):
         dataset = get_current_dataset()
         if should_not_evaluate_user_dataset():
             dataset = download_dataset(task, dataset.name)
-            EVALUATION_VIEWS[task].display_dataset_input(model, tokenizer, dataset)
+        EVALUATION_VIEWS[task].display_dataset_input(model, tokenizer, dataset)
 
 
 def write():
