@@ -77,4 +77,7 @@ def get_dataset_mapping_columns(task_type: TaskType):
     """
     Return mapping columns of dataset
     """
-    return {TaskType.FILL_MASK: FillMaskMapper.columns}.get(task_type)
+    return {
+        TaskType.FILL_MASK: FillMaskMapper.columns,
+        TaskType.QUESTION_ANSWERING: QuestionAnsweringMapper.columns,
+    }.get(task_type)
