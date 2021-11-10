@@ -5,9 +5,13 @@ from nlapp.data_model.fill_mask.fill_mask_dataset_evaluation_result import (
     FillMaskDatasetEvaluationResult,
 )
 from nlapp.data_model.fill_mask.fill_mask_result import FillMaskResult
+from nlapp.data_model.question_answering.question_answering_dataset_result import QuestionAnsweringDatasetResult
+from nlapp.data_model.summarization.summarization_dataset_result import SummarizationDatasetResult
+from nlapp.data_model.summarization.summarization_score import SummarizationScore
 from nlapp.service.evaluation import (
     fill_mask_evaluation as fill_mask_evaluation_service,
     question_answering_evaluation as question_answering_service,
+    summarization_evaluation as summarization_service
 )
 
 
@@ -41,6 +45,18 @@ def evaluate_question_answering(
 
 @st.cache(
     hash_funcs={
+        "tokenizers.Tokenizer": id,
+        "tokenizers.AddedToken": id,
+    },
+    max_entries=1,
+)
+def evaluate_summarization(text: str, model, tokenizer) -> SummarizationScore:
+    return summarization_service.evaluate(
+        text, model, tokenizer
+    )
+
+@st.cache(
+    hash_funcs={
         "pyarrow.lib.Buffer": id,
         "tokenizers.Tokenizer": id,
         "tokenizers.AddedToken": id,
@@ -65,7 +81,23 @@ def evaluate_dataset_fill_mask(
 )
 def evaluate_dataset_question_answering(
     dataset, model, tokenizer, timeout_seconds
-) -> FillMaskDatasetEvaluationResult:
+) -> QuestionAnsweringDatasetResult:
     return question_answering_service.evaluate_dataset(
+        dataset, model, tokenizer, timeout_seconds
+    )
+
+
+@st.cache(
+    hash_funcs={
+        "pyarrow.lib.Buffer": id,
+        "tokenizers.Tokenizer": id,
+        "tokenizers.AddedToken": id,
+    },
+    max_entries=1,
+)
+def evaluate_dataset_summarization(
+        dataset, model, tokenizer, timeout_seconds
+) -> SummarizationDatasetResult:
+    return summarization_service.evaluate_dataset(
         dataset, model, tokenizer, timeout_seconds
     )

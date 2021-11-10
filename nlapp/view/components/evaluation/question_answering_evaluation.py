@@ -11,12 +11,6 @@ from nlapp.view.components.evaluation.evaluation_view import EvaluationView
 
 
 class QuestionAnsweringEvaluation(EvaluationView):
-    def parse_result_to_json(self, answer_score):
-        json_dict = {}
-        json_dict["token_str"] = answer_score.answer
-        json_dict["score"] = answer_score.score
-        return json.dumps([json_dict])
-
     def display_predicts(self, title, list):
         def get_expected_answer(obj):
             if isinstance(obj, str):
