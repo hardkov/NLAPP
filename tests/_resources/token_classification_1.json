@@ -1,0 +1,14 @@
+{"token_classification":[
+   {
+      "words":[ "A1", "Zwischen", "AS", "Munsbach", "und", "AS", "Flaxweiler", "Bauarbeiten", ",", "rechter", "Fahrstreifen", "gesperrt", ",", "Verkehrsbehinderung", ",", "Dauer", ":", "02.12.2015", "...", "#ACL_A1" ],
+      "results":[ 17, 0, 9, 10, 0, 9, 10, 0, 0, 0, 0, 0, 0, 31, 0, 0, 0, 1, 0, 17 ]
+   },
+   {
+      "words":[ "RT", "@broeselbub", ":", "Wer", "diesen", "#EM16", "-", "Spielplan", "geschrieben", "hat", ",", "ist", "auch", "in", "der", "Terminverwaltung", "für", "#BER", "und", "#S21", "tätig", "." ],
+      "results":[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+   },
+   {
+      "words":[ "Sonstiges", "Abschnitt", ":", "(", "Berlin", ")", "Gültig", "ab", ":", "26.03.2016", "14:49", "defekter", "PKW", ",", "Notfallspur", "blockiert" ],
+      "results":[ 0, 0, 0, 0, 11, 0, 0, 0, 0, 1, 29, 0, 0, 0, 0, 0 ]
+   }
+]}
