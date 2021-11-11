@@ -20,7 +20,7 @@ class SummarizationEvaluation(EvaluationView):
             )
 
     def display_manual_input(self, model, tokenizer):
-        form = st.form(key="question-form")
+        form = st.form(key="summarization-form")
         text = form.text_area(
             "Text",
             value="The tower is 324 metres (1,063 ft) tall, about the same height as an 81-storey building, "

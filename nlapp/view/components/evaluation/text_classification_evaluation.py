@@ -31,7 +31,7 @@ class TextClassificationEvaluation(EvaluationView):
             )
 
     def display_manual_input(self, model, tokenizer):
-        form = st.form(key="my-form")
+        form = st.form(key="text-classification-form")
         sentence = form.text_input(
             "Sentence",
             value="I like you. I love you"
