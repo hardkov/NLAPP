@@ -53,6 +53,7 @@ class SummarizationMapper(DatasetMapper):
         for accepted_column_name in self.column_names[mapped_column_name]:
             if subset.get("features").keys().__contains__(accepted_column_name):
                 matched_feature = subset.get("features")[accepted_column_name]
+                self.subset_names[dataset_name] = subset_name
                 return self.__have_sub_feature(matched_feature) is False
 
         return False
