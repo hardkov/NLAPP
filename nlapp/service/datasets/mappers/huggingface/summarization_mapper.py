@@ -8,7 +8,7 @@ from nlapp.service.datasets.mappers.huggingface.dataset_mapper import (
 
 
 class SummarizationMapper(DatasetMapper):
-    split_type = "test"
+    split_type = "tests"
     column_names = {
         "text": [
             "text",
