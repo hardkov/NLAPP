@@ -33,7 +33,6 @@ def __user_dataset_mapper_factory(
     if task_type == TaskType.TOKEN_CLASSIFICATION:
         return TokenClassificationMapper(column_mapping)
 
-
 def get_datasets_by_task_type(task_type: TaskType) -> Dict[str, DatasetDTO]:
     """
     Return dictionary of information about datasets for specific task.
@@ -80,4 +79,7 @@ def get_dataset_mapping_columns(task_type: TaskType):
     """
     Return mapping columns of dataset
     """
-    return {TaskType.FILL_MASK: FillMaskMapper.columns}.get(task_type)
+    return {
+        TaskType.FILL_MASK: FillMaskMapper.columns,
+        TaskType.QUESTION_ANSWERING: QuestionAnsweringMapper.columns,
+    }.get(task_type)

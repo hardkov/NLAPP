@@ -4,37 +4,36 @@ from nlapp.data_model.model_dto import ModelDTO
 from nlapp.service.datasets.dataset_gateway import download_dataset
 from nlapp.service.models.model_gateway import download_model
 from nlapp.data_model.task_type import TaskType
-from nlapp.service.evaluation.question_answering_evaluation import *
+from nlapp.service.evaluation.text_classification_evaluation import *
 
 
-class TestQuestionAnsweringEvaluation(unittest.TestCase):
+class TestTextClassificationEvaluation(unittest.TestCase):
     def test_evaluate(self):
         # given
         model_dto = ModelDTO(
-            "mrm8488/bert-tiny-5-finetuned-squadv2",
+            "cross-encoder/ms-marco-MiniLM-L-6-v2",
             "Description",
-            TaskType.QUESTION_ANSWERING,
-            False
+            TaskType.TEXT_CLASSIFICATION,
+            False,
         )
         model, tokenizer = download_model(model_dto)
-        context = "My name is Clara and I live in Berkeley."
-        question = "What's my name?"
+        sentence = "I love Cracow"
 
         # when
-        result = evaluate(context, question, model, tokenizer)
+        result = evaluate(sentence, model, tokenizer)
 
         # then
         self.assertTrue(result.score > 0.0)
 
     def test_evaluate_dataset(self):
         # given
-        dataset_name = "squad"
-        task_type = TaskType.QUESTION_ANSWERING
+        dataset_name = "ag_news"
+        task_type = TaskType.TEXT_CLASSIFICATION
         model_dto = ModelDTO(
-            "mrm8488/bert-tiny-5-finetuned-squadv2",
+            "distilbert-base-uncased-finetuned-sst-2-english",
             "Description",
             task_type,
-            False
+            False,
         )
         dataset = download_dataset(task_type, dataset_name)
         dataset = self.__limit_dataset(dataset)

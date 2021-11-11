@@ -4,39 +4,39 @@ from nlapp.data_model.model_dto import ModelDTO
 from nlapp.service.datasets.dataset_gateway import download_dataset
 from nlapp.service.models.model_gateway import download_model
 from nlapp.data_model.task_type import TaskType
-from nlapp.service.evaluation.text_classification_evaluation import *
+from nlapp.service.evaluation.question_answering_evaluation import *
 
 
-class TestTextClassificationEvaluation(unittest.TestCase):
+class TestQuestionAnsweringEvaluation(unittest.TestCase):
     def test_evaluate(self):
         # given
         model_dto = ModelDTO(
-            "cross-encoder/ms-marco-MiniLM-L-6-v2",
+            "mrm8488/bert-tiny-5-finetuned-squadv2",
             "Description",
-            TaskType.TEXT_CLASSIFICATION,
-            False,
+            TaskType.QUESTION_ANSWERING,
+            False
         )
         model, tokenizer = download_model(model_dto)
-        sentence = "I love Cracow"
+        context = "My name is Clara and I live in Berkeley."
+        question = "What's my name?"
 
         # when
-        result = evaluate(sentence, model, tokenizer)
+        result = evaluate(context, question, model, tokenizer)
 
         # then
         self.assertTrue(result.score > 0.0)
 
     def test_evaluate_dataset(self):
         # given
-        dataset_name = "ag_news"
-        task_type = TaskType.TEXT_CLASSIFICATION
+        dataset_name = "squad"
+        task_type = TaskType.QUESTION_ANSWERING
         model_dto = ModelDTO(
-            "distilbert-base-uncased-finetuned-sst-2-english",
+            "mrm8488/bert-tiny-5-finetuned-squadv2",
             "Description",
             task_type,
-            False,
+            False
         )
         dataset = download_dataset(task_type, dataset_name)
-        print(dataset)
         dataset = self.__limit_dataset(dataset)
         model, tokenizer = download_model(model_dto)
 
@@ -44,7 +44,6 @@ class TestTextClassificationEvaluation(unittest.TestCase):
         result = evaluate_dataset(dataset, model, tokenizer)
 
         # then
-        self.assertTrue(len(result.result_list) == 10)
         self.assertTrue(result.score_avg > 0.0)
 
     @staticmethod
