@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import List
 
 from nlapp.data_model.text_classification.label_score import LabelScore
 
@@ -7,4 +8,4 @@ from nlapp.data_model.text_classification.label_score import LabelScore
 class TextClassificationResult:
     sentence: str
     expected_label: str
-    label: LabelScore
+    labels: List[LabelScore]
