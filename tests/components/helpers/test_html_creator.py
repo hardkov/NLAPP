@@ -56,8 +56,8 @@ def test_get_token_div():
     "expected_score_value,expected_width,expected_token_str,expected_percent",
     [
         (0.12223123, 13, "test1", 0.123),
-        (0.23624662, 24, "test", 0.237),
-        (0.96960034, 97, "test", 0.97),
+        (0.23624662, 24, "tests", 0.237),
+        (0.96960034, 97, "tests", 0.97),
     ],
 )
 def test_parametrized_get_token_div(

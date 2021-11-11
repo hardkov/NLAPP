@@ -113,11 +113,13 @@ class DatasetTool:
         return dataset_dict
 
     def __load_dateset(self, name: str) -> DatasetDict:
-        return load_dataset(
-            name,
-            self.hugging_face_mapper.subset_names[name],
-            cache_dir=self.cached_dir,
-        )
+        if self.hugging_face_mapper.subset_names.keys().__contains__(name):
+            return load_dataset(
+                name,
+                self.hugging_face_mapper.subset_names[name],
+                cache_dir=self.cached_dir,
+            )
+        return load_dataset(name, cache_dir=self.cached_dir)
 
     @staticmethod
     def create_dir(dataset_path: str) -> bool:
