@@ -17,7 +17,7 @@ EVALUATION_VIEWS = {
     TaskType.FILL_MASK: fill_mask_evaluation_view.FillMaskEvaluation(),
     TaskType.QUESTION_ANSWERING: question_answering_view.QuestionAnsweringEvaluation(),
     TaskType.SUMMARIZATION: summarization_view.SummarizationEvaluation(),
-    TaskType.TEXT_CLASSIFICATION: text_classification_view.TextClassificationEvaluation()
+    TaskType.TEXT_CLASSIFICATION: text_classification_view.TextClassificationEvaluation(),
 }
 
 

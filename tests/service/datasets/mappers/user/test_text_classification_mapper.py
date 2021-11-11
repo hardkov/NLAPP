@@ -32,7 +32,10 @@ class TestTextClassificationMapper(unittest.TestCase):
         # when
         mapped_data = mapper.map(data_from_user, DatasetFormat.JSON)
 
-        for c, l in zip(mapped_data.get("text"), mapped_data.get("label"),):
+        for c, l in zip(
+            mapped_data.get("text"),
+            mapped_data.get("label"),
+        ):
             print(c)
             print(l)
             print()

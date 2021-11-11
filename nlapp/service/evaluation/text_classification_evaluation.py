@@ -18,14 +18,17 @@ def parse_result(result):
     result_list = []
 
     for item in result:
-        result_list.append(LabelScore(item['label'], item['score']))
+        result_list.append(LabelScore(item["label"], item["score"]))
 
     return result_list
 
 
 def evaluate(sentence: str, model, tokenizer) -> List[LabelScore]:
     text_classification = pipeline(
-        "text-classification", model=model, tokenizer=tokenizer, return_all_scores=True
+        "text-classification",
+        model=model,
+        tokenizer=tokenizer,
+        return_all_scores=True,
     )
 
     output = text_classification(sentence)

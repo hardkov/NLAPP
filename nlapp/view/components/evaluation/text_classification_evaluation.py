@@ -3,7 +3,10 @@ import json
 
 import streamlit as st
 
-from nlapp.controller.evaluation_controller import evaluate_text_classification, evaluate_dataset_text_classification
+from nlapp.controller.evaluation_controller import (
+    evaluate_text_classification,
+    evaluate_dataset_text_classification,
+)
 from nlapp.view.components.evaluation.evaluation_view import EvaluationView
 from nlapp.view.helpers import html_creator
 
@@ -24,7 +27,11 @@ class TextClassificationEvaluation(EvaluationView):
                 [
                     {
                         "Sentence": we.sentence,
-                        "Labels": functools.reduce(lambda total, label: f'{total} {label.label}: {label.score},', we.labels, ""),
+                        "Labels": functools.reduce(
+                            lambda total, label: f"{total} {label.label}: {label.score},",
+                            we.labels,
+                            "",
+                        ),
                     }
                     for we in predict_list
                 ]
@@ -32,10 +39,7 @@ class TextClassificationEvaluation(EvaluationView):
 
     def display_manual_input(self, model, tokenizer):
         form = st.form(key="text-classification-form")
-        sentence = form.text_input(
-            "Sentence",
-            value="I like you. I love you"
-        )
+        sentence = form.text_input("Sentence", value="I like you. I love you")
         form.form_submit_button("Evaluate")
 
         result = evaluate_text_classification(sentence, model, tokenizer)
@@ -50,6 +54,4 @@ class TextClassificationEvaluation(EvaluationView):
         )
 
         st.markdown(f"__Average top score:__ {results.score_avg}")
-        self.display_predicts(
-            "See predictions", results.result_list
-        )
+        self.display_predicts("See predictions", results.result_list)
