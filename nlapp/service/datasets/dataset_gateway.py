@@ -6,6 +6,7 @@ from nlapp.service.datasets.mappers.user.fill_mask_mapper import *
 from nlapp.service.datasets.mappers.user.text_classification_mapper import *
 from nlapp.service.datasets.mappers.user.question_answering_mapper import *
 from nlapp.service.datasets.mappers.user.summarization_mapper import *
+from nlapp.service.datasets.mappers.user.token_classification_mapper import *
 
 
 DATASETS_LOADER = {
@@ -29,7 +30,8 @@ def __user_dataset_mapper_factory(
         return QuestionAnsweringMapper(column_mapping)
     if task_type == TaskType.SUMMARIZATION:
         return SummarizationMapper(column_mapping)
-
+    if task_type == TaskType.TOKEN_CLASSIFICATION:
+        return TokenClassificationMapper(column_mapping)
 
 
 def get_datasets_by_task_type(task_type: TaskType) -> Dict[str, DatasetDTO]:

@@ -11,6 +11,7 @@ from nlapp.service.datasets.mappers.huggingface.fill_mask_mapper import *
 
 from nlapp.service.datasets.mappers.huggingface.question_answering_mapper import *
 from nlapp.service.datasets.mappers.huggingface.text_classification_mapper import *
+from nlapp.service.datasets.mappers.huggingface.token_classification_mapper import *
 from pathlib import Path
 
 from nlapp.service.datasets.mappers.huggingface.summarization_mapper import (
@@ -22,6 +23,7 @@ hugging_face_dataset_mappers = {
     TaskType.QUESTION_ANSWERING: QuestionAnsweringMapper(),
     TaskType.SUMMARIZATION: SummarizationMapper(),
     TaskType.TEXT_CLASSIFICATION: TextClassificationMapper(),
+    TaskType.TOKEN_CLASSIFICATION: TokenClassificationMapper(),
 }
 
 
@@ -35,7 +37,9 @@ class DatasetTool:
         TaskType.FILL_MASK,
         TaskType.QUESTION_ANSWERING,
         TaskType.SUMMARIZATION,
-        TaskType.TEXT_CLASSIFICATION]
+        TaskType.TEXT_CLASSIFICATION,
+        TaskType.TOKEN_CLASSIFICATION,
+    ]
 
     def __init__(self, task_type: TaskType):
         self.task_type = task_type
