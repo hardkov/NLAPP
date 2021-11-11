@@ -5,6 +5,8 @@ from transformers import (
     AutoModelForQuestionAnswering,
     AutoModelForSequenceClassification,
     AutoModelForSeq2SeqLM,
+    AutoModelForTokenClassification,
+
 )
 
 
@@ -37,7 +39,7 @@ class TaskType(Enum):
             TaskType.QUESTION_ANSWERING: "task_categories:question-answering",
             TaskType.SUMMARIZATION: "task_ids:summarization",
             TaskType.TEXT_CLASSIFICATION: "task_categories:text-classification",
-            TaskType.TOKEN_CLASSIFICATION: "task_ids:tokenization",
+            TaskType.TOKEN_CLASSIFICATION: "task_ids:named-entity-recognition",
             TaskType.TRANSLATION: "task_categories:translation",
         }
 
@@ -61,6 +63,7 @@ class TaskType(Enum):
             TaskType.QUESTION_ANSWERING: AutoModelForQuestionAnswering,
             TaskType.TEXT_CLASSIFICATION: AutoModelForSequenceClassification,
             TaskType.SUMMARIZATION: AutoModelForSeq2SeqLM,
+            TaskType.TOKEN_CLASSIFICATION: AutoModelForTokenClassification,
         }
 
         return generators[self]
