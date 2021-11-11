@@ -1,3 +1,4 @@
+import functools
 import json
 
 import streamlit as st
@@ -23,7 +24,7 @@ class TextClassificationEvaluation(EvaluationView):
                 [
                     {
                         "Sentence": we.sentence,
-                        "Labels": list(map(lambda lb: f'{lb.label}: {lb.score}', we.labels)),
+                        "Labels": functools.reduce(lambda total, label: f'{total} {label.label}: {label.score},', we.labels, ""),
                     }
                     for we in predict_list
                 ]
@@ -32,7 +33,7 @@ class TextClassificationEvaluation(EvaluationView):
     def display_manual_input(self, model, tokenizer):
         form = st.form(key="my-form")
         sentence = form.text_input(
-            "sentence",
+            "Sentence",
             value="I like you. I love you"
         )
         form.form_submit_button("Evaluate")
@@ -48,9 +49,7 @@ class TextClassificationEvaluation(EvaluationView):
             dataset, model, tokenizer, timeout_seconds=10
         )
 
-        st.subheader("Results")
         st.markdown(f"__Average top score:__ {results.score_avg}")
-        st.markdown("#### text classification")
         self.display_predicts(
-            "See results", results.result_list
+            "See predictions", results.result_list
         )

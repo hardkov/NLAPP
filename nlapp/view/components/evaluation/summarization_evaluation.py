@@ -21,7 +21,6 @@ class SummarizationEvaluation(EvaluationView):
 
     def display_manual_input(self, model, tokenizer):
         form = st.form(key="question-form")
-        form.header("Summarization")
         text = form.text_area(
             "Text",
             value="The tower is 324 metres (1,063 ft) tall, about the same height as an 81-storey building, "
@@ -49,10 +48,8 @@ class SummarizationEvaluation(EvaluationView):
             dataset, model, tokenizer, timeout_seconds=10
         )
 
-        st.subheader("Results")
         st.markdown(f"__Average recall (Rouge2):__ {results.rouge_2_recall_avg}")
         st.markdown(f"__Average precision (Rouge2):__ {results.rouge_2_precision_avg}")
-        st.markdown("#### summarizations")
         self.display_predicts(
-            "See summarizations", results.summaries
+            "See predictions", results.summaries
         )
