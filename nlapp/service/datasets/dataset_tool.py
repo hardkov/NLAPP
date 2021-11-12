@@ -68,7 +68,7 @@ class DatasetTool:
 
     def __execute_gh_clone(self):
         if self.create_dir(INFO_FILE_DIR):
-            git.Git("data/datasets_info").clone(
+            git.Git(INFO_FILE_DIR).clone(
                 "https://github.com/huggingface/datasets"
             )
 

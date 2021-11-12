@@ -11,12 +11,6 @@ from nlapp.view.components.evaluation.evaluation_view import EvaluationView
 
 
 class QuestionAnsweringEvaluation(EvaluationView):
-    def parse_result_to_json(self, answer_score):
-        json_dict = {}
-        json_dict["token_str"] = answer_score.answer
-        json_dict["score"] = answer_score.score
-        return json.dumps([json_dict])
-
     def display_predicts(self, title, list):
         def get_expected_answer(obj):
             if isinstance(obj, str):
@@ -40,7 +34,6 @@ class QuestionAnsweringEvaluation(EvaluationView):
 
     def display_manual_input(self, model, tokenizer):
         form = st.form(key="question-form")
-        title = form.header("Question Answering")
         question = form.text_input(
             "Question",
             value="Which name is also used to describe the Amazon rainforest in English?",
@@ -78,7 +71,6 @@ class QuestionAnsweringEvaluation(EvaluationView):
             dataset, model, tokenizer, timeout_seconds=10
         )
 
-        st.subheader("Results")
         st.markdown(f"__Average score:__ {results.score_avg}")
         st.markdown(
             f"__Number of wrong evaluations:__ {results.wrong_evaluation_number}"
@@ -89,7 +81,6 @@ class QuestionAnsweringEvaluation(EvaluationView):
         st.markdown(
             f"__Percent of wrong evaluations:__ {int(results.wrong_evaluation_percent * 100)} %"
         )
-        st.markdown("#### Wrong predicts")
         self.display_predicts(
             "See wrong predictions", results.wrong_evaluations
         )

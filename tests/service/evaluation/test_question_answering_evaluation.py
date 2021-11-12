@@ -14,7 +14,7 @@ class TestQuestionAnsweringEvaluation(unittest.TestCase):
             "mrm8488/bert-tiny-5-finetuned-squadv2",
             "Description",
             TaskType.QUESTION_ANSWERING,
-            False
+            False,
         )
         model, tokenizer = download_model(model_dto)
         context = "My name is Clara and I live in Berkeley."
@@ -34,7 +34,7 @@ class TestQuestionAnsweringEvaluation(unittest.TestCase):
             "mrm8488/bert-tiny-5-finetuned-squadv2",
             "Description",
             task_type,
-            False
+            False,
         )
         dataset = download_dataset(task_type, dataset_name)
         dataset = self.__limit_dataset(dataset)

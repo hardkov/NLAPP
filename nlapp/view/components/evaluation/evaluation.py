@@ -1,6 +1,8 @@
 import streamlit as st
 import nlapp.view.components.evaluation.fill_mask_evaluation as fill_mask_evaluation_view
 import nlapp.view.components.evaluation.question_answering_evaluation as question_answering_view
+import nlapp.view.components.evaluation.summarization_evaluation as summarization_view
+import nlapp.view.components.evaluation.text_classification_evaluation as text_classification_view
 
 from nlapp.controller.app_controller import (
     download_model,
@@ -14,6 +16,8 @@ from nlapp.data_model.task_type import TaskType
 EVALUATION_VIEWS = {
     TaskType.FILL_MASK: fill_mask_evaluation_view.FillMaskEvaluation(),
     TaskType.QUESTION_ANSWERING: question_answering_view.QuestionAnsweringEvaluation(),
+    TaskType.SUMMARIZATION: summarization_view.SummarizationEvaluation(),
+    TaskType.TEXT_CLASSIFICATION: text_classification_view.TextClassificationEvaluation(),
 }
 
 
