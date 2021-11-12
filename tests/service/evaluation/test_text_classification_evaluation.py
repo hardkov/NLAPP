@@ -36,7 +36,6 @@ class TestTextClassificationEvaluation(unittest.TestCase):
             False,
         )
         dataset = download_dataset(task_type, dataset_name)
-        print(dataset)
         dataset = self.__limit_dataset(dataset)
         model, tokenizer = download_model(model_dto)
 

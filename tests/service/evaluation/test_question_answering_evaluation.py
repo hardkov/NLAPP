@@ -44,7 +44,6 @@ class TestQuestionAnsweringEvaluation(unittest.TestCase):
         result = evaluate_dataset(dataset, model, tokenizer)
 
         # then
-        self.assertTrue(len(result.result_list) == 10)
         self.assertTrue(result.score_avg > 0.0)
 
     @staticmethod

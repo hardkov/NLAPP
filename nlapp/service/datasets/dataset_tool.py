@@ -1,7 +1,9 @@
 import os
+import json
+import logging
+import git
 from typing import Tuple
 
-import requests
 from datasets import load_dataset, list_datasets
 from datasets.hf_api import ObjectInfo
 
@@ -24,10 +26,17 @@ hugging_face_dataset_mappers = {
     TaskType.TEXT_CLASSIFICATION: TextClassificationMapper(),
 }
 
-
 DATASET_DIR = os.path.join(
     Path(__file__).parent.parent.parent.parent.absolute(), "data", "datasets"
 )
+
+INFO_FILE_DIR = os.path.join(
+    Path(__file__).parent.parent.parent.parent.absolute(),
+    "data",
+    "datasets_info",
+)
+
+logger = logging.getLogger(__name__)
 
 
 class DatasetTool:
@@ -42,20 +51,29 @@ class DatasetTool:
         self.task_type = task_type
         self.hugging_face_mapper = hugging_face_dataset_mappers.get(task_type)
         self.cached_dir = DATASET_DIR
-        self.github_repo = "https://raw.githubusercontent.com/huggingface/datasets/master/datasets/"
-        self.info_file_name = "/dataset_infos.json"
+        self.downloaded_info_dir = os.path.join(
+            INFO_FILE_DIR, "datasets", "datasets"
+        )
+        self.info_file_name = "dataset_infos.json"
+        self.__all_datasets = list_datasets(
+            with_community_datasets=True, with_details=True
+        )
+        self.__execute_gh_clone()
 
     def get_datasets(self):
         return self.__init_datasets()
 
+    def __execute_gh_clone(self):
+        if self.create_dir(INFO_FILE_DIR):
+            git.Git("data/datasets_info").clone(
+                "https://github.com/huggingface/datasets"
+            )
+
     def __init_datasets(self) -> Dict[str, DatasetDTO]:
-        all_datasets = list_datasets(
-            with_community_datasets=True, with_details=True
-        )
         task_category = self.task_type.get_dataset_filter()
         specific_datasets = dict()
 
-        for dataset in all_datasets:
+        for dataset in self.__all_datasets:
             if task_category in dataset.tags:
                 if self.task_type in self.available_mappers_flag:
                     self.__check_dataset(dataset, specific_datasets)
@@ -64,10 +82,11 @@ class DatasetTool:
                         dataset.id, dataset.description, self.task_type
                     )
 
+        logger.info(f"Dataset loaded: {self.task_type.name}")
         return specific_datasets
 
     def __check_dataset(self, dataset: ObjectInfo, datasets_dict: Dict) -> None:
-        status, info_dict = self.__download_dataset_info(dataset.id)
+        status, info_dict = self.__find_dataset_info(dataset.id)
         if (
             status is True
             and self.hugging_face_mapper.is_correct(info_dict, dataset.id)
@@ -77,21 +96,34 @@ class DatasetTool:
                 dataset.id, dataset.description, self.task_type
             )
 
-    def __download_dataset_info(self, dataset_name: str) -> Tuple[bool, Dict]:
-        url = self.github_repo + dataset_name + self.info_file_name
-        resp = requests.get(url)
-        return (
-            (True, resp.json()) if resp.status_code < 400 else (False, dict())
-        )
+    def __find_dataset_info(self, dataset_name: str) -> Tuple[bool, Dict]:
+        for f in os.scandir(self.downloaded_info_dir):
+            if f.is_dir() and f.name == dataset_name:
+                for sub_f in os.scandir(f.path):
+                    if sub_f.is_file() and sub_f.name == self.info_file_name:
+                        data = open(sub_f.path)
+                        return True, json.load(data)
+        return False, dict()
 
     def download_dataset(self, name: str) -> Dict:
         self.create_dir(self.cached_dir)
-        dataset_dict = load_dataset(name, cache_dir=self.cached_dir)
+        dataset_dict = self.__load_dateset(name)
         if self.task_type in self.available_mappers_flag:
             return self.hugging_face_mapper.map(dataset_dict)
         return dataset_dict
 
+    def __load_dateset(self, name: str) -> DatasetDict:
+        if self.hugging_face_mapper.subset_names.keys().__contains__(name):
+            return load_dataset(
+                name,
+                self.hugging_face_mapper.subset_names[name],
+                cache_dir=self.cached_dir,
+            )
+        return load_dataset(name, cache_dir=self.cached_dir)
+
     @staticmethod
-    def create_dir(dataset_path: str) -> None:
+    def create_dir(dataset_path: str) -> bool:
         if not os.path.exists(dataset_path):
             os.makedirs(dataset_path)
+            return True
+        return False

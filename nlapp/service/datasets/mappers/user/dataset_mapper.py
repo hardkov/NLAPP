@@ -31,7 +31,7 @@ class UserDatasetMapper(ABC):
             result = [x[field_name] for x in json.get(object_name)]
         else:
             result = json.get(mapped_column)
-        if result == None:
+        if result is None:
             raise Exception("Incorrect mapping!")
         return result
 
