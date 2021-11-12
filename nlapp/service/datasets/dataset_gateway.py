@@ -80,4 +80,6 @@ def get_dataset_mapping_columns(task_type: TaskType):
     return {
         TaskType.FILL_MASK: FillMaskMapper.columns,
         TaskType.QUESTION_ANSWERING: QuestionAnsweringMapper.columns,
+        TaskType.SUMMARIZATION: SummarizationMapper.columns,
+        TaskType.TEXT_CLASSIFICATION: TextClassificationMapper.columns
     }.get(task_type)
