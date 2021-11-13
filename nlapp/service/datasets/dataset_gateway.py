@@ -7,6 +7,7 @@ from nlapp.service.datasets.mappers.user.text_classification_mapper import *
 from nlapp.service.datasets.mappers.user.question_answering_mapper import *
 from nlapp.service.datasets.mappers.user.summarization_mapper import *
 from nlapp.service.datasets.mappers.user.token_classification_mapper import *
+from nlapp.service.datasets.mappers.user.translation_mapper import *
 
 
 DATASETS_LOADER = {
@@ -32,6 +33,8 @@ def __user_dataset_mapper_factory(
         return SummarizationMapper(column_mapping)
     if task_type == TaskType.TOKEN_CLASSIFICATION:
         return TokenClassificationMapper(column_mapping)
+    if task_type == TaskType.TRANSLATION:
+        return TranslationMapper(column_mapping)
 
 def get_datasets_by_task_type(task_type: TaskType) -> Dict[str, DatasetDTO]:
     """
@@ -82,4 +85,8 @@ def get_dataset_mapping_columns(task_type: TaskType):
     return {
         TaskType.FILL_MASK: FillMaskMapper.columns,
         TaskType.QUESTION_ANSWERING: QuestionAnsweringMapper.columns,
+        TaskType.SUMMARIZATION: SummarizationMapper.columns,
+        TaskType.TEXT_CLASSIFICATION: TextClassificationMapper.columns,
+        TaskType.TOKEN_CLASSIFICATION: TokenClassificationMapper.columns,
+        TaskType.TRANSLATION: TranslationMapper.columns
     }.get(task_type)

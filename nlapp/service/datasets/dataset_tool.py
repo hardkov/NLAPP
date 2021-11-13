@@ -14,6 +14,8 @@ from nlapp.service.datasets.mappers.huggingface.fill_mask_mapper import *
 from nlapp.service.datasets.mappers.huggingface.question_answering_mapper import *
 from nlapp.service.datasets.mappers.huggingface.text_classification_mapper import *
 from nlapp.service.datasets.mappers.huggingface.token_classification_mapper import *
+from nlapp.service.datasets.mappers.huggingface.translation_mapper import *
+
 from pathlib import Path
 
 from nlapp.service.datasets.mappers.huggingface.summarization_mapper import (
@@ -26,6 +28,7 @@ hugging_face_dataset_mappers = {
     TaskType.SUMMARIZATION: SummarizationMapper(),
     TaskType.TEXT_CLASSIFICATION: TextClassificationMapper(),
     TaskType.TOKEN_CLASSIFICATION: TokenClassificationMapper(),
+    TaskType.TRANSLATION: TranslationMapper(),
 }
 
 DATASET_DIR = os.path.join(
@@ -42,14 +45,6 @@ logger = logging.getLogger(__name__)
 
 
 class DatasetTool:
-    available_mappers_flag = [
-        TaskType.FILL_MASK,
-        TaskType.QUESTION_ANSWERING,
-        TaskType.SUMMARIZATION,
-        TaskType.TEXT_CLASSIFICATION,
-        TaskType.TOKEN_CLASSIFICATION,
-    ]
-
     def __init__(self, task_type: TaskType):
         self.task_type = task_type
         self.hugging_face_mapper = hugging_face_dataset_mappers.get(task_type)
@@ -78,12 +73,7 @@ class DatasetTool:
 
         for dataset in self.__all_datasets:
             if task_category in dataset.tags:
-                if self.task_type in self.available_mappers_flag:
-                    self.__check_dataset(dataset, specific_datasets)
-                else:
-                    specific_datasets[dataset.id] = DatasetDTO(
-                        dataset.id, dataset.description, self.task_type
-                    )
+                self.__check_dataset(dataset, specific_datasets)
 
         logger.info(f"Dataset loaded: {self.task_type.name}")
         return specific_datasets
@@ -111,9 +101,8 @@ class DatasetTool:
     def download_dataset(self, name: str) -> Dict:
         self.create_dir(self.cached_dir)
         dataset_dict = self.__load_dateset(name)
-        if self.task_type in self.available_mappers_flag:
-            return self.hugging_face_mapper.map(dataset_dict)
-        return dataset_dict
+        return self.hugging_face_mapper.map(dataset_dict)
+
 
     def __load_dateset(self, name: str) -> DatasetDict:
         if self.hugging_face_mapper.subset_names.keys().__contains__(name):
