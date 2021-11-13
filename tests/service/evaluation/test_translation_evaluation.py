@@ -30,7 +30,10 @@ class TestTranslationEvaluation(unittest.TestCase):
         dataset_name = "persiannlp/parsinlu_translation_fa_en"
         task_type = TaskType.TRANSLATION
         model_dto = ModelDTO(
-            "persiannlp/mt5-small-parsinlu-opus-translation_fa_en", "Description", task_type, False,
+            "persiannlp/mt5-small-parsinlu-opus-translation_fa_en",
+            "Description",
+            task_type,
+            False,
         )
         dataset = download_dataset(task_type, dataset_name)
         dataset = self.__limit_dataset(dataset)

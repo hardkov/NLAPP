@@ -3,13 +3,14 @@ from sacrebleu.metrics import BLEU
 
 from typing import Dict, List
 
-from nlapp.data_model.translation.translation_dataset_result import TranslationDatasetResult
+from nlapp.data_model.translation.translation_dataset_result import (
+    TranslationDatasetResult,
+)
 from nlapp.data_model.translation.translation_result import TranslationResult
 from nlapp.data_model.translation.translation_score import TranslationScore
 
-def evaluate(
-    batch, model, tokenizer
-):
+
+def evaluate(batch, model, tokenizer):
     result = list()
     for portion in __split_text_to_smaller_portion(batch):
         inputs_ids = tokenizer.encode(portion, return_tensors="pt")
@@ -21,7 +22,7 @@ def evaluate(
         )
         result.append(translation)
     joined_translations = "".join([item for item in result])
-    
+
     return TranslationResult(batch, joined_translations)
 
 
@@ -40,6 +41,7 @@ def evaluate_dataset(
     bleus = list(map(lambda x: x.bleu, scores))
 
     return TranslationDatasetResult(statistics.mean(bleus), scores)
+
 
 def calculate_bleu(expected_translation, translation):
     bleu = BLEU()

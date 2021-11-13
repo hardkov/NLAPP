@@ -6,7 +6,6 @@ from transformers import (
     AutoModelForSequenceClassification,
     AutoModelForSeq2SeqLM,
     AutoModelForTokenClassification,
-
 )
 
 
@@ -64,7 +63,7 @@ class TaskType(Enum):
             TaskType.TEXT_CLASSIFICATION: AutoModelForSequenceClassification,
             TaskType.SUMMARIZATION: AutoModelForSeq2SeqLM,
             TaskType.TOKEN_CLASSIFICATION: AutoModelForTokenClassification,
-            TaskType.TRANSLATION: AutoModelForSeq2SeqLM
+            TaskType.TRANSLATION: AutoModelForSeq2SeqLM,
         }
 
         return generators[self]

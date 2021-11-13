@@ -2,9 +2,12 @@ import json
 import unittest
 
 from nlapp.data_model.dataset_format import DatasetFormat
-from nlapp.service.datasets.mappers.user.translation_mapper import TranslationMapper
+from nlapp.service.datasets.mappers.user.translation_mapper import (
+    TranslationMapper,
+)
 
 from tests.utils import get_resource_path
+
 
 class TestTranslationMapper(unittest.TestCase):
     def test_parse_json(self):

@@ -36,6 +36,7 @@ def __user_dataset_mapper_factory(
     if task_type == TaskType.TRANSLATION:
         return TranslationMapper(column_mapping)
 
+
 def get_datasets_by_task_type(task_type: TaskType) -> Dict[str, DatasetDTO]:
     """
     Return dictionary of information about datasets for specific task.
@@ -88,5 +89,5 @@ def get_dataset_mapping_columns(task_type: TaskType):
         TaskType.SUMMARIZATION: SummarizationMapper.columns,
         TaskType.TEXT_CLASSIFICATION: TextClassificationMapper.columns,
         TaskType.TOKEN_CLASSIFICATION: TokenClassificationMapper.columns,
-        TaskType.TRANSLATION: TranslationMapper.columns
+        TaskType.TRANSLATION: TranslationMapper.columns,
     }.get(task_type)

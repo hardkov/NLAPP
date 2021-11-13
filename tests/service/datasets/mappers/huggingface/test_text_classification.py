@@ -3,7 +3,9 @@ import unittest
 from datasets import load_dataset
 
 from nlapp.service.datasets.dataset_tool import DATASET_DIR
-from nlapp.service.datasets.mappers.huggingface.text_classification_mapper import TextClassificationMapper
+from nlapp.service.datasets.mappers.huggingface.text_classification_mapper import (
+    TextClassificationMapper,
+)
 
 
 class TestFillMaskMapper(unittest.TestCase):
