@@ -1,6 +1,7 @@
 import json
 from math import ceil
 from typing import List
+import random
 
 from data_model.token_classification.token_classification_part_result import TokenClassificationPartResult
 
@@ -19,14 +20,49 @@ progress_bar_css = """
 badge_css = """
 <style type="text/css">
     
-    #tooltip {
-        background: #333;
+    .outer {
         color: white;
-        font-weight: bold;
-        padding: 4px 8px;
-        font-size: 13px;
-        border-radius: 4px;
-      }
+        font-size: 90%;
+    }
+      
+    .inside {   
+        color: white;
+        font-size: 75%;
+    }
+      
+    .blue {
+        background-color: #6694c5;
+    }
+      
+    .blue .inside {
+        background-color: #0d58a9;
+    }
+      
+    .red {
+        background-color: #ff4b4b;
+    }
+      
+    .red .inside {
+        background-color: #c11d1d;
+    }
+    
+    .orange {
+        background-color: #e9bb5c;
+    }
+      
+    .orange .inside {
+        background-color: #cb8e13;
+    }
+    
+    .green {
+        background-color: #3ed939;
+    }
+      
+    .green .inside {
+        background-color: #11b30c;
+    }
+    
+      
 </style>
 """
 
@@ -80,12 +116,21 @@ def get_result_bar(result):
     """
 
 
-def token_classification_badge(word, classification, score):
+def token_classification_badge(word, classification, score, color_class):
     return f'''
     <span data-toggle="tooltip" data-html="true" title="<b>Score</b> : {score}"
-    class="badge bg-primary ttop">{word}<span class="badge bg-warning"> {classification}</span></span>
+    class="badge outer {color_class}">{word} <span class="badge inside {color_class}"> {classification}</span></span>
 '''
 
+
+def get_random_color_class():
+    color_classes = {
+        0: "red",
+        1: "blue",
+        2: "orange",
+        3: "green"
+    }
+    return color_classes[random.randint(0, 3)]
 
 def replace_word_with_badge(sentence: str, result: TokenClassificationPartResult):
     start = result.start
@@ -93,11 +138,8 @@ def replace_word_with_badge(sentence: str, result: TokenClassificationPartResult
     word = sentence[start:end]
     entity = remove_entity_prefixes(result.entity)
     score = round(result.score, 10)
-    return sentence[:start] + token_classification_badge(word, entity, score) + sentence[end:]
-
-
-def remove_all_none_alphanumeric_characters(string):
-    return "".join(char for char in string if char.isalpha())
+    color_class = get_random_color_class()
+    return sentence[:start] + token_classification_badge(word, entity, score, color_class) + sentence[end:]
 
 
 def remove_entity_prefixes(entity: str):
