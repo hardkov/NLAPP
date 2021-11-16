@@ -29,3 +29,6 @@ six~=1.16.0
 lxml~=4.6.4
 conllu~=4.4.1
 setuptools~=57.4.0
+sentencepiece~=0.1.96
+more-itertools~=8.11.0
+sacrebleu~=2.0.0
