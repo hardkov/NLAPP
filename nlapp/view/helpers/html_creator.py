@@ -1,28 +1,64 @@
 import json
 from math import ceil
+from typing import List
+
+from data_model.token_classification.token_classification_part_result import TokenClassificationPartResult
+
+progress_bar_css = """
+<style type="text/css">
+    .progress {
+        background: rgb(255, 255, 255);
+    }
+    .progress-bar {
+        background: rgb(246,51,102);
+        background: linear-gradient(90deg, rgba(246,51,102,1) 35%, rgba(255,255,255,1) 110%);    
+    }
+</style>
+"""
+
+badge_css = """
+<style type="text/css">
+    
+    #tooltip {
+        background: #333;
+        color: white;
+        font-weight: bold;
+        padding: 4px 8px;
+        font-size: 13px;
+        border-radius: 4px;
+      }
+</style>
+"""
 
 
-def get_result_html(result_divs):
+def get_result_html(own_css, body):
     return f"""
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <style type="text/css">
-        .progress {{
-            background: rgb(255, 255, 255);
-        }}
-        .progress-bar {{
-            background: rgb(246,51,102);
-            background: linear-gradient(90deg, rgba(246,51,102,1) 35%, rgba(255,255,255,1) 110%);    
-        }}
-    </style>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> 
+    {own_css}
     <div class="container-fluid m-0">
-        {result_divs}
+        {body}
     </div>
+    <script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {{
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    }})
+    console.log(tooltipTriggerList);
+    </script>
     """
 
 
-def get_token_div(result):
+def get_result_bar(result):
     value = result["score"]
     if value > 1 or value < 0:
         raise ValueError("score has to be between 0 and 1")
@@ -44,9 +80,43 @@ def get_token_div(result):
     """
 
 
+def token_classification_badge(word, classification, score):
+    return f'''
+    <span data-toggle="tooltip" data-html="true" title="<b>Score</b> : {score}"
+    class="badge bg-primary ttop">{word}<span class="badge bg-warning"> {classification}</span></span>
+'''
+
+
+def replace_word_with_badge(sentence: str, result: TokenClassificationPartResult):
+    start = result.start
+    end = result.end
+    word = sentence[start:end]
+    entity = remove_entity_prefixes(result.entity)
+    score = round(result.score, 10)
+    return sentence[:start] + token_classification_badge(word, entity, score) + sentence[end:]
+
+
+def remove_all_none_alphanumeric_characters(string):
+    return "".join(char for char in string if char.isalpha())
+
+
+def remove_entity_prefixes(entity: str):
+    return entity.removeprefix("I-").removeprefix("B-")
+
+
 def get_html_from_result_json(result_json):
     results = json.loads(result_json)
-    result_divs = []
+    result_bars = []
     for result in results:
-        result_divs.append(get_token_div(result))
-    return get_result_html("\n".join(result_divs)), 300
+        result_bars.append(get_result_bar(result))
+    return get_result_html(progress_bar_css, "\n".join(result_bars)), 300
+
+
+def get_token_classification_evaluation_html(sentence: str, results: List[TokenClassificationPartResult]):
+    body = sentence
+    for result in reversed(results):
+        print(result)
+        body = replace_word_with_badge(body, result)
+    return get_result_html(badge_css, body), 100
+
+

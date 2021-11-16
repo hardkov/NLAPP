@@ -3,6 +3,7 @@ import nlapp.view.components.evaluation.fill_mask_evaluation as fill_mask_evalua
 import nlapp.view.components.evaluation.question_answering_evaluation as question_answering_view
 import nlapp.view.components.evaluation.summarization_evaluation as summarization_view
 import nlapp.view.components.evaluation.text_classification_evaluation as text_classification_view
+import nlapp.view.components.evaluation.token_classification_evaluation as token_classification_view
 
 from nlapp.controller.app_controller import (
     download_model,
@@ -18,6 +19,7 @@ EVALUATION_VIEWS = {
     TaskType.QUESTION_ANSWERING: question_answering_view.QuestionAnsweringEvaluation(),
     TaskType.SUMMARIZATION: summarization_view.SummarizationEvaluation(),
     TaskType.TEXT_CLASSIFICATION: text_classification_view.TextClassificationEvaluation(),
+    TaskType.TOKEN_CLASSIFICATION: token_classification_view.TokenClassificationEvaluation(),
 }
 
 

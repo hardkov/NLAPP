@@ -1,4 +1,5 @@
 import statistics
+import timeit
 
 from typing import Dict, List
 
@@ -37,20 +38,28 @@ def evaluate(
 
 
 def evaluate_dataset(
-    dataset: Dict[str, List[str]], model, tokenizer
+    dataset: Dict[str, List[str]], model, tokenizer, timeout_seconds=60
 ) -> TokenClassificationDatasetResult:
     result = list()
     tokens = dataset.get("tokens")
     ner_tags = dataset.get("ner_tags")
 
+    start = timeit.default_timer()
     for i in range(len(tokens)):
 
         tc_part_results = evaluate(tokens[i], model, tokenizer)
         scores = list(map(lambda r: r.score, tc_part_results))
+        if len(scores) > 0:
+            mean = statistics.mean(scores)
+        else:
+            mean = -1.0
         token_classification_result = TokenClassificationSentenceTokenResult(
-            tokens[i], ner_tags[i], tc_part_results, statistics.mean(scores)
+            tokens[i], ner_tags[i], tc_part_results, mean
         )
         result.append(token_classification_result)
+
+        if timeit.default_timer() - start > timeout_seconds:
+            break
 
     scores_dataset = list(map(lambda x: x.score_avg, result))
     return TokenClassificationDatasetResult(
