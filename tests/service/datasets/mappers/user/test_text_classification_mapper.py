@@ -37,11 +37,6 @@ class TestTextClassificationMapper(unittest.TestCase):
         # when
         mapped_data = mapper.map(data_from_user, DatasetFormat.JSON)
 
-        for c, l in zip(mapped_data.get("text"), mapped_data.get("label"),):
-            print(c)
-            print(l)
-            print()
-
         # then
         self.assertEqual(len(mapped_data.get("text")), 2)
         self.assertEqual(len(mapped_data.get("label")), 2)
