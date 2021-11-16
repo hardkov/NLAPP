@@ -25,10 +25,6 @@ class TestFillMaskMapper(unittest.TestCase):
         # when
         mapped_data = mapper.map(data_from_user, DatasetFormat.JSON)
 
-        for a, b in zip(mapped_data.get("sentence"), mapped_data.get("target")):
-            print(a)
-            print(b)
-
         # then
         self.assertEqual(len(mapped_data.get("sentence")), 2)
         self.assertEqual(len(mapped_data.get("target")), 2)

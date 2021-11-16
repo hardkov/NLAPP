@@ -8,3 +8,6 @@ pytest~=6.2.5
 black~=21.9b0
 pylint~=2.11.1
 rouge~=1.0.1
+sentencepiece~=0.1.96
+more-itertools~=8.11.0
+sacrebleu~=2.0.0
