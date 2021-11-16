@@ -3,7 +3,9 @@ from math import ceil
 from typing import List
 import random
 
-from data_model.token_classification.token_classification_part_result import TokenClassificationPartResult
+from data_model.token_classification.token_classification_part_result import (
+    TokenClassificationPartResult,
+)
 
 progress_bar_css = """
 <style type="text/css">
@@ -117,29 +119,31 @@ def get_result_bar(result):
 
 
 def token_classification_badge(word, classification, score, color_class):
-    return f'''
+    return f"""
     <span data-toggle="tooltip" data-html="true" title="<b>Score</b> : {score}"
     class="badge outer {color_class}">{word} <span class="badge inside {color_class}"> {classification}</span></span>
-'''
+"""
 
 
 def get_random_color_class():
-    color_classes = {
-        0: "red",
-        1: "blue",
-        2: "orange",
-        3: "green"
-    }
+    color_classes = {0: "red", 1: "blue", 2: "orange", 3: "green"}
     return color_classes[random.randint(0, 3)]
 
-def replace_word_with_badge(sentence: str, result: TokenClassificationPartResult):
+
+def replace_word_with_badge(
+    sentence: str, result: TokenClassificationPartResult
+):
     start = result.start
     end = result.end
     word = sentence[start:end]
     entity = remove_entity_prefixes(result.entity)
     score = round(result.score, 10)
     color_class = get_random_color_class()
-    return sentence[:start] + token_classification_badge(word, entity, score, color_class) + sentence[end:]
+    return (
+        sentence[:start]
+        + token_classification_badge(word, entity, score, color_class)
+        + sentence[end:]
+    )
 
 
 def remove_entity_prefixes(entity: str):
@@ -154,11 +158,11 @@ def get_html_from_result_json(result_json):
     return get_result_html(progress_bar_css, "\n".join(result_bars)), 300
 
 
-def get_token_classification_evaluation_html(sentence: str, results: List[TokenClassificationPartResult]):
+def get_token_classification_evaluation_html(
+    sentence: str, results: List[TokenClassificationPartResult]
+):
     body = sentence
     for result in reversed(results):
         print(result)
         body = replace_word_with_badge(body, result)
     return get_result_html(badge_css, body), 100
-
-

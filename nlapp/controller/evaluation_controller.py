@@ -1,8 +1,12 @@
 from typing import List
 
 import streamlit as st
-from data_model.token_classification.token_classification_dataset_result import TokenClassificationDatasetResult
-from data_model.token_classification.token_classification_part_result import TokenClassificationPartResult
+from data_model.token_classification.token_classification_dataset_result import (
+    TokenClassificationDatasetResult,
+)
+from data_model.token_classification.token_classification_part_result import (
+    TokenClassificationPartResult,
+)
 
 from nlapp.data_model.question_answering.answer_score import AnswerScore
 from nlapp.data_model.fill_mask.fill_mask_dataset_evaluation_result import (
@@ -82,6 +86,7 @@ def evaluate_text_classification(
 ) -> List[LabelScore]:
     return text_classification_service.evaluate(sentence, model, tokenizer)
 
+
 @st.cache(
     hash_funcs={
         "tokenizers.Tokenizer": id,
@@ -93,6 +98,7 @@ def evaluate_token_classification(
     single_token: str, model, tokenizer
 ) -> List[TokenClassificationPartResult]:
     return token_classification_service.evaluate(single_token, model, tokenizer)
+
 
 @st.cache(
     hash_funcs={

@@ -30,7 +30,12 @@ class TokenClassificationEvaluation(EvaluationView):
 
         results = evaluate_token_classification(value, model, tokenizer)
 
-        html_code, height = html_creator.get_token_classification_evaluation_html(value, results)
+        (
+            html_code,
+            height,
+        ) = html_creator.get_token_classification_evaluation_html(
+            value, results
+        )
         st.components.v1.html(html_code, height=height)
 
     def display_dataset_input(self, model, tokenizer, dataset):
@@ -38,9 +43,7 @@ class TokenClassificationEvaluation(EvaluationView):
             dataset, model, tokenizer, timeout_seconds=10
         )
 
-        st.markdown(
-            f"__Average score:__ {results.score_avg}"
-        )
+        st.markdown(f"__Average score:__ {results.score_avg}")
         with st.expander("See wrong predictions"):
             st.table(
                 [
@@ -50,7 +53,7 @@ class TokenClassificationEvaluation(EvaluationView):
                         "Predicts": functools.reduce(
                             lambda total, res: f"{total} {res.word}: {res.entity},",
                             we.result_list,
-                            ""
+                            "",
                         ),
                         "Target": we.expected_tag,
                     }
