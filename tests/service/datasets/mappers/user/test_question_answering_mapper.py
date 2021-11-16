@@ -23,11 +23,36 @@ class TestQuestionAnsweringMapper(unittest.TestCase):
 
         # when
         mapped_dataset = mapper.map(dataset, DatasetFormat.JSON)
+
+        # then
+        self.assert_data(mapped_dataset)
+
+    def test_parse_conll(self):
+        # given
+        mapping_columns = {
+            "context": "text",
+            "question": "question",
+            "answers": "expectation",
+        }
+        mapper = QuestionAnsweringMapper(mapping_columns)
+        path = get_resource_path("question_answer_1.conllu")
+
+        with open(path, "r") as f:
+            dataset = f.read()
+
+        # when
+        mapped_dataset = mapper.map_conll(dataset)
+
+        # then
+        self.assert_data(mapped_dataset)
+
+    def assert_data(self, mapped_dataset):
         contexts = mapped_dataset.get("context")
         questions = mapped_dataset.get("question")
         answers = mapped_dataset.get("answers")
-
-        # then
         self.assertTrue(len(contexts) == 2)
         self.assertTrue(len(questions) == 2)
         self.assertTrue(len(answers) == 2)
+
+
+

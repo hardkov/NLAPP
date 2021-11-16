@@ -1,3 +1,4 @@
+from conllu import parse
 from typing import Dict, List
 
 from nlapp.service.datasets.mappers.user.dataset_mapper import UserDatasetMapper
@@ -16,6 +17,17 @@ class QuestionAnsweringMapper(UserDatasetMapper):
             mapped_data[column] = self.find_data_inside_json(
                 mapped_column, data
             )
+        return mapped_data
+
+    def map_conll(self, data: str):
+        mapped_data = dict()
+        loaded_data = parse(data)
+        sentences = loaded_data[0].metadata
+
+        for column in self.column_mapping:
+            mapped_column_prefix = self.column_mapping.get(column)
+            mapped_data[column] = super().find_sentences_in_conllu_by_prefix(sentences, mapped_column_prefix)
+
         return mapped_data
 
     def validate_dataset(self, mapped_data: Dict[str, List[str]]) -> bool:

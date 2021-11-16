@@ -40,6 +40,17 @@ class UserDatasetMapper(ABC):
         pass
 
     @abstractmethod
+    def map_conll(self, data):
+        pass
+
+    def find_sentences_in_conllu_by_prefix(self, data: Dict, prefix: str):
+        sentences = list()
+        for key, value in data.items():
+            if key.startswith(prefix):
+                sentences.append(value)
+        return sentences
+
+    @abstractmethod
     def validate_dataset(self, mapped_data: Dict[str, List[str]]):
         pass
 
