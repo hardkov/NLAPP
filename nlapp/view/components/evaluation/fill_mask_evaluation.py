@@ -21,9 +21,9 @@ class FillMaskEvaluation(EvaluationView):
         return json.dumps(token_score_list)
 
     def display_manual_input(self, model, tokenizer):
-        form = st.form(key="my-form")
+        form = st.form(key="fill-mask-form")
         value = form.text_input(
-            TaskType.FILL_MASK.name, value="Warsaw is the [MASK] of Poland."
+            "Sentence", value="Warsaw is the [MASK] of Poland."
         )
         form.form_submit_button("Evaluate")
 
@@ -38,7 +38,6 @@ class FillMaskEvaluation(EvaluationView):
             dataset, model, tokenizer, timeout_seconds=10
         )
 
-        st.subheader("Results")
         st.markdown(
             f"__Number of evaluations:__ {results.all_evaluation_number}"
         )
@@ -48,8 +47,7 @@ class FillMaskEvaluation(EvaluationView):
         st.markdown(
             f"__Percent of wrong evaluations:__ {results.wrong_evaluation_percent}"
         )
-        st.markdown("#### Wrong predicts")
-        with st.expander("See predictions"):
+        with st.expander("See wrong predictions"):
             st.table(
                 [
                     {

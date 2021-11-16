@@ -1,4 +1,5 @@
 import statistics
+import timeit
 from typing import Dict, List
 
 from rouge import Rouge
@@ -37,14 +38,18 @@ def evaluate(text: str, model, tokenizer) -> SummarizationScore:
 
 
 def evaluate_dataset(
-    dataset: Dict[str, List[str]], model, tokenizer
+    dataset: Dict[str, List[str]], model, tokenizer, timeout_seconds=60
 ) -> SummarizationDatasetResult:
     result = list()
     texts = dataset.get("text")
 
+    start = timeit.default_timer()
     for text in texts:
         summarization_score = evaluate(text, model, tokenizer)
         result.append(summarization_score)
+
+        if timeit.default_timer() - start > timeout_seconds:
+            break
 
     rouge2_recalls = list(map(lambda x: x.rouge_2_recall, result))
     rouge2_precisions = list(map(lambda x: x.rouge_2_precision, result))

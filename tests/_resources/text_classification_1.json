@@ -1,0 +1,20 @@
+{
+  "text_classification": [
+    {
+      "content": "Wall St. Bears Claw Back Into the Black (Reuters)\nReuters - Short-sellers, Wall Street's\ndwindling\\band of ultra-cynics, are seeing green\nagain.",
+      "tag": 0
+    },
+    {
+      "content": "Carlyle Looks Toward Commercial Aerospace\n(Reuters) Reuters - Private investment firm\nCarlyle Group,\\which has a reputation for making\nwell-timed and occasionally\\controversial plays in\nthe defense industry, has quietly placed\\its bets\non another part of the market.",
+      "tag": 1
+    },
+    {
+      "content": "Oil and Economy Cloud Stocks' Outlook (Reuters)\nReuters - Soaring crude prices plus worries\\about\nthe economy and the outlook for earnings are\nexpected to\\hang over the stock market next week\nduring the depth of the\\summer doldrums.",
+      "tag": 2
+    },
+    {
+      "content": "Iraq Halts Oil Exports from Main Southern Pipeline\n(Reuters) Reuters - Authorities have halted oil\nexport\\flows from the main pipeline in southern\nIraq after\\intelligence showed a rebel militia\ncould strike\\infrastructure, an oil official said\non Saturday.",
+      "tag": 3
+    }
+  ]
+}
