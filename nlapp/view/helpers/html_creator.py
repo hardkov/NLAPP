@@ -146,8 +146,15 @@ def replace_word_with_badge(
     )
 
 
+def remove_prefix(string: str, prefix: str) -> str:
+    if string.startswith(prefix):
+        return string[len(prefix):]
+    return string[:]
+
+
 def remove_entity_prefixes(entity: str):
-    return entity.removeprefix("I-").removeprefix("B-")
+    entity = remove_prefix(entity, "I-")
+    return remove_prefix(entity, "B-")
 
 
 def get_html_from_result_json(result_json):
