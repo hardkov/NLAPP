@@ -67,3 +67,15 @@ class TaskType(Enum):
         }
 
         return generators[self]
+
+    def display_name(self) -> str:
+        names = {
+            TaskType.FILL_MASK: "Fill-Mask",
+            TaskType.QUESTION_ANSWERING: "Question Answering",
+            TaskType.TEXT_CLASSIFICATION: "Text Classification",
+            TaskType.SUMMARIZATION: "Summarization",
+            TaskType.TOKEN_CLASSIFICATION: "Token Classification",
+            TaskType.TRANSLATION: "Translation"
+        }
+
+        return names[self]
