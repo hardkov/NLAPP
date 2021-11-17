@@ -4,13 +4,15 @@ from nlapp.controller.app_controller import get_datasets_names, get_dataset_dto,
 from nlapp.data_model.state import KEYS
 
 
-def write():
+def write(placeholder):
     task = get_current_task()
 
     datasets, _, description = st.columns([6, 1, 5])
 
-    with datasets:
+    with placeholder:
         cached = st.checkbox("Cached only", key=KEYS.IS_DATASET_CACHED)
+
+    with datasets:
         datasets_names = get_datasets_names(task, cached)
 
         dataset_name = st.selectbox(
