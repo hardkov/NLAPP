@@ -34,7 +34,7 @@ class ApiModels:
                     try:
                         task_type = TaskType.from_str(model["pipeline_tag"])
                         description = ""
-                        models[name] = ModelDTO(name, description, task_type)
+                        models[name] = ModelDTO(name, description, task_type, ModelDir.is_cached(name, task_type))
                     except NotImplementedError:
                         # logger.info("This type of task is not supported.")
                         continue
