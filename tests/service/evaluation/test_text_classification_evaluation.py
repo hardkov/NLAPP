@@ -23,7 +23,9 @@ class TestTextClassificationEvaluation(unittest.TestCase):
         result = evaluate(sentence, model, tokenizer)
 
         # then
-        self.assertTrue(result.score > 0.0)
+        self.assertTrue(len(result) > 0)
+        self.assertTrue(result[0].score > 0.0)
+
 
     def test_evaluate_dataset(self):
         # given
