@@ -6,9 +6,9 @@ from nlapp.data_model.state import KEYS
 from nlapp.controller.app_controller import (
     load_user_dataset,
     get_dataset_mapping_columns,
+    get_current_task,
 )
 from nlapp.data_model.dataset_format import DatasetFormat
-from nlapp.service.datasets.dataset_gateway import __user_dataset_mapper_factory
 
 
 def check_mapping_value_are_not_empty(column_mapping):
@@ -23,7 +23,7 @@ def get_json_string(file):
 
 
 def write():
-    task = st.session_state[KEYS.SELECTED_TASK]
+    task = get_current_task()
 
     user_file = st.file_uploader(
         "Allowed extensions: .json", type=["json"], key=KEYS.USER_DATASET_FILE

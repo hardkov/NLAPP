@@ -43,9 +43,14 @@ def get_datasets_names(task_type: TaskType, cached: bool) -> List[str]:
     return list(map(lambda dataset: dataset.name, dataset_list_filtered))
 
 
+def get_current_task():
+    task_name = st.session_state[KEYS.SELECTED_TASK]
+    return TaskType[task_name]
+
+
 def get_current_model():
     model_name = st.session_state[KEYS.SELECTED_MODEL]
-    task_type = st.session_state[KEYS.SELECTED_TASK]
+    task_type = get_current_task()
     return get_models_by_task_type(task_type).get(model_name)
 
 
@@ -54,7 +59,7 @@ def get_current_dataset():
         return st.session_state[KEYS.MAPPED_USER_DATASET]
     else:
         dataset_name = st.session_state[KEYS.SELECTED_DATASET]
-        task_type = st.session_state[KEYS.SELECTED_TASK]
+        task_type = get_current_task()
         return get_datasets_by_task_type(task_type).get(dataset_name)
 
 
@@ -126,7 +131,11 @@ def get_dataset_dto(task_type: TaskType, dataset_name: str) -> DatasetDTO:
 
 
 @st.cache(
-    hash_funcs={"tokenizers.Tokenizer": id, "tokenizers.AddedToken": id},
+    hash_funcs={
+        "tokenizers.Tokenizer": id,
+        "tokenizers.AddedToken": id,
+        "torch.nn.parameter.Parameter": id,
+    },
     max_entries=1,
 )
 def download_model(task_type: TaskType, name: str):
@@ -149,6 +158,7 @@ def download_dataset(task_type: TaskType, dataset_name: str):
     if datasets[dataset_name] is None:
         raise Exception("Dataset name is incorrect.")
 
+    datasets[dataset_name].cached = True
     return datasets_service.download_dataset(task_type, dataset_name)
 
 

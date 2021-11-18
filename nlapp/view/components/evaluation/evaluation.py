@@ -9,6 +9,7 @@ from nlapp.controller.app_controller import (
     download_dataset,
     get_current_model,
     get_current_dataset,
+    get_current_task,
 )
 from nlapp.data_model.state import KEYS
 from nlapp.data_model.task_type import TaskType
@@ -36,7 +37,10 @@ def display_manual_input(task, model, tokenizer):
 def display_dataset_input(task, model, tokenizer):
     dataset_input_enabled = False
     button_placeholder = st.empty()
-    if should_not_evaluate_user_dataset():
+    if (
+        should_not_evaluate_user_dataset()
+        and st.session_state.get(KEYS.SELECTED_DATASET) is not None
+    ):
         dataset_input_enabled = button_placeholder.button("Download & Compute")
     elif does_mapped_user_dataset_exist():
         dataset_input_enabled = button_placeholder.button(
@@ -53,10 +57,14 @@ def display_dataset_input(task, model, tokenizer):
 
 
 def write():
-    task = st.session_state[KEYS.SELECTED_TASK]
+    task = get_current_task()
     model = get_current_model()
 
     st.header("Results")
+
+    if model is None:
+        st.info("No model is available")
+        return
 
     should_download_model = st.checkbox(
         "Toggle model fetching", key=KEYS.MODEL_FETCHING_TOGGLED

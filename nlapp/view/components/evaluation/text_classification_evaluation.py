@@ -32,6 +32,7 @@ class TextClassificationEvaluation(EvaluationView):
                             we.labels,
                             "",
                         ),
+                        "Expected label": we.expected_label,
                     }
                     for we in predict_list
                 ]
