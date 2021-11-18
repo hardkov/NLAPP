@@ -1,6 +1,10 @@
 import streamlit as st
 
-from nlapp.controller.app_controller import get_datasets_names, get_dataset_dto, get_current_task
+from nlapp.controller.app_controller import (
+    get_datasets_names,
+    get_dataset_dto,
+    get_current_task,
+)
 from nlapp.data_model.state import KEYS
 
 

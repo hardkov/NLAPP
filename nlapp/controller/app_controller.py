@@ -131,7 +131,11 @@ def get_dataset_dto(task_type: TaskType, dataset_name: str) -> DatasetDTO:
 
 
 @st.cache(
-    hash_funcs={"tokenizers.Tokenizer": id, "tokenizers.AddedToken": id, "torch.nn.parameter.Parameter": id},
+    hash_funcs={
+        "tokenizers.Tokenizer": id,
+        "tokenizers.AddedToken": id,
+        "torch.nn.parameter.Parameter": id,
+    },
     max_entries=1,
 )
 def download_model(task_type: TaskType, name: str):

@@ -6,13 +6,15 @@ import nlapp.view.components.dataset.user_dataset_upload as user_dataset_upload
 
 def write():
     st.header("Select dataset")
-    user_dataset_checkbox_placeholder,  cached_checkbox_placeholder = st.columns([3, 7])
+    user_dataset_checkbox_placeholder, cached_checkbox_placeholder = st.columns(
+        [3, 7]
+    )
 
     with user_dataset_checkbox_placeholder:
         own_dataset = st.checkbox(
-                "Upload your own dataset",
-                key=KEYS.UPLOAD_USER_DATASET_TOGGLED,
-                help="You can upload your own dataset after properly mapping it.",
+            "Upload your own dataset",
+            key=KEYS.UPLOAD_USER_DATASET_TOGGLED,
+            help="You can upload your own dataset after properly mapping it.",
         )
 
     if own_dataset:

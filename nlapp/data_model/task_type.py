@@ -75,7 +75,7 @@ class TaskType(Enum):
             TaskType.TEXT_CLASSIFICATION: "Text Classification",
             TaskType.SUMMARIZATION: "Summarization",
             TaskType.TOKEN_CLASSIFICATION: "Token Classification",
-            TaskType.TRANSLATION: "Translation"
+            TaskType.TRANSLATION: "Translation",
         }
 
         return names[self]

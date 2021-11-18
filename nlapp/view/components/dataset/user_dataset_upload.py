@@ -6,7 +6,7 @@ from nlapp.data_model.state import KEYS
 from nlapp.controller.app_controller import (
     load_user_dataset,
     get_dataset_mapping_columns,
-    get_current_task
+    get_current_task,
 )
 from nlapp.data_model.dataset_format import DatasetFormat
 
