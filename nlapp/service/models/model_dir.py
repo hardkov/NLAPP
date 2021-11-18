@@ -37,3 +37,8 @@ class ModelDir(Enum):
     def cache_dir(model: ModelDTO):
         model.cached = True
         return f"{ModelDir.from_task_type(model.task_type)}/{model.name}"
+
+    @staticmethod
+    def is_cached(name: str, task_type: TaskType):
+        path = f"{ModelDir.from_task_type(task_type)}/{name}"
+        return os.path.exists(path)

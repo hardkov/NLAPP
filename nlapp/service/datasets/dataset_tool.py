@@ -45,6 +45,15 @@ logger = logging.getLogger(__name__)
 
 
 class DatasetTool:
+    __all_datasets = list_datasets(
+        with_community_datasets=True, with_details=True
+    )
+    __cached_datasets = (
+        set(f.name for f in os.scandir(DATASET_DIR) if f.is_dir())
+        if os.path.exists(DATASET_DIR)
+        else set()
+    )
+
     def __init__(self, task_type: TaskType):
         self.task_type = task_type
         self.hugging_face_mapper = hugging_face_dataset_mappers.get(task_type)
@@ -53,9 +62,6 @@ class DatasetTool:
             INFO_FILE_DIR, "datasets", "datasets"
         )
         self.info_file_name = "dataset_infos.json"
-        self.__all_datasets = list_datasets(
-            with_community_datasets=True, with_details=True
-        )
         self.__execute_gh_clone()
 
     def get_datasets(self):
@@ -86,7 +92,10 @@ class DatasetTool:
             is True
         ):
             datasets_dict[dataset.id] = DatasetDTO(
-                dataset.id, dataset.description, self.task_type
+                dataset.id,
+                dataset.description,
+                self.task_type,
+                self.__cached_datasets.__contains__(dataset.id),
             )
 
     def __find_dataset_info(self, dataset_name: str) -> Tuple[bool, Dict]:
