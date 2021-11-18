@@ -37,7 +37,7 @@ def display_manual_input(task, model, tokenizer):
 def display_dataset_input(task, model, tokenizer):
     dataset_input_enabled = False
     button_placeholder = st.empty()
-    if should_not_evaluate_user_dataset():
+    if should_not_evaluate_user_dataset() and st.session_state.get(KEYS.SELECTED_DATASET) is not None:
         dataset_input_enabled = button_placeholder.button("Download & Compute")
     elif does_mapped_user_dataset_exist():
         dataset_input_enabled = button_placeholder.button(

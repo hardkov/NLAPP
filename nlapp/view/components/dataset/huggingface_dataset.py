@@ -22,6 +22,9 @@ def write(placeholder):
             help="In order to search just type while selecting",
         )
 
+    if dataset_name is None:
+        return
+
     dataset_dto = get_dataset_dto(task, dataset_name)
 
     with description:
