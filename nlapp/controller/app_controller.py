@@ -154,6 +154,7 @@ def download_dataset(task_type: TaskType, dataset_name: str):
     if datasets[dataset_name] is None:
         raise Exception("Dataset name is incorrect.")
 
+    datasets[dataset_name].cached = True
     return datasets_service.download_dataset(task_type, dataset_name)
 
 
