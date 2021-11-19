@@ -1,6 +1,12 @@
 from typing import List
 
 import streamlit as st
+from data_model.token_classification.token_classification_dataset_result import (
+    TokenClassificationDatasetResult,
+)
+from data_model.token_classification.token_classification_part_result import (
+    TokenClassificationPartResult,
+)
 
 from nlapp.data_model.question_answering.answer_score import AnswerScore
 from nlapp.data_model.fill_mask.fill_mask_dataset_evaluation_result import (
@@ -25,6 +31,7 @@ from nlapp.service.evaluation import (
     question_answering_evaluation as question_answering_service,
     summarization_evaluation as summarization_service,
     text_classification_evaluation as text_classification_service,
+    token_classification_evaluation as token_classification_service,
 )
 
 
@@ -79,6 +86,19 @@ def evaluate_text_classification(
     sentence: str, model, tokenizer
 ) -> List[LabelScore]:
     return text_classification_service.evaluate(sentence, model, tokenizer)
+
+
+@st.cache(
+    hash_funcs={
+        "tokenizers.Tokenizer": id,
+        "tokenizers.AddedToken": id,
+    },
+    max_entries=1,
+)
+def evaluate_token_classification(
+    single_token: str, model, tokenizer
+) -> List[TokenClassificationPartResult]:
+    return token_classification_service.evaluate(single_token, model, tokenizer)
 
 
 @st.cache(
@@ -142,5 +162,21 @@ def evaluate_dataset_text_classification(
     dataset, model, tokenizer, timeout_seconds
 ) -> TextClassificationDatasetResult:
     return text_classification_service.evaluate_dataset(
+        dataset, model, tokenizer, timeout_seconds
+    )
+
+
+@st.cache(
+    hash_funcs={
+        "pyarrow.lib.Buffer": id,
+        "tokenizers.Tokenizer": id,
+        "tokenizers.AddedToken": id,
+    },
+    max_entries=1,
+)
+def evaluate_dataset_token_classification(
+    dataset, model, tokenizer, timeout_seconds
+) -> TokenClassificationDatasetResult:
+    return token_classification_service.evaluate_dataset(
         dataset, model, tokenizer, timeout_seconds
     )

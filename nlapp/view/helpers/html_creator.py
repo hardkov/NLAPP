@@ -1,28 +1,102 @@
 import json
 from math import ceil
+from typing import List
+import random
+
+from data_model.token_classification.token_classification_part_result import (
+    TokenClassificationPartResult,
+)
+
+progress_bar_css = """
+<style type="text/css">
+    .progress {
+        background: rgb(255, 255, 255);
+    }
+    .progress-bar {
+        background: rgb(246,51,102);
+        background: linear-gradient(90deg, rgba(246,51,102,1) 35%, rgba(255,255,255,1) 110%);    
+    }
+</style>
+"""
+
+badge_css = """
+<style type="text/css">
+    
+    .outer {
+        color: white;
+        font-size: 90%;
+    }
+      
+    .inside {   
+        color: white;
+        font-size: 75%;
+    }
+      
+    .blue {
+        background-color: #6694c5;
+    }
+      
+    .blue .inside {
+        background-color: #0d58a9;
+    }
+      
+    .red {
+        background-color: #ff4b4b;
+    }
+      
+    .red .inside {
+        background-color: #c11d1d;
+    }
+    
+    .orange {
+        background-color: #e9bb5c;
+    }
+      
+    .orange .inside {
+        background-color: #cb8e13;
+    }
+    
+    .green {
+        background-color: #3ed939;
+    }
+      
+    .green .inside {
+        background-color: #11b30c;
+    }
+    
+      
+</style>
+"""
 
 
-def get_result_html(result_divs):
+def get_result_html(own_css, body):
     return f"""
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <style type="text/css">
-        .progress {{
-            background: rgb(255, 255, 255);
-        }}
-        .progress-bar {{
-            background: rgb(246,51,102);
-            background: linear-gradient(90deg, rgba(246,51,102,1) 35%, rgba(255,255,255,1) 110%);    
-        }}
-    </style>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> 
+    {own_css}
     <div class="container-fluid m-0">
-        {result_divs}
+        {body}
     </div>
+    <script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {{
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    }})
+    console.log(tooltipTriggerList);
+    </script>
     """
 
 
-def get_token_div(result):
+def get_result_bar(result):
     value = result["score"]
     if value > 1 or value < 0:
         raise ValueError("score has to be between 0 and 1")
@@ -44,9 +118,58 @@ def get_token_div(result):
     """
 
 
+def token_classification_badge(word, classification, score, color_class):
+    return f"""
+    <span data-toggle="tooltip" data-html="true" title="<b>Score</b> : {score}"
+    class="badge outer {color_class}">{word} <span class="badge inside {color_class}"> {classification}</span></span>
+"""
+
+
+def get_random_color_class():
+    color_classes = {0: "red", 1: "blue", 2: "orange", 3: "green"}
+    return color_classes[random.randint(0, 3)]
+
+
+def replace_word_with_badge(
+    sentence: str, result: TokenClassificationPartResult
+):
+    start = result.start
+    end = result.end
+    word = sentence[start:end]
+    entity = remove_entity_prefixes(result.entity)
+    score = round(result.score, 10)
+    color_class = get_random_color_class()
+    return (
+        sentence[:start]
+        + token_classification_badge(word, entity, score, color_class)
+        + sentence[end:]
+    )
+
+
+def remove_prefix(string: str, prefix: str) -> str:
+    if string.startswith(prefix):
+        return string[len(prefix):]
+    return string[:]
+
+
+def remove_entity_prefixes(entity: str):
+    entity = remove_prefix(entity, "I-")
+    return remove_prefix(entity, "B-")
+
+
 def get_html_from_result_json(result_json):
     results = json.loads(result_json)
-    result_divs = []
+    result_bars = []
     for result in results:
-        result_divs.append(get_token_div(result))
-    return get_result_html("\n".join(result_divs)), 300
+        result_bars.append(get_result_bar(result))
+    return get_result_html(progress_bar_css, "\n".join(result_bars)), 300
+
+
+def get_token_classification_evaluation_html(
+    sentence: str, results: List[TokenClassificationPartResult]
+):
+    body = sentence
+    for result in reversed(results):
+        print(result)
+        body = replace_word_with_badge(body, result)
+    return get_result_html(badge_css, body), 100

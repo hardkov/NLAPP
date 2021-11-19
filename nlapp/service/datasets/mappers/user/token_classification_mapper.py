@@ -27,6 +27,5 @@ class TokenClassificationMapper(UserDatasetMapper):
     def validate_dataset(self, mapped_data: Dict[str, List[str]]) -> bool:
         return True
 
-    @staticmethod
-    def find_data_inside_json(mapped_column: str, json: Dict):
+    def find_data_inside_json(self, mapped_column: str, json: Dict):
         return super().find_data_inside_json(mapped_column, json)
