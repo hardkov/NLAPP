@@ -110,7 +110,7 @@ class DatasetTool:
     def download_dataset(self, name: str) -> Dict:
         self.create_dir(self.cached_dir)
         dataset_dict = self.__load_dateset(name)
-        return self.hugging_face_mapper.map(dataset_dict)
+        return self.hugging_face_mapper.map(dataset_dict, name)
 
     def __load_dateset(self, name: str) -> DatasetDict:
         if self.hugging_face_mapper.subset_names.keys().__contains__(name):

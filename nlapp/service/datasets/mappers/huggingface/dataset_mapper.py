@@ -7,7 +7,7 @@ from datasets.dataset_dict import DatasetDict
 
 class DatasetMapper(ABC):
     @abstractmethod
-    def map(self, dataset: DatasetDict) -> Dict[str, List[str]]:
+    def map(self, dataset: DatasetDict, dataset_name: str) -> Dict[str, List]:
         pass
 
     @abstractmethod

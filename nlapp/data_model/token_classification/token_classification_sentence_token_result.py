@@ -7,7 +7,8 @@ from nlapp.data_model.token_classification.token_classification_part_result impo
 
 @dataclass
 class TokenClassificationSentenceTokenResult:
-    sentence_token: str
-    expected_tag: str
-    result_list: List[TokenClassificationPartResult]
+    sentence: str
+    expected_tags: List
+    correct_tags: List
+    wrong_tags: List
     score_avg: float
