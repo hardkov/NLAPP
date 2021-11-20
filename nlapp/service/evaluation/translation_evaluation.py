@@ -1,4 +1,6 @@
 import statistics
+import timeit
+
 from sacrebleu.metrics import BLEU
 
 from typing import Dict, List
@@ -27,17 +29,23 @@ def evaluate(batch, model, tokenizer):
 
 
 def evaluate_dataset(
-    dataset: Dict[str, List[str]], model, tokenizer
+    dataset: Dict[str, List[str]], model, tokenizer, timeout_seconds=60
 ) -> TranslationDatasetResult:
     source = dataset.get("source")
     targets = dataset.get("targets")
 
     scores = list()
+
+    start = timeit.default_timer()
     for i in range(len(source)):
         result = evaluate(source[i], model, tokenizer)
         bleu = calculate_bleu(targets[i], result.translation)
         score = TranslationScore(result, targets[i], bleu)
         scores.append(score)
+
+        if timeit.default_timer() - start > timeout_seconds:
+            break
+
     bleus = list(map(lambda x: x.bleu, scores))
 
     return TranslationDatasetResult(statistics.mean(bleus), scores)
