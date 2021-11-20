@@ -44,19 +44,29 @@ class TokenClassificationEvaluation(EvaluationView):
         )
 
         st.markdown(f"__Average score:__ {results.score_avg}")
+
         with st.expander("See wrong predictions"):
             st.table(
                 [
                     {
-                        "Sentence": we.sentence_token,
-                        "Score average": we.score_avg,
-                        "Predicts": functools.reduce(
-                            lambda total, res: f"{total} {res.word}: {res.entity},",
-                            we.result_list,
-                            "",
-                        ),
-                        "Target": we.expected_tag,
+                        "Sentence": wrong_pred.sentence,
+                        "Score average": wrong_pred.score_avg,
+                        "Correct tags": str(wrong_pred.correct_tags).strip('[]'),
+                        "Wrong tags": str(wrong_pred.wrong_tags).strip('[]'),
+                        "Target": str(wrong_pred.expected_tags).strip('[]'),
                     }
-                    for we in results.result_list
+                    for wrong_pred in results.wrong_predictions
+                ]
+            )
+
+        with st.expander("See correct predictions"):
+            st.table(
+                [
+                    {
+                        "Sentence": correct_pred.sentence,
+                        "Score average": correct_pred.score_avg,
+                        "Tags": str(correct_pred.correct_tags).strip('[]'),
+                    }
+                    for correct_pred in results.correct_predictions
                 ]
             )
