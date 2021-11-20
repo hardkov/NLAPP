@@ -25,7 +25,7 @@ class SummarizationMapper(DatasetMapper):
         super().__init__()
         self.subset_names = dict()
 
-    def map(self, dataset: DatasetDict) -> Dict[str, List[str]]:
+    def map(self, dataset: DatasetDict, dataset_name: str) -> Dict[str, List[str]]:
         mapped_column_name = list(self.column_names.keys())[0]
         accepted_column_names = self.column_names[mapped_column_name]
 
