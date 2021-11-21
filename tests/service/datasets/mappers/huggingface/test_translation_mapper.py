@@ -16,7 +16,7 @@ class TestFillMaskMapper(unittest.TestCase):
         mapper = TranslationMapper()
 
         # when
-        mapped_dataset = mapper.map(dataset)
+        mapped_dataset = mapper.map(dataset, dataset_name)
         source = mapped_dataset.get("source")
         targets = mapped_dataset.get("targets")
 

@@ -16,7 +16,7 @@ class TestFillMaskMapper(unittest.TestCase):
         mapper = TextClassificationMapper()
 
         # when
-        mapped_dataset = mapper.map(dataset)
+        mapped_dataset = mapper.map(dataset, dataset_name)
         text = mapped_dataset.get("text")
         label = mapped_dataset.get("label")
 
