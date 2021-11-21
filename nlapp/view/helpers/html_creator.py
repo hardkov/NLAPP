@@ -170,6 +170,5 @@ def get_token_classification_evaluation_html(
 ):
     body = sentence
     for result in reversed(results):
-        print(result)
         body = replace_word_with_badge(body, result)
     return get_result_html(badge_css, body), 100

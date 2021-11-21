@@ -41,7 +41,6 @@ def evaluate_sentence(sentence: str, model, tokenizer, top=5) -> FillMaskResult:
     return FillMaskResult(sentence, decoded_tokens)
 
 
-# TODO: asynchronous evaluation and monitoring actual state of evaluation
 def evaluate_dataset(
     dataset: Dict[str, List[str]], model, tokenizer, timeout_seconds=60
 ) -> FillMaskDatasetEvaluationResult:

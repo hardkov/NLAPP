@@ -46,7 +46,7 @@ class SummarizationEvaluation(EvaluationView):
             st.markdown("**Summary:**")
             st.info(result.summary)
 
-    def display_dataset_input(self, model, tokenizer, dataset):
+    def display_dataset_input(self, model, tokenizer, dataset,  timeout_seconds):
         results = evaluate_dataset_summarization(
             dataset, model, tokenizer, timeout_seconds=10
         )

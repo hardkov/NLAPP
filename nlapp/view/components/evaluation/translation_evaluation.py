@@ -37,7 +37,7 @@ class TranslationEvaluation(EvaluationView):
             st.markdown("**Translation:**")
             st.info(result.translation)
 
-    def display_dataset_input(self, model, tokenizer, dataset):
+    def display_dataset_input(self, model, tokenizer, dataset,  timeout_seconds):
         results = evaluate_dataset_translation(
             dataset, model, tokenizer, timeout_seconds=10
         )
