@@ -9,6 +9,14 @@ from transformers import (
 )
 
 
+FILL_MASK_DESCRIPTION = "fill-mask"
+QUESTION_ANSWERING_DESCRIPTION = "question-answering"
+SUMMARIZATION_DESCRIPTION = "summarization"
+TEXT_CLASSIFICATION_DESCRIPTION = "text-classification"
+TOKEN_CLASSIFICATION_DESCRIPTION = "token-classification"
+TRANSLATION_DESCRIPTION = "translation"
+
+
 class TaskType(Enum):
     FILL_MASK = 1
     QUESTION_ANSWERING = 2
@@ -79,3 +87,15 @@ class TaskType(Enum):
         }
 
         return names[self]
+
+    def description(self):
+        tasks_descriptions = {
+            TaskType.FILL_MASK: FILL_MASK_DESCRIPTION,
+            TaskType.QUESTION_ANSWERING: QUESTION_ANSWERING_DESCRIPTION,
+            TaskType.SUMMARIZATION: SUMMARIZATION_DESCRIPTION,
+            TaskType.TEXT_CLASSIFICATION: TEXT_CLASSIFICATION_DESCRIPTION,
+            TaskType.TOKEN_CLASSIFICATION: TOKEN_CLASSIFICATION_DESCRIPTION,
+            TaskType.TRANSLATION: TRANSLATION_DESCRIPTION
+        }
+
+        return tasks_descriptions[self]
