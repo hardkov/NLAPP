@@ -87,6 +87,7 @@ def initialize_state():
         st.session_state[KEYS.INITIALIZATION_DONE] = True
         st.session_state[KEYS.UPLOAD_USER_DATASET_TOGGLED] = False
         st.session_state[KEYS.MAPPED_USER_DATASET] = None
+        st.session_state[KEYS.IS_USER_FILE_CONLLU] = False
 
         init_end = time.time()
         logger.info(

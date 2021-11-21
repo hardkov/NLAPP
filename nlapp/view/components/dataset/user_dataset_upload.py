@@ -2,6 +2,7 @@ import streamlit as st
 import json
 from io import StringIO
 
+from data_model.task_type import TaskType
 from nlapp.data_model.state import KEYS
 from nlapp.controller.app_controller import (
     load_user_dataset,
@@ -9,6 +10,7 @@ from nlapp.controller.app_controller import (
     get_current_task,
 )
 from nlapp.data_model.dataset_format import DatasetFormat
+from nlapp.view.helpers import conllu_panda_mapper as mapper
 
 
 def check_mapping_value_are_not_empty(column_mapping):
@@ -22,12 +24,9 @@ def get_json_string(file):
     return stringio.read()
 
 
-def write():
+def display_json_mapper():
     task = get_current_task()
-
-    user_file = st.file_uploader(
-        "Allowed extensions: .json", type=["json"], key=KEYS.USER_DATASET_FILE
-    )
+    user_file = st.session_state[KEYS.JSON_USER_DATASET_FILE]
     if user_file is not None:
         st.subheader("Map your dataset")
 
@@ -62,3 +61,58 @@ def write():
                     st.success("Mapped successfully.")
             else:
                 st.error("You have to fill all fields!")
+
+
+def display_conllu_mapper():
+    user_file = st.session_state[KEYS.CONLLU_USER_DATASET_FILE]
+    if user_file is not None:
+        df = mapper.map_conllu_df(get_json_string(user_file))
+        st.dataframe(df, height=500)
+
+
+def display_mapper():
+    is_json = not st.session_state[KEYS.IS_USER_FILE_CONLLU]
+    if is_json:
+        display_json_mapper()
+    else:
+        display_conllu_mapper()
+
+
+def display_json_file_view():
+    file_uploader_description = "Allowed extensions: .json"
+
+    user_file = st.file_uploader(
+        file_uploader_description, type=["json"], key=KEYS.JSON_USER_DATASET_FILE, accept_multiple_files=False
+    )
+    if user_file is not None:
+        st.session_state[KEYS.IS_USER_FILE_CONLLU] = False
+
+
+def display_conllu_file_view():
+    file_uploader_description = "Allowed extensions: .conllu"
+
+    user_file = st.file_uploader(
+        file_uploader_description, type=["conllu"], key=KEYS.CONLLU_USER_DATASET_FILE
+    )
+
+    if user_file is not None:
+        st.session_state[KEYS.IS_USER_FILE_CONLLU] = True
+
+
+def write():
+    task = get_current_task()
+
+    if task.value is TaskType.TOKEN_CLASSIFICATION.value:
+        json_view, conllu_view = st.columns(2)
+
+        with json_view:
+            display_json_file_view()
+
+        with conllu_view:
+            display_conllu_file_view()
+
+    else:
+        display_json_file_view()
+
+    display_mapper()
+
