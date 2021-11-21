@@ -22,7 +22,7 @@ EVALUATION_VIEWS = {
     TaskType.SUMMARIZATION: summarization_view.SummarizationEvaluation(),
     TaskType.TEXT_CLASSIFICATION: text_classification_view.TextClassificationEvaluation(),
     TaskType.TOKEN_CLASSIFICATION: token_classification_view.TokenClassificationEvaluation(),
-    TaskType.TRANSLATION: translation_evaluation_view.TranslationEvaluation()
+    TaskType.TRANSLATION: translation_evaluation_view.TranslationEvaluation(),
 }
 
 

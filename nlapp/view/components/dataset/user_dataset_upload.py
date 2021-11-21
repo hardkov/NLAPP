@@ -82,7 +82,10 @@ def display_json_file_view():
     file_uploader_description = "Allowed extensions: .json"
 
     user_file = st.file_uploader(
-        file_uploader_description, type=["json"], key=KEYS.JSON_USER_DATASET_FILE, accept_multiple_files=False
+        file_uploader_description,
+        type=["json"],
+        key=KEYS.JSON_USER_DATASET_FILE,
+        accept_multiple_files=False,
     )
     if user_file is not None:
         st.session_state[KEYS.IS_USER_FILE_CONLLU] = False
@@ -92,7 +95,9 @@ def display_conllu_file_view():
     file_uploader_description = "Allowed extensions: .conllu"
 
     user_file = st.file_uploader(
-        file_uploader_description, type=["conllu"], key=KEYS.CONLLU_USER_DATASET_FILE
+        file_uploader_description,
+        type=["conllu"],
+        key=KEYS.CONLLU_USER_DATASET_FILE,
     )
 
     if user_file is not None:
@@ -115,4 +120,3 @@ def write():
         display_json_file_view()
 
     display_mapper()
-

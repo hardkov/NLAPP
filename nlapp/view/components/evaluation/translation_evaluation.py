@@ -2,7 +2,7 @@ import streamlit as st
 
 from nlapp.controller.evaluation_controller import (
     evaluate_translation,
-    evaluate_dataset_translation
+    evaluate_dataset_translation,
 )
 from nlapp.view.components.evaluation.evaluation_view import EvaluationView
 
@@ -16,7 +16,7 @@ class TranslationEvaluation(EvaluationView):
                         "Text": we.translation_result.text,
                         "Expected translation": we.expected_translation,
                         "Translation": we.translation_result.text,
-                        "BLEU": we.bleu
+                        "BLEU": we.bleu,
                     }
                     for we in list
                 ]
@@ -25,8 +25,7 @@ class TranslationEvaluation(EvaluationView):
     def display_manual_input(self, model, tokenizer):
         form = st.form(key="translation-form")
         text = form.text_input(
-            "Text",
-            value="My name is Wolfgang and I live in Berlin"
+            "Text", value="My name is Wolfgang and I live in Berlin"
         )
 
         submit = form.form_submit_button("Evaluate")
@@ -42,7 +41,5 @@ class TranslationEvaluation(EvaluationView):
             dataset, model, tokenizer, timeout_seconds=10
         )
 
-        st.markdown(
-            f"__Average BLEU:__ {results.bleu_avg}"
-        )
+        st.markdown(f"__Average BLEU:__ {results.bleu_avg}")
         self.display_predicts("See predictions", results.translations_scores)

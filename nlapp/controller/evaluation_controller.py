@@ -26,7 +26,9 @@ from nlapp.data_model.text_classification.label_score import LabelScore
 from nlapp.data_model.text_classification.text_classification_dataset_result import (
     TextClassificationDatasetResult,
 )
-from nlapp.data_model.translation.translation_dataset_result import TranslationDatasetResult
+from nlapp.data_model.translation.translation_dataset_result import (
+    TranslationDatasetResult,
+)
 from nlapp.data_model.translation.translation_result import TranslationResult
 from nlapp.service.evaluation import (
     fill_mask_evaluation as fill_mask_evaluation_service,
@@ -111,9 +113,7 @@ def evaluate_token_classification(
     },
     max_entries=1,
 )
-def evaluate_translation(
-    text: str, model, tokenizer
-) -> TranslationResult:
+def evaluate_translation(text: str, model, tokenizer) -> TranslationResult:
     return translation_evaluation_service.evaluate(text, model, tokenizer)
 
 
@@ -207,6 +207,8 @@ def evaluate_dataset_token_classification(
     max_entries=1,
 )
 def evaluate_dataset_translation(
-        dataset, model, tokenizer, timeout_seconds
+    dataset, model, tokenizer, timeout_seconds
 ) -> TranslationDatasetResult:
-    return translation_evaluation_service.evaluate_dataset(dataset, model, tokenizer, timeout_seconds)
+    return translation_evaluation_service.evaluate_dataset(
+        dataset, model, tokenizer, timeout_seconds
+    )
