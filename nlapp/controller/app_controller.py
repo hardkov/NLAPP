@@ -162,6 +162,9 @@ def download_dataset(task_type: TaskType, dataset_name: str):
     return datasets_service.download_dataset(task_type, dataset_name)
 
 
+@st.cache(
+    max_entries=1,
+)
 def get_dataset_mapping_columns(task_type: TaskType):
     return datasets_service.get_dataset_mapping_columns(task_type)
 
