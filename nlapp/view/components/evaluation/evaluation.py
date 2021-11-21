@@ -4,6 +4,7 @@ import nlapp.view.components.evaluation.question_answering_evaluation as questio
 import nlapp.view.components.evaluation.summarization_evaluation as summarization_view
 import nlapp.view.components.evaluation.text_classification_evaluation as text_classification_view
 import nlapp.view.components.evaluation.token_classification_evaluation as token_classification_view
+import nlapp.view.components.evaluation.translation_evaluation as translation_evaluation_view
 
 from nlapp.controller.app_controller import (
     download_model,
@@ -21,6 +22,7 @@ EVALUATION_VIEWS = {
     TaskType.SUMMARIZATION: summarization_view.SummarizationEvaluation(),
     TaskType.TEXT_CLASSIFICATION: text_classification_view.TextClassificationEvaluation(),
     TaskType.TOKEN_CLASSIFICATION: token_classification_view.TokenClassificationEvaluation(),
+    TaskType.TRANSLATION: translation_evaluation_view.TranslationEvaluation()
 }
 
 
