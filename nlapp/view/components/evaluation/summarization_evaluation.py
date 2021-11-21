@@ -41,8 +41,6 @@ class SummarizationEvaluation(EvaluationView):
         if submit:
             result = evaluate_summarization(text, model, tokenizer)
 
-            st.markdown(f"**Recall (Rouge2):** {result.rouge_2_recall}")
-            st.markdown(f"**Precision (Rouge2):** {result.rouge_2_precision}")
             st.markdown("**Summary:**")
             st.info(result.summary)
 
