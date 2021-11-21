@@ -19,10 +19,10 @@ from nlapp.data_model.token_classification.token_classification_dataset_result i
 
 
 def evaluate(
-    single_token, model, tokenizer
+    sentence, model, tokenizer
 ) -> List[TokenClassificationPartResult]:
     token_classification = pipeline("ner", model=model, tokenizer=tokenizer)
-    results = token_classification(single_token)
+    results = token_classification(sentence)
     tc_part_results = []
     for result in results:
         word = result.get("word")
