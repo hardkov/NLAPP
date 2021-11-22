@@ -2,12 +2,13 @@ import json
 import unittest
 
 from nlapp.data_model.dataset_format import DatasetFormat
-from nlapp.service.datasets.mappers.user.summarization_mapper import SummarizationMapper
+from nlapp.service.datasets.mappers.user.summarization_mapper import (
+    SummarizationMapper,
+)
 from tests.utils import get_resource_path
 
 
 class TestSummarizationMapper(unittest.TestCase):
-
     def test_parse_json(self):
         # given
         mapping_columns = {

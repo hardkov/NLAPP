@@ -8,4 +8,5 @@ from nlapp.data_model.token_classification.token_classification_sentence_token_r
 @dataclass
 class TokenClassificationDatasetResult:
     score_avg: float
-    result_list: List[TokenClassificationSentenceTokenResult]
+    wrong_predictions: List[TokenClassificationSentenceTokenResult]
+    correct_predictions: List[TokenClassificationSentenceTokenResult]

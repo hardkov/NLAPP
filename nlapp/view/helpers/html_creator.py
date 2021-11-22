@@ -3,7 +3,7 @@ from math import ceil
 from typing import List
 import random
 
-from data_model.token_classification.token_classification_part_result import (
+from nlapp.data_model.token_classification.token_classification_part_result import (
     TokenClassificationPartResult,
 )
 

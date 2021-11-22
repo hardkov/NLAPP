@@ -26,7 +26,6 @@ class TestTextClassificationEvaluation(unittest.TestCase):
         self.assertTrue(len(result) > 0)
         self.assertTrue(result[0].score > 0.0)
 
-
     def test_evaluate_dataset(self):
         # given
         dataset_name = "ag_news"

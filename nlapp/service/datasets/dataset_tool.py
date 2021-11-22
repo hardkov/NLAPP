@@ -103,14 +103,15 @@ class DatasetTool:
             if f.is_dir() and f.name == dataset_name:
                 for sub_f in os.scandir(f.path):
                     if sub_f.is_file() and sub_f.name == self.info_file_name:
-                        data = open(sub_f.path)
-                        return True, json.load(data)
+                        with open(sub_f.path, 'rb') as data:
+                            result = True, json.load(data)
+                        return result
         return False, dict()
 
     def download_dataset(self, name: str) -> Dict:
         self.create_dir(self.cached_dir)
         dataset_dict = self.__load_dateset(name)
-        return self.hugging_face_mapper.map(dataset_dict)
+        return self.hugging_face_mapper.map(dataset_dict, name)
 
     def __load_dateset(self, name: str) -> DatasetDict:
         if self.hugging_face_mapper.subset_names.keys().__contains__(name):

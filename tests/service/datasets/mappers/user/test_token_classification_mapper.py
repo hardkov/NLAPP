@@ -14,6 +14,7 @@ class TestTokenClassificationMapper(unittest.TestCase):
         mapping_columns = {
             "tokens": "token_classification.words",
             "ner_tags": "token_classification.results",
+            "tag_names": "tags_mapping"
         }
         mapper = TokenClassificationMapper(mapping_columns)
         path = get_resource_path("token_classification_1.json")
@@ -23,9 +24,7 @@ class TestTokenClassificationMapper(unittest.TestCase):
 
         # when
         mapped_dataset = mapper.map(dataset, DatasetFormat.JSON)
-        tokens = mapped_dataset.get("tokens")
-        ner_tags = mapped_dataset.get("ner_tags")
+        chunks = mapped_dataset.get("chunks")
 
         # then
-        self.assertTrue(len(tokens) == 58)
-        self.assertTrue(len(ner_tags) == 58)
+        self.assertTrue(len(chunks) == 2)
