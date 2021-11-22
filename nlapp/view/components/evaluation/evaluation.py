@@ -25,6 +25,7 @@ EVALUATION_VIEWS = {
     TaskType.TRANSLATION: translation_evaluation_view.TranslationEvaluation()
 }
 
+ONE_YEAR_IN_SECONDS = 31556926
 
 def should_not_evaluate_user_dataset():
     return not st.session_state[KEYS.UPLOAD_USER_DATASET_TOGGLED]
@@ -34,30 +35,44 @@ def does_mapped_user_dataset_exist():
     return st.session_state[KEYS.MAPPED_USER_DATASET] is not None
 
 
+def get_submit_button_label():
+    if (
+            should_not_evaluate_user_dataset()
+            and st.session_state.get(KEYS.SELECTED_DATASET) is not None
+    ):
+        return "Download & Compute"
+
+    if does_mapped_user_dataset_exist():
+        return "Evaluate your dataset"
+
+    return None
+
+
 def display_manual_input(task, model, tokenizer):
     EVALUATION_VIEWS[task].display_manual_input(model, tokenizer)
 
 
 def display_dataset_input(task, model, tokenizer):
-    dataset_input_enabled = False
-    button_placeholder = st.empty()
-    if (
-        should_not_evaluate_user_dataset()
-        and st.session_state.get(KEYS.SELECTED_DATASET) is not None
-    ):
-        dataset_input_enabled = button_placeholder.button("Download & Compute")
-    elif does_mapped_user_dataset_exist():
-        dataset_input_enabled = button_placeholder.button(
-            "Evaluate your dataset"
-        )
-    else:
+    evaluation_form = st.form("evaluation-form")
+
+    label = get_submit_button_label()
+
+    if label is None:
         st.warning("There is no selected or loaded dataset")
+        return
+
+    with evaluation_form:
+        timeout_seconds = st.number_input("Computation timeout (seconds)", value=60,
+                                          help="Type negative number in order to compute until the dataset is finished")
+        dataset_input_enabled = st.form_submit_button(label)
 
     if dataset_input_enabled:
         dataset = get_current_dataset()
         if should_not_evaluate_user_dataset():
             dataset = download_dataset(task, dataset.name)
-        EVALUATION_VIEWS[task].display_dataset_input(model, tokenizer, dataset)
+
+        real_timeout = timeout_seconds if timeout_seconds > 0 else ONE_YEAR_IN_SECONDS
+        EVALUATION_VIEWS[task].display_dataset_input(model, tokenizer, dataset, real_timeout)
 
 
 def write():

@@ -38,7 +38,7 @@ class TokenClassificationEvaluation(EvaluationView):
         )
         st.components.v1.html(html_code, height=height)
 
-    def display_dataset_input(self, model, tokenizer, dataset):
+    def display_dataset_input(self, model, tokenizer, dataset,  timeout_seconds):
         results = evaluate_dataset_token_classification(
             dataset, model, tokenizer, timeout_seconds=10
         )

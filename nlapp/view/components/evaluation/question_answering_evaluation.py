@@ -66,7 +66,7 @@ class QuestionAnsweringEvaluation(EvaluationView):
             st.markdown("**Answer:**")
             st.info(result.answer)
 
-    def display_dataset_input(self, model, tokenizer, dataset):
+    def display_dataset_input(self, model, tokenizer, dataset,  timeout_seconds):
         results = evaluate_dataset_question_answering(
             dataset, model, tokenizer, timeout_seconds=10
         )

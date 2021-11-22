@@ -41,12 +41,10 @@ class SummarizationEvaluation(EvaluationView):
         if submit:
             result = evaluate_summarization(text, model, tokenizer)
 
-            st.markdown(f"**Recall (Rouge2):** {result.rouge_2_recall}")
-            st.markdown(f"**Precision (Rouge2):** {result.rouge_2_precision}")
             st.markdown("**Summary:**")
             st.info(result.summary)
 
-    def display_dataset_input(self, model, tokenizer, dataset):
+    def display_dataset_input(self, model, tokenizer, dataset,  timeout_seconds):
         results = evaluate_dataset_summarization(
             dataset, model, tokenizer, timeout_seconds=10
         )
