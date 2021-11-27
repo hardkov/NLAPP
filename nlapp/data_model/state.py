@@ -13,5 +13,7 @@ class KEYS:
     MODEL_FETCHING_TOGGLED: Final = "modelFetchingToggled"
     INITIALIZATION_DONE: Final = "initializationDone"
     UPLOAD_USER_DATASET_TOGGLED: Final = "uploadUserDatasetToggled"
-    USER_DATASET_FILE: Final = "userDatasetFile"
+    JSON_USER_DATASET_FILE: Final = "userJsonDatasetFile"
+    CONLLU_USER_DATASET_FILE: Final = "conlluDatasetFile"
+    IS_USER_FILE_CONLLU: Final = "isUserFileConllu"
     MAPPED_USER_DATASET: Final = "mappedUserDataset"

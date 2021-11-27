@@ -148,7 +148,7 @@ def replace_word_with_badge(
 
 def remove_prefix(string: str, prefix: str) -> str:
     if string.startswith(prefix):
-        return string[len(prefix):]
+        return string[len(prefix) :]
     return string[:]
 
 
