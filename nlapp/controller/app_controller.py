@@ -137,6 +137,7 @@ def get_dataset_dto(task_type: TaskType, dataset_name: str) -> DatasetDTO:
         "tokenizers.AddedToken": id,
         "torch.nn.parameter.Parameter": id,
     },
+    allow_output_mutation=True,
     max_entries=1,
 )
 def download_model(task_type: TaskType, name: str):

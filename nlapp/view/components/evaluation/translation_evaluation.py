@@ -15,8 +15,8 @@ class TranslationEvaluation(EvaluationView):
                     {
                         "Text": we.translation_result.text,
                         "Expected translation": we.expected_translation,
-                        "Translation": we.translation_result.text,
-                        "BLEU": we.bleu,
+                        "Translation": we.translation_result.translation,
+                        "BLEU": we.bleu
                     }
                     for we in list
                 ]
