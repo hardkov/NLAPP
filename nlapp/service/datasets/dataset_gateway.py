@@ -1,3 +1,5 @@
+from typing import Any
+
 from nlapp.data_model.dataset_dto import DatasetDTO
 from nlapp.data_model.dataset_format import DatasetFormat
 from nlapp.data_model.task_type import TaskType
@@ -21,7 +23,9 @@ DATASETS_LOADER = {
 
 
 def __user_dataset_mapper_factory(
-    task_type: TaskType, column_mapping: Dict[str, str]
+    task_type: TaskType,
+    column_mapping: Dict[str, str],
+    file_type: DatasetFormat,
 ) -> UserDatasetMapper:
     if task_type == TaskType.TEXT_CLASSIFICATION:
         return TextClassificationMapper(column_mapping)
@@ -32,7 +36,7 @@ def __user_dataset_mapper_factory(
     if task_type == TaskType.SUMMARIZATION:
         return SummarizationMapper(column_mapping)
     if task_type == TaskType.TOKEN_CLASSIFICATION:
-        return TokenClassificationMapper(column_mapping)
+        return TokenClassificationMapper(column_mapping, file_type)
     if task_type == TaskType.TRANSLATION:
         return TranslationMapper(column_mapping)
 
@@ -64,7 +68,7 @@ def map_user_dataset(
     task_type: TaskType,
     column_mapping: Dict[str, str],
     file_type: DatasetFormat,
-    dataset: Dict,
+    dataset: Any,
 ):
     """
     Return dataset mapped to correct format
@@ -74,9 +78,9 @@ def map_user_dataset(
         json file to python dict ; I not sure about CCL and CONLL -> they seem to be exotic and I need to check it.
         But for now we can use json file.
     """
-    return __user_dataset_mapper_factory(task_type, column_mapping).map(
-        dataset, file_type
-    )
+    return __user_dataset_mapper_factory(
+        task_type, column_mapping, file_type
+    ).map(dataset, file_type)
 
 
 def get_dataset_mapping_columns(task_type: TaskType):

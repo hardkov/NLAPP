@@ -14,9 +14,9 @@ class TestTokenClassificationMapper(unittest.TestCase):
         mapping_columns = {
             "tokens": "token_classification.words",
             "ner_tags": "token_classification.results",
-            "tag_names": "tags_mapping"
+            "tag_names": "tags_mapping",
         }
-        mapper = TokenClassificationMapper(mapping_columns)
+        mapper = TokenClassificationMapper(mapping_columns, DatasetFormat.JSON)
         path = get_resource_path("token_classification_1.json")
 
         with open(path, "r") as f:

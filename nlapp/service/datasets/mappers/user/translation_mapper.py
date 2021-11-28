@@ -1,5 +1,6 @@
 from typing import Dict, List
 
+from nlapp.data_model.dataset_format import DatasetFormat
 from nlapp.service.datasets.mappers.user.dataset_mapper import UserDatasetMapper
 
 
@@ -9,7 +10,8 @@ class TranslationMapper(UserDatasetMapper):
     def __init__(self, column_mapping: Dict[str, str]):
         super().__init__(self.columns, column_mapping)
 
-    def map_json(self, data: Dict) -> Dict[str, List[str]]:
+    def map_dataset(self, data: Dict, file_type) -> Dict[str, List[str]]:
+        assert file_type == DatasetFormat.JSON
         mapped_data = dict()
         for column in self.columns:
             mapped_column = self.column_mapping.get(column)
