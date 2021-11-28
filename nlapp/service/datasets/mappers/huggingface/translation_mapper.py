@@ -15,7 +15,9 @@ class TranslationMapper(DatasetMapper):
         super().__init__()
         self.subset_names = dict()
 
-    def map(self, dataset: DatasetDict, dataset_name: str) -> Dict[str, List[str]]:
+    def map(
+        self, dataset: DatasetDict, dataset_name: str
+    ) -> Dict[str, List[str]]:
         mapped_data = dict()
         data = dataset.data.get(self.split_type)
         data_columns = data.columns

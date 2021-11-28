@@ -103,7 +103,7 @@ class DatasetTool:
             if f.is_dir() and f.name == dataset_name:
                 for sub_f in os.scandir(f.path):
                     if sub_f.is_file() and sub_f.name == self.info_file_name:
-                        with open(sub_f.path, 'rb') as data:
+                        with open(sub_f.path, "rb") as data:
                             result = True, json.load(data)
                         return result
         return False, dict()
