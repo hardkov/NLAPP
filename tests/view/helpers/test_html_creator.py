@@ -49,7 +49,7 @@ def test_get_token_div():
         expected_width, test_token_str_value, expected_percent
     )
 
-    assert get_token_div(test_dict) == expected
+    assert get_result_bar(test_dict) == expected
 
 
 @pytest.mark.parametrize(
@@ -69,7 +69,7 @@ def test_parametrized_get_token_div(
         expected_width, expected_token_str, expected_percent
     )
 
-    assert get_token_div(test_dict) == expected
+    assert get_result_bar(test_dict) == expected
 
 
 def test_get_token_div_should_raise_error_when_wrong_score():
@@ -78,11 +78,6 @@ def test_get_token_div_should_raise_error_when_wrong_score():
     test_dict = {"score": test_score_value, "token_str": test_token_str_value}
 
     with pytest.raises(ValueError) as e:
-        get_token_div(test_dict)
+        get_result_bar(test_dict)
     assert "score has to be between 0 and 1" in str(e.value)
 
-
-def test_get_result_html():
-    test_val = "<div></div>\n<div></div>"
-    expected = expected_html(test_val)
-    assert get_result_html(test_val) == expected
