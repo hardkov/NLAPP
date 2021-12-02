@@ -19,7 +19,7 @@ def check_mapping_value_are_not_empty(column_mapping):
     )
 
 
-def get_json_or_conll_string(file):
+def read_file(file):
     stringio = StringIO(file.getvalue().decode("utf-8"))
     return stringio.read()
 
@@ -28,7 +28,7 @@ def display_json_mapper(user_file):
     task = get_current_task()
     st.subheader("Map your dataset")
 
-    json_string = get_json_or_conll_string(user_file)
+    json_string = read_file(user_file)
     st.json(json_string)
 
     column_mapping = {}
@@ -50,7 +50,7 @@ def display_conllu_mapper(user_file):
     task = get_current_task()
     st.subheader("Map your dataset")
 
-    dataset_string = get_json_or_conll_string(user_file)
+    dataset_string = read_file(user_file)
     df = mapper.map_conllu_df(dataset_string)
     st.dataframe(df, height=500)
 

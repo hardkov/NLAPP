@@ -4,6 +4,7 @@ import re
 from nlapp.data_model.dataset_format import DatasetFormat
 from nlapp.data_model.token_classification.chunk import Chunk
 from nlapp.service.datasets.mappers.user.dataset_mapper import UserDatasetMapper
+from nlapp.service.datasets.mappers.user.util.ParserConll import ParserConll
 
 
 class TokenClassificationMapper(UserDatasetMapper):
@@ -66,7 +67,7 @@ class TokenClassificationMapper(UserDatasetMapper):
         return super().find_data_inside_json(mapped_column, json)
 
     def map_conll(self, file_string: str) -> Dict[str, List]:
-        data = self.parse_conll(file_string)
+        data = ParserConll.parse(file_string)
         token_nr_column = int(self.column_mapping["tokens"][7:]) - 1
         tag_nr_column = int(self.column_mapping["ner_tags"][7:]) - 1
 
@@ -94,38 +95,3 @@ class TokenClassificationMapper(UserDatasetMapper):
                     (row[token_nr_column], row[tag_nr_column])
                 )
         return Chunk(sentence, tokens_with_tags)
-
-    def parse_conll(self, file_string):
-        data = self.get_lines_to_array(file_string)
-        data = self.extract_sentence(data)
-        data = self.remove_new_lines(data)
-        data = self.extract_rows_from_chunks(data)
-        data = self.remove_comments(data)
-        data = self.extract_columns_from_rows(data)
-        data = self.remove_tabulations_and_empty_spaces(data)
-
-        return data
-
-    def get_lines_to_array(self, file_string):
-        return file_string.strip("\n")
-
-    def extract_sentence(self, data):
-        return re.split(r"(\r?\n){2,}", data)
-
-    def remove_new_lines(self, data):
-        return list(filter(lambda x: x != "\n", data))
-
-    def remove_comments(self, data):
-        return [list(filter(lambda x: x[0] != "#", row)) for row in data]
-
-    def extract_rows_from_chunks(self, data):
-        return [s.split("\n") for s in data]
-
-    def extract_columns_from_rows(self, data):
-        return [[re.split(r"(\s){1,}", x) for x in row] for row in data]
-
-    def remove_tabulations_and_empty_spaces(self, data):
-        return [
-            [list(filter(lambda x: x != "\t" and x != " ", ele)) for ele in row]
-            for row in data
-        ]
