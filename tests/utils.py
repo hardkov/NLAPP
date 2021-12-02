@@ -2,7 +2,8 @@ import os
 from pathlib import Path
 
 RESOURCE_DIR = os.path.join(
-    Path(__file__).parent.absolute(), "_resources",
+    Path(__file__).parent.absolute(),
+    "_resources",
 )
 
 

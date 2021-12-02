@@ -18,9 +18,7 @@ from nlapp.data_model.token_classification.token_classification_dataset_result i
 )
 
 
-def evaluate(
-    sentence, model, tokenizer
-) -> List[TokenClassificationPartResult]:
+def evaluate(sentence, model, tokenizer) -> List[TokenClassificationPartResult]:
     token_classification = pipeline("ner", model=model, tokenizer=tokenizer)
     results = token_classification(sentence)
     tc_part_results = []

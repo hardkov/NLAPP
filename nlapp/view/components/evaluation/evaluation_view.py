@@ -7,5 +7,5 @@ class EvaluationView(ABC):
         pass
 
     @abstractmethod
-    def display_dataset_input(self, model, tokenizer, dataset,  timeout_seconds):
+    def display_dataset_input(self, model, tokenizer, dataset, timeout_seconds):
         pass

@@ -1,0 +1,8 @@
+1	Hadde	ha	verb	verb		0	FINV	_	O   Coś
+2	makten	makt	subst		appell|mask|be|ent	1	SUBJ	_	O   Coś
+3	da	da	adv		_	4	ADV	_	O   Coś
+4	gått	gå	verb		perf-part	1	INFV	_	O   Coś
+5	tilbake	tilbake	prep		_	4	ADV	_	O   Coś
+6	til	til	prep		_	5	PUTFYLL	_	O   Coś
+7	folket	folk	subst		appell|nøyt|be|ent	6	PUTFYLL	_	O   Coś
+8	?	$?	clb		<spm>	1	IP	_	O   Coś

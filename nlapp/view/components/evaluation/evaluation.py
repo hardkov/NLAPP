@@ -27,6 +27,7 @@ EVALUATION_VIEWS = {
 
 ONE_YEAR_IN_SECONDS = 31556926
 
+
 def should_not_evaluate_user_dataset():
     return not st.session_state[KEYS.UPLOAD_USER_DATASET_TOGGLED]
 
@@ -37,8 +38,8 @@ def does_mapped_user_dataset_exist():
 
 def get_submit_button_label():
     if (
-            should_not_evaluate_user_dataset()
-            and st.session_state.get(KEYS.SELECTED_DATASET) is not None
+        should_not_evaluate_user_dataset()
+        and st.session_state.get(KEYS.SELECTED_DATASET) is not None
     ):
         return "Download & Compute"
 
@@ -62,8 +63,11 @@ def display_dataset_input(task, model, tokenizer):
         return
 
     with evaluation_form:
-        timeout_seconds = st.number_input("Computation timeout (seconds)", value=60,
-                                          help="Type negative number in order to compute until the dataset is finished")
+        timeout_seconds = st.number_input(
+            "Computation timeout (seconds)",
+            value=60,
+            help="Type negative number in order to compute until the dataset is finished",
+        )
         dataset_input_enabled = st.form_submit_button(label)
 
     if dataset_input_enabled:
@@ -71,8 +75,12 @@ def display_dataset_input(task, model, tokenizer):
         if should_not_evaluate_user_dataset():
             dataset = download_dataset(task, dataset.name)
 
-        real_timeout = timeout_seconds if timeout_seconds > 0 else ONE_YEAR_IN_SECONDS
-        EVALUATION_VIEWS[task].display_dataset_input(model, tokenizer, dataset, real_timeout)
+        real_timeout = (
+            timeout_seconds if timeout_seconds > 0 else ONE_YEAR_IN_SECONDS
+        )
+        EVALUATION_VIEWS[task].display_dataset_input(
+            model, tokenizer, dataset, real_timeout
+        )
 
 
 def write():

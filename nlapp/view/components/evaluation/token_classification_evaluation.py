@@ -38,7 +38,7 @@ class TokenClassificationEvaluation(EvaluationView):
         )
         st.components.v1.html(html_code, height=height)
 
-    def display_dataset_input(self, model, tokenizer, dataset,  timeout_seconds):
+    def display_dataset_input(self, model, tokenizer, dataset, timeout_seconds):
         results = evaluate_dataset_token_classification(
             dataset, model, tokenizer, timeout_seconds=10
         )
@@ -51,9 +51,11 @@ class TokenClassificationEvaluation(EvaluationView):
                     {
                         "Sentence": wrong_pred.sentence,
                         "Score average": wrong_pred.score_avg,
-                        "Correct tags": str(wrong_pred.correct_tags).strip('[]'),
-                        "Wrong tags": str(wrong_pred.wrong_tags).strip('[]'),
-                        "Target": str(wrong_pred.expected_tags).strip('[]'),
+                        "Correct tags": str(wrong_pred.correct_tags).strip(
+                            "[]"
+                        ),
+                        "Wrong tags": str(wrong_pred.wrong_tags).strip("[]"),
+                        "Target": str(wrong_pred.expected_tags).strip("[]"),
                     }
                     for wrong_pred in results.wrong_predictions
                 ]
@@ -65,7 +67,7 @@ class TokenClassificationEvaluation(EvaluationView):
                     {
                         "Sentence": correct_pred.sentence,
                         "Score average": correct_pred.score_avg,
-                        "Tags": str(correct_pred.correct_tags).strip('[]'),
+                        "Tags": str(correct_pred.correct_tags).strip("[]"),
                     }
                     for correct_pred in results.correct_predictions
                 ]

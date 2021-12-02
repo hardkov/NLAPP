@@ -49,7 +49,7 @@ class TextClassificationEvaluation(EvaluationView):
         html_code, height = html_creator.get_html_from_result_json(result_json)
         st.components.v1.html(html_code, height=height)
 
-    def display_dataset_input(self, model, tokenizer, dataset,  timeout_seconds):
+    def display_dataset_input(self, model, tokenizer, dataset, timeout_seconds):
         results = evaluate_dataset_text_classification(
             dataset, model, tokenizer, timeout_seconds=10
         )

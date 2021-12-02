@@ -175,7 +175,7 @@ def load_user_dataset(
     task_type: TaskType,
     column_mapping: Dict[str, str],
     file_type: DatasetFormat,
-    dataset: Dict,
+    dataset,
 ) -> Dict[str, List[str]]:
     return datasets_service.map_user_dataset(
         task_type, column_mapping, file_type, dataset
