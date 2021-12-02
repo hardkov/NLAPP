@@ -9,12 +9,35 @@ from transformers import (
 )
 
 
-FILL_MASK_DESCRIPTION = "fill-mask"
-QUESTION_ANSWERING_DESCRIPTION = "question-answering"
-SUMMARIZATION_DESCRIPTION = "summarization"
-TEXT_CLASSIFICATION_DESCRIPTION = "text-classification"
-TOKEN_CLASSIFICATION_DESCRIPTION = "token-classification"
-TRANSLATION_DESCRIPTION = "translation"
+FILL_MASK_DESCRIPTION = (
+    "Filling missing words in the given sentence the most probable choice of words. "
+    "They are marked with special token: [MASK]."
+)
+QUESTION_ANSWERING_DESCRIPTION = (
+    "Extracting (without rewording or creating) an answer to a given "
+    "question, from a given context"
+)
+
+SUMMARIZATION_DESCRIPTION = (
+    "Shortening long pieces of text. The intention is to create a coherent "
+    "and fluent summary having only the main points outlined in the document."
+)
+
+TEXT_CLASSIFICATION_DESCRIPTION = (
+    "Assigning a certain predefined categories to a given text. The most "
+    "popular variants are: sentiment analysis, topic labeling, spam detection, "
+    "intent detection."
+)
+
+TOKEN_CLASSIFICATION_DESCRIPTION = (
+    "Breaking down a piece of text into small units called tokens. A token "
+    "may be a word, part of a word or just characters like punctuation."
+)
+
+TRANSLATION_DESCRIPTION = (
+    "Converting a given text from one language to the other. "
+    "The languages used depend on the chosen model"
+)
 
 
 class TaskType(Enum):
@@ -95,7 +118,7 @@ class TaskType(Enum):
             TaskType.SUMMARIZATION: SUMMARIZATION_DESCRIPTION,
             TaskType.TEXT_CLASSIFICATION: TEXT_CLASSIFICATION_DESCRIPTION,
             TaskType.TOKEN_CLASSIFICATION: TOKEN_CLASSIFICATION_DESCRIPTION,
-            TaskType.TRANSLATION: TRANSLATION_DESCRIPTION
+            TaskType.TRANSLATION: TRANSLATION_DESCRIPTION,
         }
 
         return tasks_descriptions[self]
