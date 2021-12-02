@@ -99,8 +99,8 @@ class TokenClassificationMapper(UserDatasetMapper):
         data = self.get_lines_to_array(file_string)
         data = self.extract_sentence(data)
         data = self.remove_new_lines(data)
-        data = self.remove_comments(data)
         data = self.extract_rows_from_chunks(data)
+        data = self.remove_comments(data)
         data = self.extract_columns_from_rows(data)
         data = self.remove_tabulations_and_empty_spaces(data)
 
@@ -116,7 +116,7 @@ class TokenClassificationMapper(UserDatasetMapper):
         return list(filter(lambda x: x != "\n", data))
 
     def remove_comments(self, data):
-        return list(filter(lambda x: x[0] != "#", data))
+        return [list(filter(lambda x: x[0] != "#", row)) for row in data]
 
     def extract_rows_from_chunks(self, data):
         return [s.split("\n") for s in data]
