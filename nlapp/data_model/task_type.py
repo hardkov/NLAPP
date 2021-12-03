@@ -10,8 +10,8 @@ from transformers import (
 
 
 FILL_MASK_DESCRIPTION = (
-    "Filling missing words in the given sentence the most probable choice of words. "
-    "They are marked with special token: [MASK]."
+    "Filling missing words in the given sentence, aiming at the most meaningful selection. "
+    "Words are marked with special token: [MASK]."
 )
 QUESTION_ANSWERING_DESCRIPTION = (
     "Extracting (without rewording or creating) an answer to a given "
