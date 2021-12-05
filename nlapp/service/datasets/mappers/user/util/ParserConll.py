@@ -28,7 +28,7 @@ class ParserConll:
 
     @staticmethod
     def remove_comments(data):
-        return [list(filter(lambda x: x[0] != "#", row)) for row in data]
+        return [list(filter(lambda x: len(x) > 0 and x[0] != "#", row)) for row in data]
 
     @staticmethod
     def extract_rows_from_chunks(data):
