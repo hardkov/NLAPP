@@ -1,9 +1,9 @@
 import statistics
 import timeit
 
-from sacrebleu.metrics import BLEU
 
 from typing import Dict, List
+from datasets import load_metric
 
 from nlapp.data_model.translation.translation_dataset_result import (
     TranslationDatasetResult,
@@ -52,10 +52,13 @@ def evaluate_dataset(
 
 
 def calculate_bleu(expected_translation, translation):
-    bleu = BLEU()
-
-    result = bleu.corpus_score(expected_translation, translation)
-    return result.score
+    metric = load_metric("bleu")
+    prediction = list()
+    prediction.append(convert(translation))
+    reference = list()
+    reference.append([])
+    reference[0].append(convert(expected_translation))
+    return metric.compute(predictions=prediction, references=reference)["bleu"]
 
 
 def __split_text_to_smaller_portion(text: str, max_size=512) -> List[str]:
@@ -68,3 +71,8 @@ def __split_text_to_smaller_portion(text: str, max_size=512) -> List[str]:
         end = min(len(text), end + max_size)
 
     return portions
+
+
+def convert(string):
+    li = list(string.split(" "))
+    return li
