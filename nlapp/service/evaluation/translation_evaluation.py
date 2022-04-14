@@ -54,9 +54,13 @@ def evaluate_dataset(
 def calculate_bleu(expected_translation, translation):
     metric = load_metric("bleu")
     prediction = list()
+    if isinstance(translation, list) and len(translation) >= 1:
+        translation = translation[0]
     prediction.append(convert(translation))
     reference = list()
     reference.append([])
+    if isinstance(expected_translation, list) and len(expected_translation) >= 1:
+        expected_translation = expected_translation[0]
     reference[0].append(convert(expected_translation))
     return metric.compute(predictions=prediction, references=reference)["bleu"]
 
